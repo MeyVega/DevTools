@@ -1,0 +1,317 @@
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Layout from '../components/Layout';
+import NewsletterSignup from '../components/NewsletterSignup';
+import { Twitter, Github, Mail, Coffee, Heart, Code, Users, Send, CheckCircle } from 'lucide-react';
+import useAnalytics from '../hooks/useAnalytics';
+
+const AboutPage: React.FC = () => {
+  const analytics = useAnalytics();
+  
+  // Registrar vista de página
+  useEffect(() => {
+    analytics.trackPageView('About Page');
+  }, [analytics]);
+  
+  return (
+    <Layout>
+      {/* Hero Section */}
+      <section className="mb-16">
+        <div className="bg-[#E3F5F5] dark:bg-[#67A2A8]/20 rounded-xl overflow-hidden">
+          <div className="max-w-4xl mx-auto py-16 px-6 md:px-10">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-6 animate-fade-in">
+              Acerca de DevTools Catalog
+            </h1>
+            <p className="text-xl text-gray-700 dark:text-gray-200 mb-6 animate-fade-in delay-100">
+              Una colección cuidadosamente seleccionada de las mejores herramientas para desarrolladores, diseñada para ayudarte a encontrar los recursos perfectos para tu flujo de trabajo.
+            </p>
+            <div className="animate-fade-in delay-200">
+              <Link 
+                to="/categories" 
+                className="inline-flex items-center px-6 py-3 bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition-colors shadow hover-float"
+              >
+                Explorar Herramientas
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Nuestra Misión */}
+      <section className="mb-16 animate-fade-in">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 heading-decorated">
+            Nuestra Misión
+          </h2>
+          <p className="text-gray-700 dark:text-gray-300 mb-4">
+            En DevTools Catalog, nuestra misión es simplificar la búsqueda de herramientas de desarrollo al reunir los mejores recursos en un solo lugar, bien organizado y fácil de explorar.
+          </p>
+          <p className="text-gray-700 dark:text-gray-300 mb-4">
+            Creemos que el tiempo de los desarrolladores es valioso y no debería desperdiciarse en largas búsquedas para encontrar las herramientas adecuadas. Por eso hemos creado esta plataforma: para ayudarte a descubrir, comparar y elegir las mejores herramientas para tu flujo de trabajo.
+          </p>
+          <p className="text-gray-700 dark:text-gray-300">
+            Cada herramienta en nuestro catálogo ha sido cuidadosamente seleccionada y categorizada para asegurar que encuentres exactamente lo que necesitas, ya sea que estés trabajando en frontend, backend, DevOps o cualquier otra área del desarrollo.
+          </p>
+        </div>
+      </section>
+      
+      {/* Valores y Características */}
+      <section className="mb-16">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 text-center heading-decorated mx-auto">
+            Nuestros Valores
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <FeatureCard 
+              icon={<CheckCircle className="text-green-500" />}
+              title="Calidad sobre Cantidad"
+              description="No incluimos todas las herramientas existentes, sino solo las mejores. Cada entrada en nuestro catálogo ha pasado por un proceso de revisión para garantizar su utilidad y calidad."
+            />
+            
+            <FeatureCard 
+              icon={<Users className="text-blue-500" />}
+              title="Centrado en la Comunidad"
+              description="Valoramos el feedback de nuestra comunidad y actualizamos constantemente nuestro catálogo basado en las recomendaciones y experiencias reales de los desarrolladores."
+            />
+            
+            <FeatureCard 
+              icon={<Code className="text-purple-500" />}
+              title="Por Desarrolladores, Para Desarrolladores"
+              description="Somos desarrolladores que entendemos los desafíos diarios de nuestro trabajo. Creamos este recurso pensando en lo que nos hubiera gustado tener a nosotros mismos."
+            />
+            
+            <FeatureCard 
+              icon={<Heart className="text-red-500" />}
+              title="Código Abierto y Transparente"
+              description="Creemos en la transparencia y la colaboración. Por eso, nuestro proyecto es de código abierto y damos crédito a todas las herramientas y sus creadores."
+            />
+          </div>
+        </div>
+      </section>
+      
+      {/* Historia */}
+      <section className="mb-16 animate-fade-in">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 heading-decorated">
+            Nuestra Historia
+          </h2>
+          <p className="text-gray-700 dark:text-gray-300 mb-4">
+            DevTools Catalog nació de la frustración por la falta de un recurso centralizado y bien organizado para descubrir herramientas de desarrollo. Como desarrolladores, pasábamos demasiado tiempo buscando la herramienta adecuada para cada tarea, navegando por múltiples blogs, repositorios y sitios web.
+          </p>
+          <p className="text-gray-700 dark:text-gray-300 mb-4">
+            Decidimos crear la solución que nos hubiera gustado tener: un catálogo completo de herramientas de desarrollo, organizado por categorías, con información clara y concisa sobre cada una, permitiendo comparar y elegir rápidamente la más adecuada para cada necesidad.
+          </p>
+          <p className="text-gray-700 dark:text-gray-300">
+            Lo que comenzó como un proyecto personal ha crecido gracias a las contribuciones de la comunidad, y seguimos mejorando y expandiendo nuestro catálogo cada día para ofrecer el mejor recurso posible a desarrolladores de todo el mundo.
+          </p>
+        </div>
+      </section>
+      
+      {/* El Equipo */}
+      <section className="mb-16">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 text-center heading-decorated mx-auto">
+            Conócenos
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <TeamMemberCard 
+              name="May"
+              role="Fundador & Desarrollador Frontend"
+              image="/logos/avatar-1.png"
+              githubUrl="https://github.com/mayspacede"
+              twitterUrl="https://twitter.com/mayspacede"
+            />
+            
+            {/* Puedes añadir más miembros del equipo aquí */}
+          </div>
+        </div>
+      </section>
+      
+      {/* Contribuir */}
+      <section className="mb-16">
+        <div className="bg-[#E3F5F5] dark:bg-[#67A2A8]/20 rounded-xl p-8 md:p-10">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+              Contribuye al Proyecto
+            </h2>
+            <p className="text-gray-700 dark:text-gray-200 mb-6">
+              DevTools Catalog es un proyecto de código abierto y damos la bienvenida a las contribuciones de la comunidad. Hay varias formas en las que puedes contribuir:
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+                <Send className="h-8 w-8 text-[#67A2A8] mb-4" />
+                <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Sugerir Herramientas</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  ¿Conoces una herramienta genial que deberíamos incluir? Ayúdanos a expandir nuestro catálogo.
+                </p>
+                <Link 
+                  to="/suggest" 
+                  className="text-[#67A2A8] hover:text-[#9CD1D4] dark:text-[#9CD1D4] dark:hover:text-[#E3F5F5] font-medium"
+                >
+                  Sugerir herramienta →
+                </Link>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+                <Github className="h-8 w-8 text-[#67A2A8] mb-4" />
+                <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Contribuir al Código</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  ¿Eres desarrollador? Puedes contribuir al código, reportar bugs o sugerir mejoras en GitHub.
+                </p>
+                <a 
+                  href="https://github.com/mayspacede/dev-tools-catalog" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-[#67A2A8] hover:text-[#9CD1D4] dark:text-[#9CD1D4] dark:hover:text-[#E3F5F5] font-medium"
+                >
+                  Ver en GitHub →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Contacto y Newsletter */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+        {/* Contacto */}
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+            Contacto
+          </h2>
+          <p className="text-gray-700 dark:text-gray-300 mb-6">
+            ¿Tienes preguntas, sugerencias o simplemente quieres saludar? No dudes en ponerte en contacto con nosotros.
+          </p>
+          
+          <div className="space-y-4">
+            <a
+              href="mailto:info@devtoolscatalog.com"
+              className="flex items-center text-gray-700 dark:text-gray-300 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-colors"
+            >
+              <Mail className="mr-3 h-5 w-5" />
+              info@devtoolscatalog.com
+            </a>
+            
+            <a
+              href="https://twitter.com/mayspacede"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center text-gray-700 dark:text-gray-300 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-colors"
+            >
+              <Twitter className="mr-3 h-5 w-5" />
+              @mayspacede
+            </a>
+            
+            <a
+              href="https://github.com/mayspacede/dev-tools-catalog"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center text-gray-700 dark:text-gray-300 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-colors"
+            >
+              <Github className="mr-3 h-5 w-5" />
+              github.com/mayspacede/dev-tools-catalog
+            </a>
+            
+            <a
+              href="https://buymeacoffee.com/mayspacede"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center text-gray-700 dark:text-gray-300 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-colors"
+            >
+              <Coffee className="mr-3 h-5 w-5" />
+              Apóyanos con un café
+            </a>
+          </div>
+        </div>
+        
+        {/* Newsletter */}
+        <NewsletterSignup
+          title="Mantente Actualizado"
+          description="Suscríbete a nuestro newsletter para recibir las últimas actualizaciones sobre nuevas herramientas y recursos para desarrolladores."
+        />
+      </section>
+    </Layout>
+  );
+};
+
+// Componente para tarjeta de característica
+interface FeatureCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) => {
+  return (
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 animate-fade-in">
+      <div className="h-12 w-12 mb-4 flex items-center justify-center">
+        {icon}
+      </div>
+      <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">{title}</h3>
+      <p className="text-gray-600 dark:text-gray-300">{description}</p>
+    </div>
+  );
+};
+
+// Componente para tarjeta de miembro del equipo
+interface TeamMemberCardProps {
+  name: string;
+  role: string;
+  image: string;
+  githubUrl?: string;
+  twitterUrl?: string;
+}
+
+const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, githubUrl, twitterUrl }) => {
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md border border-gray-100 dark:border-gray-700 animate-fade-in">
+      <div className="h-48 overflow-hidden bg-[#E3F5F5] dark:bg-[#67A2A8]/20 flex items-center justify-center">
+        <img 
+          src={image} 
+          alt={name} 
+          className="w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-800"
+          onError={(e) => {
+            // Fallback para imagen no disponible
+            const target = e.target as HTMLImageElement;
+            target.src = 'https://via.placeholder.com/150?text=' + name.charAt(0);
+          }}
+        />
+      </div>
+      <div className="p-6">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-1">{name}</h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">{role}</p>
+        
+        <div className="flex space-x-3">
+          {twitterUrl && (
+            <a 
+              href={twitterUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-blue-400 dark:text-gray-400 dark:hover:text-blue-300 transition-colors"
+              aria-label={`Twitter de ${name}`}
+            >
+              <Twitter size={18} />
+            </a>
+          )}
+          
+          {githubUrl && (
+            <a 
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors"
+              aria-label={`GitHub de ${name}`}
+            >
+              <Github size={18} />
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AboutPage;
