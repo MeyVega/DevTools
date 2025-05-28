@@ -24,29 +24,29 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setError('');
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    
+
     // Validar email
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Por favor ingresa un correo electrónico válido');
       setIsLoading(false);
       return;
     }
-    
+
     try {
       // Envío a FormSubmit
       const response = await fetch(formSubmitEndpoint, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
@@ -57,7 +57,7 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
           _autoresponse: `Gracias por suscribirte a nuestro newsletter. Te mantendremos informado sobre las últimas herramientas para desarrolladores.`
         })
       });
-      
+
       if (response.ok) {
         setIsSubscribed(true);
         setEmail('');
@@ -75,7 +75,7 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
       setIsLoading(false);
     }
   };
-  
+
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 ${className}`}>
       {title && (
@@ -84,13 +84,13 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
           <h3 className="text-xl font-bold">{title}</h3>
         </div>
       )}
-      
+
       {description && (
-        <p className="text-gray-600 dark:text-gray-300 mb-6">
+        <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
           {description}
         </p>
       )}
-      
+
       {isSubscribed ? (
         <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg flex items-start">
           <CheckCircle className="text-green-500 dark:text-green-400 mr-3 mt-0.5 flex-shrink-0" size={20} />
@@ -103,14 +103,14 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
               <input
                 type="email"
                 placeholder={placeholderText}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#67A2A8] dark:focus:ring-[#9CD1D4] dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#67A2A8] dark:focus:ring-[#9CD1D4] bg-white text-gray-800 dark:bg-gray-700 dark:text-white"
                 value={email}
                 onChange={handleEmailChange}
                 disabled={isLoading}
                 required
               />
             </div>
-            
+
             {error && (
               <div className="flex items-center mt-2 text-red-500 dark:text-red-400">
                 <AlertCircle size={16} className="mr-1" />
@@ -118,7 +118,7 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
               </div>
             )}
           </div>
-          
+
           <button
             type="submit"
             className="w-full bg-[#67A2A8] hover:bg-[#9CD1D4] text-white font-medium py-3 px-4 rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed"
@@ -131,7 +131,7 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
               </>
             ) : buttonText}
           </button>
-          
+
           <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
             No enviamos spam. Puedes darte de baja en cualquier momento.
           </p>

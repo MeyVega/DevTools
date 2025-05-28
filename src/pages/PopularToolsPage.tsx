@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
-import { 
-  ArrowLeft,  
-  Filter, 
-  Grid, 
-  List, 
+import {
+  ArrowLeft,
+  Filter,
+  Grid,
+  List,
   Search,
   X,
   CheckSquare,
@@ -30,11 +30,16 @@ const PopularToolsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [showFilters, setShowFilters] = useState(false);
-  
+
   // Analytics y Bookmarks
   const analytics = useAnalytics();
   const { isSaved, toggleTool } = useBookmarks();
-  
+
+  // Usar useRef para mantener valores estables
+  const config = useRef({
+    pageName: 'Popular Tools'
+  });
+
   // Cargar datos
   useEffect(() => {
     const loadTools = async () => {
@@ -42,35 +47,36 @@ const PopularToolsPage: React.FC = () => {
       try {
         // Obtener todas las herramientas
         const allTools = getAllTools();
-        
+
         // Ordenar por valoración
         const sortedTools = [...allTools].sort((a, b) => {
           const ratingA = a.stars || 0;
           const ratingB = b.stars || 0;
           return ratingB - ratingA;
         });
-        
+
         setTools(sortedTools);
-        
+
         // Registrar vista en analytics
-        analytics.trackPageView('Popular Tools');
+        analytics.trackPageView(config.current.pageName);
       } catch (err) {
         console.error('Error cargando herramientas populares:', err);
       } finally {
         setLoading(false);
       }
     };
-    
+
     loadTools();
-  }, [analytics]);
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Array de dependencias vacío para ejecutar solo al montar
+
   // Aplicar filtros y búsqueda
   const filteredTools = tools.filter(tool => {
     // Aplicar filtro de precio
     if (activeFilter === 'free' && !tool.isFree) return false;
     if (activeFilter === 'freemium' && !(tool.hasFreeTier && !tool.isFree)) return false;
     if (activeFilter === 'paid' && (tool.isFree || tool.hasFreeTier)) return false;
-    
+
     // Aplicar búsqueda
     if (searchTerm) {
       const search = searchTerm.toLowerCase();
@@ -81,7 +87,7 @@ const PopularToolsPage: React.FC = () => {
         tool.category.toLowerCase().includes(search)
       );
     }
-    
+
     return true;
   }).sort((a, b) => {
     // Aplicar ordenamiento
@@ -93,63 +99,63 @@ const PopularToolsPage: React.FC = () => {
       return ratingB - ratingA;
     }
   });
-  
+
   // Manejar cambio de filtro
   const handleFilterChange = (filter: FilterType) => {
     setActiveFilter(filter);
-    analytics.trackEvent(EventType.FILTER, { 
-      page: 'popular_tools', 
-      filter_type: 'price', 
-      filter_value: filter 
+    analytics.trackEvent(EventType.FILTER, {
+      page: 'popular_tools',
+      filter_type: 'price',
+      filter_value: filter
     });
   };
-  
+
   // Manejar cambio de ordenamiento
   const handleSortChange = (sort: SortType) => {
     setActiveSort(sort);
-    analytics.trackEvent(EventType.FILTER, { 
-      page: 'popular_tools', 
-      filter_type: 'sort', 
-      filter_value: sort 
+    analytics.trackEvent(EventType.FILTER, {
+      page: 'popular_tools',
+      filter_type: 'sort',
+      filter_value: sort
     });
   };
-  
+
   // Manejar cambio de vista
   const handleViewChange = (view: ViewType) => {
     setViewType(view);
-    analytics.trackEvent(EventType.FILTER, { 
-      page: 'popular_tools', 
-      filter_type: 'view', 
-      filter_value: view 
+    analytics.trackEvent(EventType.FILTER, {
+      page: 'popular_tools',
+      filter_type: 'view',
+      filter_value: view
     });
   };
-  
+
   // Manejar búsqueda
   const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     if (searchTerm.trim()) {
-      analytics.trackSearch(searchTerm, filteredTools.length, { 
-        page: 'popular_tools', 
-        context: 'popular_tools_page' 
+      analytics.trackSearch(searchTerm, filteredTools.length, {
+        page: 'popular_tools',
+        context: 'popular_tools_page'
       });
     }
   };
-  
+
   // Manejar guardado de herramienta
   const handleToggleSave = (toolId: string, toolName: string, event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-    
+
     const isNowSaved = toggleTool(toolId);
-    
+
     if (isNowSaved) {
       analytics.trackToolSave(toolId, toolName);
     } else {
       analytics.trackEvent(EventType.TOOL_UNSAVE, { tool_id: toolId, tool_name: toolName });
     }
   };
-  
+
   // Mostrar estado de carga
   if (loading) {
     return (
@@ -160,40 +166,46 @@ const PopularToolsPage: React.FC = () => {
       </Layout>
     );
   }
-  
+
   return (
     <Layout>
       {/* Navegación */}
       <div className="mb-6">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="inline-flex items-center text-gray-600 hover:text-[#67A2A8] dark:text-gray-400 dark:hover:text-[#9CD1D4] text-sm transition-colors"
         >
           <ArrowLeft size={16} className="mr-1" />
           Volver al inicio
         </Link>
       </div>
-      
+
       {/* Header */}
-      <section className="mb-8">
-        <div className="bg-gradient-to-r from-[#67A2A8] to-[#9CD1D4] dark:from-[#67A2A8]/80 dark:to-[#9CD1D4]/80 rounded-xl overflow-hidden shadow-lg">
-          <div className="py-12 px-6 sm:px-12 md:py-16 max-w-4xl mx-auto">
-            <div className="flex items-center mb-4">
-              <Sparkles size={28} className="text-white mr-3" />
-              <h1 className="text-3xl md:text-4xl font-bold text-white">
+      <section className="mb-12">
+        <div className="bg-gradient-to-r from-[#67A2A8] to-[#9CD1D4] dark:from-[#67A2A8]/80 dark:to-[#9CD1D4]/80 rounded-xl overflow-hidden shadow-sm relative">
+          <div className="absolute inset-0 bg-pattern opacity-10 pointer-events-none"></div>
+
+          <div className="relative py-10 px-4 sm:px-8 md:py-12 max-w-3xl mx-auto text-left">
+            <div className="flex items-center mb-4 animate-fade-in">
+              <Sparkles size={24} className="text-white mr-2.5" />
+              <h2 className="text-xl md:text-2xl font-semibold text-white drop-shadow-sm leading-snug">
                 Herramientas Populares
-              </h1>
+              </h2>
             </div>
-            <p className="text-xl text-white opacity-90 mb-6 max-w-2xl">
-              Las herramientas mejor valoradas por la comunidad de desarrolladores
+
+            <p className="text-base md:text-lg text-white/90 mb-5 max-w-2xl animate-fade-in delay-100 leading-relaxed">
+              Las herramientas mejor valoradas por la comunidad de desarrolladores.
             </p>
-            <div className="text-white text-sm">
+
+            <div className="text-white/80 text-sm animate-fade-in delay-200">
               {filteredTools.length} herramientas encontradas
             </div>
           </div>
         </div>
       </section>
-      
+
+
+
       {/* Filtros y Herramientas */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
         {/* Sidebar de filtros */}
@@ -208,7 +220,7 @@ const PopularToolsPage: React.FC = () => {
                 <X size={18} />
               </button>
             </div>
-            
+
             {/* Búsqueda */}
             <div className="mb-6">
               <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Buscar</h3>
@@ -230,79 +242,77 @@ const PopularToolsPage: React.FC = () => {
                 </div>
               </form>
             </div>
-            
+
             {/* Filtros de precio */}
             <div className="mb-6">
               <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Precio</h3>
               <div className="space-y-2">
-                <FilterButton 
-                  active={activeFilter === 'all'} 
+                <FilterButton
+                  active={activeFilter === 'all'}
                   onClick={() => handleFilterChange('all')}
                 >
                   Todos
                 </FilterButton>
-                <FilterButton 
-                  active={activeFilter === 'free'} 
+                <FilterButton
+                  active={activeFilter === 'free'}
                   onClick={() => handleFilterChange('free')}
                 >
                   Gratis
                 </FilterButton>
-                <FilterButton 
-                  active={activeFilter === 'freemium'} 
+                <FilterButton
+                  active={activeFilter === 'freemium'}
                   onClick={() => handleFilterChange('freemium')}
                 >
                   Freemium
                 </FilterButton>
-                <FilterButton 
-                  active={activeFilter === 'paid'} 
+                <FilterButton
+                  active={activeFilter === 'paid'}
                   onClick={() => handleFilterChange('paid')}
                 >
                   De pago
                 </FilterButton>
               </div>
             </div>
-            
+
             {/* Ordenamiento */}
             <div className="mb-6">
               <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Ordenar por</h3>
               <div className="space-y-2">
-                <FilterButton 
-                  active={activeSort === 'rating'} 
+                <FilterButton
+                  active={activeSort === 'rating'}
                   onClick={() => handleSortChange('rating')}
                 >
                   Mejor valoradas
                 </FilterButton>
-                <FilterButton 
-                  active={activeSort === 'name'} 
+                <FilterButton
+                  active={activeSort === 'name'}
                   onClick={() => handleSortChange('name')}
                 >
                   Nombre A-Z
                 </FilterButton>
               </div>
             </div>
-            
+
             {/* Tipo de vista */}
             <div>
               <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Vista</h3>
               <div className="flex space-x-2">
                 <button
                   onClick={() => handleViewChange('grid')}
-                  className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${
-                    viewType === 'grid'
+                  className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${viewType === 'grid'
                       ? 'bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600'
-                  }`}
+                    }`}
                 >
                   <Grid size={18} className="mr-2" />
                   Cuadrícula
                 </button>
                 <button
                   onClick={() => handleViewChange('list')}
-                  className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${
-                    viewType === 'list'
+                  className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${viewType === 'list'
                       ? 'bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600'
-                  }`}
+                    }`}
                 >
                   <List size={18} className="mr-2" />
                   Lista
@@ -311,7 +321,7 @@ const PopularToolsPage: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Lista de herramientas */}
         <div className="md:col-span-3">
           {/* Botón móvil para mostrar filtros */}
@@ -327,7 +337,7 @@ const PopularToolsPage: React.FC = () => {
               {showFilters ? 'Ocultar filtros' : 'Mostrar filtros'}
             </button>
           </div>
-          
+
           {/* Resultados */}
           {filteredTools.length === 0 ? (
             <div className="bg-white dark:bg-gray-800 rounded-lg p-8 text-center border border-gray-100 dark:border-gray-700">
@@ -365,14 +375,14 @@ const PopularToolsPage: React.FC = () => {
                       >
                         <BookmarkPlus size={18} className={isSaved(tool.id) ? "fill-[#67A2A8] dark:fill-[#9CD1D4] text-[#67A2A8] dark:text-[#9CD1D4]" : ""} />
                       </button>
-                      
+
                       <div className="flex items-center mb-4">
                         {tool.image ? (
                           <div className="w-12 h-12 rounded overflow-hidden mr-3">
-                            <img 
-                              src={tool.image} 
-                              alt={tool.name} 
-                              className="w-full h-full object-cover" 
+                            <img
+                              src={tool.image}
+                              alt={tool.name}
+                              className="w-full h-full object-cover"
                             />
                           </div>
                         ) : (
@@ -400,8 +410,8 @@ const PopularToolsPage: React.FC = () => {
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {tool.tags.slice(0, 3).map(tag => (
-                          <span 
-                            key={tag} 
+                          <span
+                            key={tag}
                             className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full"
                           >
                             {tag}
@@ -417,7 +427,7 @@ const PopularToolsPage: React.FC = () => {
                   ))}
                 </div>
               )}
-              
+
               {/* Vista de lista */}
               {viewType === 'list' && (
                 <div className="space-y-4">
@@ -437,14 +447,14 @@ const PopularToolsPage: React.FC = () => {
                       >
                         <BookmarkPlus size={18} className={isSaved(tool.id) ? "fill-[#67A2A8] dark:fill-[#9CD1D4] text-[#67A2A8] dark:text-[#9CD1D4]" : ""} />
                       </button>
-                      
+
                       <div className="flex items-start">
                         {tool.image ? (
                           <div className="w-14 h-14 rounded overflow-hidden mr-4 flex-shrink-0">
-                            <img 
-                              src={tool.image} 
-                              alt={tool.name} 
-                              className="w-full h-full object-cover" 
+                            <img
+                              src={tool.image}
+                              alt={tool.name}
+                              className="w-full h-full object-cover"
                             />
                           </div>
                         ) : (
@@ -452,7 +462,7 @@ const PopularToolsPage: React.FC = () => {
                             <span className="text-lg font-semibold">{tool.name.charAt(0)}</span>
                           </div>
                         )}
-                        
+
                         <div className="flex-1">
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-1">
                             <h3 className="font-medium text-gray-900 dark:text-white text-lg">{tool.name}</h3>
@@ -463,32 +473,31 @@ const PopularToolsPage: React.FC = () => {
                                   <span className="ml-1">★</span>
                                 </div>
                               )}
-                              <span className={`ml-3 text-xs px-2 py-1 rounded-full ${
-                                tool.isFree 
-                                  ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' 
-                                  : tool.hasFreeTier 
+                              <span className={`ml-3 text-xs px-2 py-1 rounded-full ${tool.isFree
+                                  ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+                                  : tool.hasFreeTier
                                     ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300'
                                     : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
-                              }`}>
+                                }`}>
                                 {tool.isFree ? 'Gratis' : (tool.hasFreeTier ? 'Freemium' : 'De pago')}
                               </span>
                             </div>
                           </div>
-                          
+
                           <div className="flex items-center mb-2">
                             <span className={`text-xs px-2 py-0.5 rounded-full ${getCategoryColorClass(tool.category)}`}>
                               {getCategoryLabel(tool.category)}
                             </span>
                           </div>
-                          
+
                           <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
                             {tool.description}
                           </p>
-                          
+
                           <div className="flex flex-wrap gap-2">
                             {tool.tags.map(tag => (
-                              <span 
-                                key={tag} 
+                              <span
+                                key={tag}
                                 className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full"
                               >
                                 {tag}
@@ -505,7 +514,7 @@ const PopularToolsPage: React.FC = () => {
           )}
         </div>
       </div>
-      
+
       {/* CTA / Newsletter */}
       <section className="mb-16">
         <div className="bg-[#E3F5F5] dark:bg-[#67A2A8]/20 rounded-xl p-8 text-center">
@@ -516,15 +525,15 @@ const PopularToolsPage: React.FC = () => {
             Explora otras categorías o sugiere nuevas herramientas para nuestro catálogo.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link 
-              to="/categories" 
+            <Link
+              to="/categories"
               className="px-6 py-3 bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition-colors"
             >
               Explorar categorías
             </Link>
-            
-            <Link 
-              to="/suggest" 
+
+            <Link
+              to="/suggest"
               className="px-6 py-3 bg-white text-[#67A2A8] hover:bg-gray-100 border border-[#67A2A8] rounded-lg transition-colors"
               onClick={() => analytics.trackButtonClick('suggest_tool', { from: 'popular_tools_page' })}
             >
@@ -547,11 +556,10 @@ interface FilterButtonProps {
 const FilterButton: React.FC<FilterButtonProps> = ({ children, active, onClick }) => {
   return (
     <button
-      className={`flex items-center w-full px-3 py-2 rounded-md text-left transition-colors ${
-        active
+      className={`flex items-center w-full px-3 py-2 rounded-md text-left transition-colors ${active
           ? 'bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]'
           : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-      }`}
+        }`}
       onClick={onClick}
     >
       {active ? (

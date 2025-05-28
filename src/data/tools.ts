@@ -9,7 +9,29 @@ export type Category =
   | "api"
   | "security"
   | "mobile"
-  | "ai";
+  | "ai"
+
+  | "analytics"
+  | "monitoring"
+  | "cms"
+  | "hosting"
+  | "cdn"
+  | "payment"
+  | "email"
+  | "documentation"
+  | "automation"
+  | "gaming"
+  | "ecommerce"
+  | "marketing"
+  | "seo"
+  | "social"
+  | "performance"
+  | "crm"
+  | "erp"
+  | "backup"
+  | "storage"
+  | "networking"
+  | "localization";
 
 export interface Tool {
   id: string;
@@ -41,7 +63,7 @@ export const tools: Tool[] = [
     url: "https://code.visualstudio.com/",
     category: "productivity",
     tags: ["editor", "microsoft", "extensions"],
-    image: "@/img/tools/vscode.svg",
+    image: "/img/tools/vscode.svg",
     isFree: true,
     stars: 4.8,
     lastUpdated: "2025-04-15",
@@ -56,7 +78,7 @@ export const tools: Tool[] = [
     url: "https://reactjs.org/",
     category: "frontend",
     tags: ["javascript", "ui", "library", "facebook"],
-    image: "@/img/tools/react.svg",
+    image: "/img/tools/react.svg",
     isFree: true,
     stars: 4.9,
     lastUpdated: "2025-04-02",
@@ -72,7 +94,7 @@ export const tools: Tool[] = [
     url: "https://nodejs.org/",
     category: "backend",
     tags: ["javascript", "runtime", "server"],
-    image: "@/img/tools/nodejs.svg",
+    image: "/img/tools/nodejs.svg",
     isFree: true,
     stars: 4.7,
     lastUpdated: "2025-03-20",
@@ -86,7 +108,7 @@ export const tools: Tool[] = [
     url: "https://www.docker.com/",
     category: "devops",
     tags: ["containers", "devops", "deployment"],
-    image: "@/img/tools/docker.svg",
+    image: "/img/tools/docker.svg",
     isFree: true,
     hasFreeTier: true,
     stars: 4.6,
@@ -101,7 +123,7 @@ export const tools: Tool[] = [
     url: "https://www.figma.com/",
     category: "design",
     tags: ["design", "ui", "collaboration"],
-    image: "@/img/tools/figma.svg",
+    image: "/img/tools/figma.svg",
     isFree: false,
     hasFreeTier: true,
     stars: 4.9,
@@ -115,7 +137,7 @@ export const tools: Tool[] = [
     url: "https://jestjs.io/",
     category: "testing",
     tags: ["javascript", "testing", "facebook"],
-    image: "@/img/tools/jest.svg",
+    image: "/img/tools/jest.svg",
     isFree: true,
     stars: 4.5,
     lastUpdated: "2025-03-15",
@@ -129,7 +151,7 @@ export const tools: Tool[] = [
     url: "https://www.postgresql.org/",
     category: "database",
     tags: ["database", "sql", "relational"],
-    image: "@/img/tools/postgresql.svg",
+    image: "/img/tools/postgresql.svg",
     isFree: true,
     stars: 4.8,
     lastUpdated: "2025-03-30",
@@ -143,7 +165,7 @@ export const tools: Tool[] = [
     url: "https://www.postman.com/",
     category: "api",
     tags: ["api", "testing", "collaboration"],
-    image: "@/img/tools/postman.svg",
+    image: "/img/tools/postman.svg",
     isFree: false,
     hasFreeTier: true,
     stars: 4.7,
@@ -157,7 +179,7 @@ export const tools: Tool[] = [
     url: "https://github.com/",
     category: "productivity",
     tags: ["git", "version control", "collaboration"],
-    image: "@/img/tools/github.svg",
+    image: "/img/tools/github.svg",
     isFree: false,
     hasFreeTier: true,
     stars: 4.9,
@@ -171,7 +193,7 @@ export const tools: Tool[] = [
     url: "https://www.typescriptlang.org/",
     category: "frontend",
     tags: ["javascript", "static typing", "microsoft"],
-    image: "@/img/tools/typescript.svg",
+    image: "/img/tools/typescript.svg",
     isFree: true,
     stars: 4.8,
     lastUpdated: "2025-04-08",
@@ -185,7 +207,7 @@ export const tools: Tool[] = [
     url: "https://aws.amazon.com/",
     category: "devops",
     tags: ["cloud", "amazon", "hosting"],
-    image: "@/img/tools/aws.svg",
+    image: "/img/tools/aws.svg",
     isFree: false,
     hasFreeTier: true,
     stars: 4.6,
@@ -199,7 +221,7 @@ export const tools: Tool[] = [
     url: "https://owasp.org/",
     category: "security",
     tags: ["security", "web", "open source"],
-    image: "@/img/tools/owasp.svg",
+    image: "/img/tools/owasp.svg",
     isFree: true,
     stars: 4.5,
     lastUpdated: "2025-03-25",
@@ -212,7 +234,7 @@ export const tools: Tool[] = [
     url: "https://flutter.dev/",
     category: "mobile",
     tags: ["dart", "cross-platform", "google", "ui"],
-    image: "@/img/tools/flutter.svg",
+    image: "/img/tools/flutter.svg",
     isFree: true,
     stars: 4.7,
     lastUpdated: "2025-04-20",
@@ -227,7 +249,7 @@ export const tools: Tool[] = [
     url: "https://www.tensorflow.org/",
     category: "ai",
     tags: ["machine learning", "google", "deep learning", "python"],
-    image: "@/img/tools/tensorflow.svg",
+    image: "/img/tools/tensorflow.svg",
     isFree: true,
     stars: 4.8,
     lastUpdated: "2025-04-01",
@@ -242,17 +264,39 @@ export const getCategoryLabel = (category: Category): string => {
     frontend: "Frontend",
     backend: "Backend",
     devops: "DevOps",
-    design: "Design",
-    productivity: "Productivity",
+    design: "Diseño",
+    productivity: "Productividad",
     testing: "Testing",
-    database: "Database",
+    database: "Base de Datos",
     api: "API",
-    security: "Security",
-    mobile: "Mobile",
-    ai: "AI"
+    security: "Seguridad",
+    mobile: "Móvil",
+    ai: "IA",
+
+    analytics: "Analíticas",
+    monitoring: "Monitoreo",
+    cms: "CMS",
+    hosting: "Hosting",
+    cdn: "CDN",
+    payment: "Pagos",
+    email: "Email",
+    documentation: "Documentación",
+    automation: "Automatización",
+    gaming: "Gaming",
+    ecommerce: "E-commerce",
+    marketing: "Marketing",
+    seo: "SEO",
+    social: "Redes Sociales",
+    performance: "Rendimiento",
+    crm: "CRM",
+    erp: "ERP",
+    backup: "Respaldo",
+    storage: "Almacenamiento",
+    networking: "Redes",
+    localization: "Localización",
   };
-  
-  return labels[category];
+
+  return labels[category] || category; //32 categorias
 };
 
 export const getAllCategories = (): Category[] => {
@@ -267,7 +311,29 @@ export const getAllCategories = (): Category[] => {
     "api",
     "security",
     "mobile",
-    "ai"
+    "ai",
+
+    "analytics",
+    "monitoring",
+    "cms",
+    "hosting",
+    "cdn",
+    "payment",
+    "email",
+    "documentation",
+    "automation",
+    "gaming",
+    "ecommerce",
+    "marketing",
+    "seo",
+    "social",
+    "performance",
+    "crm",
+    "erp",
+    "backup",
+    "storage",
+    "networking",
+    "localization"
   ];
 };
 
@@ -373,7 +439,29 @@ export const getCategoryColorClass = (category: Category): string => {
     api: 'bg-cyan-100 text-cyan-800',
     security: 'bg-red-100 text-red-800',
     mobile: 'bg-violet-100 text-violet-800',
-    ai: 'bg-emerald-100 text-emerald-800'
+    ai: 'bg-emerald-100 text-emerald-800',
+
+    analytics: 'bg-slate-100 text-slate-800',
+    monitoring: 'bg-amber-100 text-amber-800',
+    cms: 'bg-teal-100 text-teal-800',
+    hosting: 'bg-lime-100 text-lime-800',
+    cdn: 'bg-sky-100 text-sky-800',
+    payment: 'bg-rose-100 text-rose-800',
+    email: 'bg-fuchsia-100 text-fuchsia-800',
+    documentation: 'bg-neutral-100 text-neutral-800',
+    automation: 'bg-stone-100 text-stone-800',
+    gaming: 'bg-purple-100 text-purple-800',
+    ecommerce: 'bg-green-100 text-green-800',
+    marketing: 'bg-pink-100 text-pink-800',
+    seo: 'bg-blue-100 text-blue-800',
+    social: 'bg-cyan-100 text-cyan-800',
+    performance: 'bg-orange-100 text-orange-800',
+    crm: 'bg-indigo-100 text-indigo-800',
+    erp: 'bg-violet-100 text-violet-800',
+    backup: 'bg-gray-100 text-gray-800',
+    storage: 'bg-yellow-100 text-yellow-800',
+    networking: 'bg-emerald-100 text-emerald-800',
+    localization: 'bg-red-100 text-red-800'
   };
   
   return colors[category];

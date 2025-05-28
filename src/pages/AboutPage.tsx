@@ -1,34 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import NewsletterSignup from '../components/NewsletterSignup';
-import { Twitter, Github, Mail, Coffee, Heart, Code, Users, Send, CheckCircle } from 'lucide-react';
+import { Twitter, Github, Mail, Heart, Code, Users, Send, CheckCircle, BookOpen } from 'lucide-react';
 import useAnalytics from '../hooks/useAnalytics';
 
 const AboutPage: React.FC = () => {
   const analytics = useAnalytics();
-  
-  // Registrar vista de página
+
+  // Usar useRef para mantener valores estables
+  const config = useRef({
+    pageName: 'About Page'
+  });
+
+  // Registrar vista de página solo al montar el componente
   useEffect(() => {
-    analytics.trackPageView('About Page');
-  }, [analytics]);
-  
+    analytics.trackPageView(config.current.pageName);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Array de dependencias vacío para ejecutar solo al montar
+
   return (
     <Layout>
       {/* Hero Section */}
       <section className="mb-16">
-        <div className="bg-[#E3F5F5] dark:bg-[#67A2A8]/20 rounded-xl overflow-hidden">
-          <div className="max-w-4xl mx-auto py-16 px-6 md:px-10">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-6 animate-fade-in">
-              Acerca de DevTools Catalog
+        <div className="bg-[#E3F5F5] dark:bg-[#67A2A8]/20 rounded-xl overflow-hidden shadow-sm">
+          <div className="max-w-3xl mx-auto py-12 px-4 sm:px-8 md:py-14 text-center relative">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white drop-shadow-sm mb-4 animate-fade-in">
+              Acerca de DevTools
             </h1>
-            <p className="text-xl text-gray-700 dark:text-gray-200 mb-6 animate-fade-in delay-100">
-              Una colección cuidadosamente seleccionada de las mejores herramientas para desarrolladores, diseñada para ayudarte a encontrar los recursos perfectos para tu flujo de trabajo.
+            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-6 animate-fade-in delay-100 leading-relaxed">
+              Una colección cuidadosamente seleccionada de herramientas para desarrolladores, diseñada para ayudarte a encontrar los recursos perfectos para tu flujo de trabajo.
             </p>
             <div className="animate-fade-in delay-200">
-              <Link 
-                to="/categories" 
-                className="inline-flex items-center px-6 py-3 bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition-colors shadow hover-float"
+              <Link
+                to="/categories"
+                className="inline-flex items-center px-5 py-2.5 text-sm font-medium bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition-all duration-300 shadow-sm"
               >
                 Explorar Herramientas
               </Link>
@@ -36,52 +42,54 @@ const AboutPage: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
+
       {/* Nuestra Misión */}
       <section className="mb-16 animate-fade-in">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 heading-decorated">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-800 dark:text-white mb-5 heading-decorated">
             Nuestra Misión
           </h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-4">
-            En DevTools Catalog, nuestra misión es simplificar la búsqueda de herramientas de desarrollo al reunir los mejores recursos en un solo lugar, bien organizado y fácil de explorar.
+          <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+            En DevTools, nuestra misión es simplificar la búsqueda de herramientas de desarrollo al reunir los mejores recursos en un solo lugar, bien organizado y fácil de explorar.
           </p>
-          <p className="text-gray-700 dark:text-gray-300 mb-4">
-            Creemos que el tiempo de los desarrolladores es valioso y no debería desperdiciarse en largas búsquedas para encontrar las herramientas adecuadas. Por eso hemos creado esta plataforma: para ayudarte a descubrir, comparar y elegir las mejores herramientas para tu flujo de trabajo.
+          <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+            Creemos que el tiempo de los desarrolladores es valioso y no debería desperdiciarse en largas búsquedas. Por eso creamos esta plataforma: para ayudarte a descubrir, comparar y elegir las mejores herramientas para tu flujo de trabajo.
           </p>
-          <p className="text-gray-700 dark:text-gray-300">
-            Cada herramienta en nuestro catálogo ha sido cuidadosamente seleccionada y categorizada para asegurar que encuentres exactamente lo que necesitas, ya sea que estés trabajando en frontend, backend, DevOps o cualquier otra área del desarrollo.
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+            Cada herramienta ha sido cuidadosamente seleccionada y categorizada para asegurar que encuentres exactamente lo que necesitas, ya sea en frontend, backend, DevOps o cualquier otra área del desarrollo.
           </p>
         </div>
       </section>
-      
+
+
       {/* Valores y Características */}
       <section className="mb-16">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 text-center heading-decorated mx-auto">
             Nuestros Valores
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <FeatureCard 
+            <FeatureCard
               icon={<CheckCircle className="text-green-500" />}
               title="Calidad sobre Cantidad"
               description="No incluimos todas las herramientas existentes, sino solo las mejores. Cada entrada en nuestro catálogo ha pasado por un proceso de revisión para garantizar su utilidad y calidad."
             />
-            
-            <FeatureCard 
+
+            <FeatureCard
               icon={<Users className="text-blue-500" />}
               title="Centrado en la Comunidad"
               description="Valoramos el feedback de nuestra comunidad y actualizamos constantemente nuestro catálogo basado en las recomendaciones y experiencias reales de los desarrolladores."
             />
-            
-            <FeatureCard 
+
+            <FeatureCard
               icon={<Code className="text-purple-500" />}
               title="Por Desarrolladores, Para Desarrolladores"
               description="Somos desarrolladores que entendemos los desafíos diarios de nuestro trabajo. Creamos este recurso pensando en lo que nos hubiera gustado tener a nosotros mismos."
             />
-            
-            <FeatureCard 
+
+            <FeatureCard
               icon={<Heart className="text-red-500" />}
               title="Código Abierto y Transparente"
               description="Creemos en la transparencia y la colaboración. Por eso, nuestro proyecto es de código abierto y damos crédito a todas las herramientas y sus creadores."
@@ -89,7 +97,7 @@ const AboutPage: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Historia */}
       <section className="mb-16 animate-fade-in">
         <div className="max-w-3xl mx-auto">
@@ -97,38 +105,37 @@ const AboutPage: React.FC = () => {
             Nuestra Historia
           </h2>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
-            DevTools Catalog nació de la frustración por la falta de un recurso centralizado y bien organizado para descubrir herramientas de desarrollo. Como desarrolladores, pasábamos demasiado tiempo buscando la herramienta adecuada para cada tarea, navegando por múltiples blogs, repositorios y sitios web.
+            DevTools nació de la frustración por la falta de un recurso centralizado y bien organizado para descubrir herramientas de desarrollo. Como desarrolladores, pasábamos demasiado tiempo buscando la herramienta adecuada para cada tarea, navegando por múltiples blogs, repositorios y sitios web.
           </p>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
             Decidimos crear la solución que nos hubiera gustado tener: un catálogo completo de herramientas de desarrollo, organizado por categorías, con información clara y concisa sobre cada una, permitiendo comparar y elegir rápidamente la más adecuada para cada necesidad.
           </p>
           <p className="text-gray-700 dark:text-gray-300">
-            Lo que comenzó como un proyecto personal ha crecido gracias a las contribuciones de la comunidad, y seguimos mejorando y expandiendo nuestro catálogo cada día para ofrecer el mejor recurso posible a desarrolladores de todo el mundo.
+            Lo que comenzó como un proyecto personal ha crecido gracias a las contribuciones de la comunidad con creaciones de nuevas herramientas, seguimos mejorando y expandiendo nuestro catálogo cada día para ofrecer el mejor recurso posible a desarrolladores de habla hispana.
           </p>
         </div>
       </section>
-      
+
       {/* El Equipo */}
       <section className="mb-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 text-center heading-decorated mx-auto">
             Conócenos
           </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <TeamMemberCard 
-              name="May"
-              role="Fundador & Desarrollador Frontend"
-              image="/logos/avatar-1.png"
-              githubUrl="https://github.com/mayspacede"
-              twitterUrl="https://twitter.com/mayspacede"
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+            <TeamMemberCard
+              name="Mery V."
+              role="Fundadora & Desarrolladora"
+              image="/img/tools/may.png"
+              githubUrl="https://github.com/MaySpaceDu/maydev-tools"
+              twitterUrl="https://x.com/MaySpacedu"
+              blogUrl="https://mayblog-sooty.vercel.app/"
             />
-            
-            {/* Puedes añadir más miembros del equipo aquí */}
           </div>
         </div>
       </section>
-      
+
       {/* Contribuir */}
       <section className="mb-16">
         <div className="bg-[#E3F5F5] dark:bg-[#67A2A8]/20 rounded-xl p-8 md:p-10">
@@ -139,7 +146,7 @@ const AboutPage: React.FC = () => {
             <p className="text-gray-700 dark:text-gray-200 mb-6">
               DevTools Catalog es un proyecto de código abierto y damos la bienvenida a las contribuciones de la comunidad. Hay varias formas en las que puedes contribuir:
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
                 <Send className="h-8 w-8 text-[#67A2A8] mb-4" />
@@ -147,24 +154,24 @@ const AboutPage: React.FC = () => {
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
                   ¿Conoces una herramienta genial que deberíamos incluir? Ayúdanos a expandir nuestro catálogo.
                 </p>
-                <Link 
-                  to="/suggest" 
+                <Link
+                  to="/suggest"
                   className="text-[#67A2A8] hover:text-[#9CD1D4] dark:text-[#9CD1D4] dark:hover:text-[#E3F5F5] font-medium"
                 >
                   Sugerir herramienta →
                 </Link>
               </div>
-              
+
               <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
                 <Github className="h-8 w-8 text-[#67A2A8] mb-4" />
                 <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Contribuir al Código</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
                   ¿Eres desarrollador? Puedes contribuir al código, reportar bugs o sugerir mejoras en GitHub.
                 </p>
-                <a 
-                  href="https://github.com/mayspacede/dev-tools-catalog" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://github.com/MaySpaceDu/maydev-tools"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-[#67A2A8] hover:text-[#9CD1D4] dark:text-[#9CD1D4] dark:hover:text-[#E3F5F5] font-medium"
                 >
                   Ver en GitHub →
@@ -174,7 +181,7 @@ const AboutPage: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Contacto y Newsletter */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
         {/* Contacto */}
@@ -185,16 +192,16 @@ const AboutPage: React.FC = () => {
           <p className="text-gray-700 dark:text-gray-300 mb-6">
             ¿Tienes preguntas, sugerencias o simplemente quieres saludar? No dudes en ponerte en contacto con nosotros.
           </p>
-          
+
           <div className="space-y-4">
             <a
-              href="mailto:info@devtoolscatalog.com"
+              href="mailto:info@mayspacedev.com"
               className="flex items-center text-gray-700 dark:text-gray-300 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-colors"
             >
               <Mail className="mr-3 h-5 w-5" />
-              info@devtoolscatalog.com
+              info@mayspacedev.com
             </a>
-            
+
             <a
               href="https://twitter.com/mayspacede"
               target="_blank"
@@ -202,31 +209,31 @@ const AboutPage: React.FC = () => {
               className="flex items-center text-gray-700 dark:text-gray-300 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-colors"
             >
               <Twitter className="mr-3 h-5 w-5" />
-              @mayspacede
+              @MaySpacedu
             </a>
-            
+
             <a
-              href="https://github.com/mayspacede/dev-tools-catalog"
+              href="https://github.com/MaySpaceDu/maydev-tools"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center text-gray-700 dark:text-gray-300 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-colors"
             >
               <Github className="mr-3 h-5 w-5" />
-              github.com/mayspacede/dev-tools-catalog
+              github.com/MaySpaceDu/May-dev-tools.git
             </a>
-            
+
             <a
-              href="https://buymeacoffee.com/mayspacede"
+              href="https://www.patreon.com/c/MaySpace"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center text-gray-700 dark:text-gray-300 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-colors"
             >
-              <Coffee className="mr-3 h-5 w-5" />
-              Apóyanos con un café
+              <Heart className="mr-3 h-5 w-5" />
+              Apóyanos con un corazón
             </a>
           </div>
         </div>
-        
+
         {/* Newsletter */}
         <NewsletterSignup
           title="Mantente Actualizado"
@@ -263,15 +270,16 @@ interface TeamMemberCardProps {
   image: string;
   githubUrl?: string;
   twitterUrl?: string;
+  blogUrl?: string;
 }
 
-const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, githubUrl, twitterUrl }) => {
+const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, githubUrl, twitterUrl, blogUrl }) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md border border-gray-100 dark:border-gray-700 animate-fade-in">
       <div className="h-48 overflow-hidden bg-[#E3F5F5] dark:bg-[#67A2A8]/20 flex items-center justify-center">
-        <img 
-          src={image} 
-          alt={name} 
+        <img
+          src={image}
+          alt={name}
           className="w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-800"
           onError={(e) => {
             // Fallback para imagen no disponible
@@ -283,10 +291,10 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, gith
       <div className="p-6">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-1">{name}</h3>
         <p className="text-gray-600 dark:text-gray-400 mb-4">{role}</p>
-        
+
         <div className="flex space-x-3">
           {twitterUrl && (
-            <a 
+            <a
               href={twitterUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -296,9 +304,9 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, gith
               <Twitter size={18} />
             </a>
           )}
-          
+
           {githubUrl && (
-            <a 
+            <a
               href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -306,6 +314,16 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, gith
               aria-label={`GitHub de ${name}`}
             >
               <Github size={18} />
+            </a>
+          )}
+
+          {blogUrl && (
+            <a
+              href={blogUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <BookOpen size={18} />
             </a>
           )}
         </div>

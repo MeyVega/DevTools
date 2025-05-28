@@ -25,7 +25,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const suggestionsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  // Cargar historial de búsqueda desde localStorage al iniciar
   useEffect(() => {
     const savedHistory = localStorage.getItem('searchHistory');
     if (savedHistory) {
@@ -37,7 +36,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
     }
   }, []);
 
-  // Manejar clics fuera del componente para cerrar sugerencias
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -51,12 +49,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Auto focus en el input si la prop autoFocus es true
   useEffect(() => {
     if (autoFocus && inputRef.current) {
       inputRef.current.focus();
@@ -75,12 +70,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleSearch = (term: string = searchTerm) => {
     if (!term.trim()) return;
-    
     onSearch(term);
     setShowSuggestions(false);
     navigate(`/search?q=${encodeURIComponent(term)}`);
-    
-    // Guardar en historial
     const newHistory = [term, ...searchHistory.filter(item => item !== term)].slice(0, 5);
     setSearchHistory(newHistory);
     localStorage.setItem('searchHistory', JSON.stringify(newHistory));
@@ -113,7 +105,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       <div className={`relative ${isFocused ? 'ring-2 ring-[#67A2A8]' : ''}`}>
         <Search 
           size={20} 
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" 
         />
         <input
           ref={inputRef}
@@ -127,40 +119,43 @@ const SearchBar: React.FC<SearchBarProps> = ({
               setShowSuggestions(true);
             }
           }}
-          onBlur={() => setIsFocused(false)}
+          onBlur={() => setTimeout(() => setIsFocused(false), 100)}
           placeholder={placeholder}
-          className="w-full py-3 pl-10 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#67A2A8] focus:border-transparent transition-all shadow-sm hover:shadow-md"
+          className="w-full py-3 pl-10 pr-24 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#67A2A8] focus:border-transparent transition-all shadow-sm hover:shadow-md"
           aria-label="Search"
+          aria-expanded={showSuggestions}
+          aria-controls="search-suggestions"
         />
-        {searchTerm ? (
-          <button 
-            onClick={clearSearch}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100"
-            aria-label="Clear search"
-          >
-            <X size={18} />
-          </button>
-        ) : (
+        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
+          {searchTerm && (
+            <button 
+              onClick={clearSearch}
+              className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-white p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+              aria-label="Clear search"
+            >
+              <X size={18} />
+            </button>
+          )}
           <button 
             onClick={() => handleSearch()}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#67A2A8] hover:text-[#9CD1D4] p-1 rounded-full hover:bg-[#E3F5F5]"
+            className="text-[#67A2A8] hover:text-[#9CD1D4] p-1 rounded-full hover:bg-[#E3F5F5] dark:hover:bg-[#1a3a3a]"
             aria-label="Search"
           >
             <ArrowRight size={18} />
           </button>
-        )}
+        </div>
       </div>
 
-      {/* Sugerencias y historial */}
       {showSuggestions && (
         <div 
           ref={suggestionsRef}
-          className="absolute z-10 mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden"
+          id="search-suggestions"
+          role="listbox"
+          className="absolute z-10 mt-2 w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden"
         >
-          {/* Historial de búsqueda */}
           {searchHistory.length > 0 && (
             <div className="p-2">
-              <div className="flex items-center text-xs text-gray-500 px-2 py-1">
+              <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 px-2 py-1">
                 <Clock size={14} className="mr-1" />
                 <span>Búsquedas recientes</span>
               </div>
@@ -168,37 +163,33 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 {searchHistory.map((item, index) => (
                   <button
                     key={`history-${index}`}
-                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 rounded flex items-center text-gray-700"
+                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 rounded flex items-center text-gray-700 dark:text-gray-200"
                     onClick={() => handleSuggestionClick(item)}
                   >
-                    <Clock size={14} className="mr-2 text-gray-400" />
+                    <Clock size={14} className="mr-2 text-gray-400 dark:text-gray-500" />
                     {item}
                   </button>
                 ))}
               </div>
-              {searchHistory.length > 0 && (
-                <button
-                  className="w-full text-xs text-right pr-3 py-1 text-[#67A2A8] hover:underline"
-                  onClick={() => {
-                    localStorage.removeItem('searchHistory');
-                    setSearchHistory([]);
-                  }}
-                >
-                  Limpiar historial
-                </button>
-              )}
+              <button
+                className="w-full text-xs text-right pr-3 py-1 text-[#67A2A8] hover:underline"
+                onClick={() => {
+                  localStorage.removeItem('searchHistory');
+                  setSearchHistory([]);
+                }}
+              >
+                Limpiar historial
+              </button>
             </div>
           )}
 
-          {/* Separador si hay ambas secciones */}
           {searchHistory.length > 0 && popularSearches.length > 0 && (
-            <div className="border-t border-gray-100"></div>
+            <div className="border-t border-gray-100 dark:border-gray-700"></div>
           )}
 
-          {/* Búsquedas populares */}
           {popularSearches.length > 0 && (
             <div className="p-2">
-              <div className="flex items-center text-xs text-gray-500 px-2 py-1">
+              <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 px-2 py-1">
                 <Sparkles size={14} className="mr-1" />
                 <span>Búsquedas populares</span>
               </div>
@@ -206,7 +197,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 {popularSearches.map((item, index) => (
                   <button
                     key={`popular-${index}`}
-                    className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-[#E3F5F5] text-gray-700 hover:text-[#67A2A8] rounded-full transition-colors"
+                    className="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-[#E3F5F5] dark:hover:bg-[#274c4c] text-gray-700 dark:text-gray-200 rounded-full transition-colors"
                     onClick={() => handleSuggestionClick(item)}
                   >
                     {item}
@@ -216,11 +207,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
             </div>
           )}
 
-          {/* Resultados filtrados (coincidencias con el término actual) */}
           {searchTerm && (
-            <div className="border-t border-gray-100">
+            <div className="border-t border-gray-100 dark:border-gray-700">
               <div className="p-2">
-                <div className="flex items-center text-xs text-gray-500 px-2 py-1">
+                <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 px-2 py-1">
                   <Search size={14} className="mr-1" />
                   <span>Sugerencias para "{searchTerm}"</span>
                 </div>
@@ -234,14 +224,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     .map((item, index) => (
                       <button
                         key={`suggestion-${index}`}
-                        className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 rounded flex items-center text-gray-700"
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 rounded flex items-center text-gray-700 dark:text-gray-200"
                         onClick={() => handleSuggestionClick(item)}
                       >
                         {highlightMatch(item, searchTerm)}
                       </button>
                     ))}
                   <button
-                    className="w-full text-left px-3 py-2 text-sm hover:bg-[#E3F5F5] rounded flex items-center text-[#67A2A8] font-medium"
+                    className="w-full text-left px-3 py-2 text-sm hover:bg-[#E3F5F5] dark:hover:bg-[#1a3a3a] rounded flex items-center text-[#67A2A8] font-medium"
                     onClick={() => handleSearch()}
                   >
                     <Search size={14} className="mr-2" />
@@ -257,17 +247,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
   );
 };
 
-// Función para resaltar coincidencia en sugerencias
 const highlightMatch = (text: string, query: string): JSX.Element => {
   if (!query) return <>{text}</>;
-  
   const parts = text.split(new RegExp(`(${query})`, 'gi'));
-  
   return (
     <>
       {parts.map((part, index) => 
         part.toLowerCase() === query.toLowerCase() 
-          ? <mark key={index} className="bg-yellow-100 font-medium px-0.5 rounded">{part}</mark> 
+          ? <mark key={index} className="bg-yellow-100 dark:bg-yellow-700 font-medium px-0.5 rounded">{part}</mark> 
           : <span key={index}>{part}</span>
       )}
     </>

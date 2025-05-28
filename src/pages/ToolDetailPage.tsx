@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import ToolDetailHeader from '../components/ToolDetailHeader';
@@ -21,6 +21,10 @@ import { Tool, getToolById, getSimilarTools, getCategoryLabel } from '../data/to
 import { formatLastUpdated } from '../utils/dateUtils';
 import { useBookmarks } from '../contexts/BookmarksContext';
 import useAnalytics from '../hooks/useAnalytics';
+import { EventType } from '../utils/analytics';
+
+import { getPostsForTool } from '../data/blog';
+import BlogPostCard from '../components/blog/BlogPostCard';
 
 const ToolDetailPage: React.FC = () => {
   // Obtener el ID de la herramienta desde la URL
@@ -39,6 +43,11 @@ const ToolDetailPage: React.FC = () => {
   // Analytics
   const analytics = useAnalytics();
   
+  // Usar useRef para mantener valores estables
+  const config = useRef({
+    pageName: 'Tool Detail'
+  });
+
   // Cargar datos de la herramienta
   useEffect(() => {
     const fetchToolData = async () => {
@@ -65,6 +74,7 @@ const ToolDetailPage: React.FC = () => {
         
         // Registrar vista de herramienta en analytics
         analytics.trackToolView(toolData.id, toolData.name);
+        analytics.trackPageView(config.current.pageName);
         
         // Hacer scroll al inicio
         window.scrollTo(0, 0);
@@ -77,7 +87,7 @@ const ToolDetailPage: React.FC = () => {
     };
     
     fetchToolData();
-  }, [id, analytics]);
+  }, [id]); // Mantener id como dependencia para reflejar cambios
   
   // Manejar el guardado de la herramienta
   const handleToggleSave = () => {
@@ -158,21 +168,20 @@ const ToolDetailPage: React.FC = () => {
   // Si todo está bien, mostrar la página de detalle
   return (
     <Layout>
-      <div className="mb-6">
-        <Link 
+       <div className="mb-6">
+       {/*  <Link 
           to="/" 
           className="inline-flex items-center text-gray-600 hover:text-[#67A2A8] dark:text-gray-400 dark:hover:text-[#9CD1D4] text-sm transition-colors"
         >
           <ArrowLeft size={16} className="mr-1" />
           Volver al catálogo
-        </Link>
-      </div>
+        </Link> */}
+      </div> 
       
       {/* Cabecera de la herramienta */}
       <ToolDetailHeader 
         tool={tool} 
         onSave={handleToggleSave} 
-        onShare={handleShare}
         className="mb-10"
       />
       
@@ -545,6 +554,28 @@ const ToolDetailPage: React.FC = () => {
           </div>
         </div>
       </section>
+      {/* Artículos relacionados */}
+{tool && (
+  <section className="mb-16">
+    {(() => {
+      const relatedPosts = getPostsForTool(tool.id).slice(0, 3);
+      
+      return relatedPosts.length > 0 ? (
+        <>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+            Artículos sobre {tool.name}
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {relatedPosts.map(post => (
+              <BlogPostCard key={post.id} post={post} />
+            ))}
+          </div>
+        </>
+      ) : null;
+    })()}
+  </section>
+)}
     </Layout>
   );
 };
@@ -613,7 +644,6 @@ const getCategoryColorClass = (category: string): string => {
 
 // Helper para obtener el icono según la categoría
 const getCategoryIcon = (category: string): React.ReactNode => {
-  // Importamos íconos a medida que sean necesarios
   const icons: Record<string, React.ReactNode> = {
     frontend: <Code size={18} className="text-blue-600 dark:text-blue-400" />,
     backend: <Code size={18} className="text-green-600 dark:text-green-400" />,
@@ -630,8 +660,5 @@ const getCategoryIcon = (category: string): React.ReactNode => {
   
   return icons[category] || <Code size={18} className="text-gray-600 dark:text-gray-400" />;
 };
-
-// Importamos EventType para los eventos de analytics
-import { EventType } from '../utils/analytics';
 
 export default ToolDetailPage;

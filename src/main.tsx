@@ -10,15 +10,15 @@ import './styles/animations.css';
 
 // Inicializar analytics
 initAnalytics({
-  enabled: import.meta.env.PROD,
+  enabled: import.meta.env.PROD, 
   googleAnalyticsId: import.meta.env.VITE_GOOGLE_ANALYTICS_ID,
-  debugMode: import.meta.env.DEV,
+  debugMode: import.meta.env.DEV, 
 });
 
 // Mensaje de bienvenida
-if (process.env.NODE_ENV !== 'production') {
+if (import.meta.env.DEV) {
   console.log(
-    '%c🛠️ DevTools Catalog %cby MaySpaceDEV',
+    '%c🛠️ DevTools %cby MaySpaceDEV',
     'color: #67A2A8; font-size: 18px; font-weight: bold;',
     'color: #666; font-size: 12px;'
   );
@@ -27,16 +27,22 @@ if (process.env.NODE_ENV !== 'production') {
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');
 
+// Agregar future flags para eliminar las advertencias
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <BrowserRouter> 
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true
+      }}
+    >
       <App />
     </BrowserRouter>
   </React.StrictMode>
 );
 
 // PWA
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+if ('serviceWorker' in navigator && import.meta.env.PROD) { 
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
       .then(registration => {

@@ -13,7 +13,7 @@ import {
   Sparkles,
   Network,
   Code,
-  Lock
+  Lock,
 } from 'lucide-react';
 
 interface CategoriesSectionProps {
@@ -40,7 +40,29 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
       api: <Network className="w-7 h-7" />,
       security: <Shield className="w-7 h-7" />,
       mobile: <Smartphone className="w-7 h-7" />,
-      ai: <Sparkles className="w-7 h-7" />
+      ai: <Sparkles className="w-7 h-7" />,
+
+      analytics: <BarChart3 className="w-7 h-7" />,
+      monitoring: <BarChart3 className="w-7 h-7" />,
+      cms: <BarChart3 className="w-7 h-7" />,
+      hosting: <BarChart3 className="w-7 h-7" />,
+      cdn: <BarChart3 className="w-7 h-7" />,
+      payment: <BarChart3 className="w-7 h-7" />,
+      email: <BarChart3 className="w-7 h-7" />,
+      documentation: <BarChart3 className="w-7 h-7" />,
+      automation: <BarChart3 className="w-7 h-7" />,
+      gaming: <BarChart3 className="w-7 h-7" />,
+      ecommerce: <BarChart3 className="w-7 h-7" />,
+      marketing: <BarChart3 className="w-7 h-7" />,
+      seo: <BarChart3 className="w-7 h-7" />,
+      social: <BarChart3 className="w-7 h-7" />,
+      performance: <BarChart3 className="w-7 h-7" />,
+      crm: <BarChart3 className="w-7 h-7" />,
+      erp: <BarChart3 className="w-7 h-7" />, 
+      backup: <BarChart3 className="w-7 h-7" />,
+      storage: <BarChart3 className="w-7 h-7" />,
+      networking: <BarChart3 className="w-7 h-7" />,
+      localization: <BarChart3 className="w-7 h-7" />
     };
     
     return iconMap[category] || <Lock className="w-7 h-7" />;
@@ -136,7 +158,176 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
         darkBg: 'dark:bg-emerald-900/20',
         darkHoverBg: 'dark:hover:bg-emerald-800/30',
         darkText: 'dark:text-emerald-300'
-      }
+        },
+
+      analytics: {
+          bg: 'bg-slate-50',
+          hoverBg: 'hover:bg-slate-100',
+          text: 'text-slate-600',
+          darkBg: 'dark:bg-slate-900/20',
+          darkHoverBg: 'dark:hover:bg-slate-800/30',
+          darkText: 'dark:text-slate-300'
+        },
+      monitoring: {
+        bg: 'bg-amber-50',
+        hoverBg: 'hover:bg-amber-100',
+        text: 'text-amber-600',
+        darkBg: 'dark:bg-amber-900/20',
+        darkHoverBg: 'dark:hover:bg-amber-800/30',
+        darkText: 'dark:text-amber-300'
+      },
+      cms: {
+        bg: 'bg-teal-50',
+        hoverBg: 'hover:bg-teal-100',
+        text: 'text-teal-600',
+        darkBg: 'dark:bg-teal-900/20',
+        darkHoverBg: 'dark:hover:bg-teal-800/30',
+        darkText: 'dark:text-teal-300'
+      },
+      hosting: {
+        bg: 'bg-lime-50',
+        hoverBg: 'hover:bg-lime-100',
+        text: 'text-lime-600',
+        darkBg: 'dark:bg-lime-900/20',
+        darkHoverBg: 'dark:hover:bg-lime-800/30',
+        darkText: 'dark:text-lime-300'
+      },
+      cdn: {
+        bg: 'bg-sky-50',
+        hoverBg: 'hover:bg-sky-100',
+        text: 'text-sky-600',
+        darkBg: 'dark:bg-sky-900/20',
+        darkHoverBg: 'dark:hover:bg-sky-800/30',
+        darkText: 'dark:text-sky-300'
+      },
+      payment: {
+        bg: 'bg-rose-50',
+        hoverBg: 'hover:bg-rose-100',
+        text: 'text-rose-600',
+        darkBg: 'dark:bg-rose-900/20',
+        darkHoverBg: 'dark:hover:bg-rose-800/30',
+        darkText: 'dark:text-rose-300'
+      },
+      email: {
+        bg: 'bg-fuchsia-50',
+        hoverBg: 'hover:bg-fuchsia-100',
+        text: 'text-fuchsia-600',
+        darkBg: 'dark:bg-fuchsia-900/20',
+        darkHoverBg: 'dark:hover:bg-fuchsia-800/30',
+        darkText: 'dark:text-fuchsia-300'
+      },
+      documentation: {
+        bg: 'bg-neutral-50',
+        hoverBg: 'hover:bg-neutral-100',
+        text: 'text-neutral-600',
+        darkBg: 'dark:bg-neutral-900/20',
+        darkHoverBg: 'dark:hover:bg-neutral-800/30',
+        darkText: 'dark:text-neutral-300'
+      },
+      automation: {
+        bg: 'bg-stone-50',
+        hoverBg: 'hover:bg-stone-100',
+        text: 'text-stone-600',
+        darkBg: 'dark:bg-stone-900/20',
+        darkHoverBg: 'dark:hover:bg-stone-800/30',
+        darkText: 'dark:text-stone-300'
+      },
+      gaming: {
+        bg: 'bg-purple-50',
+        hoverBg: 'hover:bg-purple-100',
+        text: 'text-purple-600',
+        darkBg: 'dark:bg-purple-900/20',
+        darkHoverBg: 'dark:hover:bg-purple-800/30',
+        darkText: 'dark:text-purple-300'
+      },
+      ecommerce: {
+        bg: 'bg-green-50',
+        hoverBg: 'hover:bg-green-100',
+        text: 'text-green-600',
+        darkBg: 'dark:bg-green-900/20',
+        darkHoverBg: 'dark:hover:bg-green-800/30',
+        darkText: 'dark:text-green-300'
+      },
+      marketing: {
+        bg: 'bg-pink-50',
+        hoverBg: 'hover:bg-pink-100',
+        text: 'text-pink-600',
+        darkBg: 'dark:bg-pink-900/20',
+        darkHoverBg: 'dark:hover:bg-pink-800/30',
+        darkText: 'dark:text-pink-300'
+      },
+      seo: {
+        bg: 'bg-blue-50',
+        hoverBg: 'hover:bg-blue-100',
+        text: 'text-blue-600',
+        darkBg: 'dark:bg-blue-900/20',
+        darkHoverBg: 'dark:hover:bg-blue-800/30',
+        darkText: 'dark:text-blue-300'
+      },
+      social: {
+        bg: 'bg-cyan-50',
+        hoverBg: 'hover:bg-cyan-100',
+        text: 'text-cyan-600',
+        darkBg: 'dark:bg-cyan-900/20',
+        darkHoverBg: 'dark:hover:bg-cyan-800/30',
+        darkText: 'dark:text-cyan-300'  
+      },
+      performance: {
+        bg: 'bg-orange-50',
+        hoverBg: 'hover:bg-orange-100',
+        text: 'text-orange-600',
+        darkBg: 'dark:bg-orange-900/20',  
+        darkHoverBg: 'dark:hover:bg-orange-800/30',
+        darkText: 'dark:text-orange-300'
+      },
+      crm: {
+        bg: 'bg-indigo-50',
+        hoverBg: 'hover:bg-indigo-100', 
+        text: 'text-indigo-600',
+        darkBg: 'dark:bg-indigo-900/20',
+        darkHoverBg: 'dark:hover:bg-indigo-800/30',
+        darkText: 'dark:text-indigo-300'
+      },
+      erp: {      
+        bg: 'bg-violet-50',
+        hoverBg: 'hover:bg-violet-100',
+        text: 'text-violet-600',
+        darkBg: 'dark:bg-violet-900/20',
+        darkHoverBg: 'dark:hover:bg-violet-800/30',
+        darkText: 'dark:text-violet-300'
+      },
+      backup: {
+        bg: 'bg-gray-50',
+        hoverBg: 'hover:bg-gray-100',
+        text: 'text-gray-600',
+        darkBg: 'dark:bg-gray-800',
+        darkHoverBg: 'dark:hover:bg-gray-700',
+        darkText: 'dark:text-gray-300'
+      },
+      storage: {
+        bg: 'bg-yellow-50',
+        hoverBg: 'hover:bg-yellow-100', 
+        text: 'text-yellow-600',
+        darkBg: 'dark:bg-yellow-900/20',
+        darkHoverBg: 'dark:hover:bg-yellow-800/30',
+        darkText: 'dark:text-yellow-300'
+      },
+      networking: { 
+        bg: 'bg-emerald-50',
+        hoverBg: 'hover:bg-emerald-100',
+        text: 'text-emerald-600',
+        darkBg: 'dark:bg-emerald-900/20',
+        darkHoverBg: 'dark:hover:bg-emerald-800/30',
+        darkText: 'dark:text-emerald-300' 
+      },
+      localization: {
+        bg: 'bg-red-50',
+        hoverBg: 'hover:bg-red-100',
+        text: 'text-red-600',
+        darkBg: 'dark:bg-red-900/20', 
+        darkHoverBg: 'dark:hover:bg-red-800/30',
+        darkText: 'dark:text-red-300'
+      },
     };
     
     const colorClass = colorMap[category] || {
@@ -164,7 +355,29 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
       api: 'Desarrollo, documentación y testing de APIs',
       security: 'Protección de aplicaciones y datos',
       mobile: 'Desarrollo de aplicaciones para iOS, Android y otros',
-      ai: 'Inteligencia artificial, machine learning y data science'
+      ai: 'Inteligencia artificial, machine learning y data science',
+
+      analytics: 'Analiza el comportamiento de usuarios, métricas de rendimiento y datos de aplicaciones web.',
+      monitoring: 'Supervisa la salud, rendimiento y disponibilidad de tus aplicaciones y servicios.',
+      cms: 'Sistemas de gestión de contenido para crear y administrar sitios web dinámicos.',
+      hosting: 'Plataformas de alojamiento web, servicios en la nube y soluciones de deployment.',
+      cdn: 'Redes de distribución de contenido para acelerar la entrega de tus aplicaciones web.',
+      payment: 'Integra sistemas de pago seguro, procesamiento de transacciones y facturación.',
+      email: 'Servicios de marketing por correo, transaccionales y gestión de campañas de email.',
+      documentation: 'Crea y mantén documentación técnica, wikis y bases de conocimiento.',
+      automation: 'Automatiza tareas repetitivas, flujos de trabajo y procesos de desarrollo.',
+      gaming: 'Engines, frameworks y herramientas para desarrollo de videojuegos y aplicaciones interactivas.',
+      ecommerce: 'Plataformas y herramientas para crear tiendas online y sistemas de comercio electrónico.',
+      marketing: 'Herramientas de marketing digital, SEO, redes sociales y análisis de campañas.',
+      seo: 'Optimiza tu sitio web para motores de búsqueda y mejora su visibilidad online.',
+      social: 'Gestiona presencia en redes sociales, programa contenido y analiza engagement.',
+      performance: 'Optimiza la velocidad, rendimiento y experiencia de usuario de tus aplicaciones.',
+      crm: 'Gestiona relaciones con clientes, ventas, leads y procesos comerciales.',
+      erp: 'Sistemas de planificación empresarial para gestionar recursos y procesos organizacionales.',
+      backup: 'Soluciones de respaldo, recuperación de datos y continuidad del negocio.',
+      storage: 'Servicios de almacenamiento en la nube, gestión de archivos y bases de datos.',
+      networking: 'Herramientas de redes, VPNs, CDNs y gestión de infraestructura de conectividad.',
+      localization: 'Traduce y adapta tus aplicaciones para diferentes idiomas y mercados globales.'  
     };
     
     return descriptionMap[category] || '';

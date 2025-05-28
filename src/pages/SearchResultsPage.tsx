@@ -1,5 +1,4 @@
-// src/pages/SearchResultsPage.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { 
@@ -36,7 +35,6 @@ const SearchResultsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
   const [activeSort, setActiveSort] = useState<SortType>('relevance');
-
   const [searchTerm, setSearchTerm] = useState(query || tag || '');
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [showFilters, setShowFilters] = useState(false);
@@ -45,11 +43,15 @@ const SearchResultsPage: React.FC = () => {
   const analytics = useAnalytics();
   const { isSaved, toggleTool } = useBookmarks();
   
+  // Usar useRef para mantener valores estables
+  const config = useRef({
+    pageName: 'Search Results'
+  });
+
   // Realizar búsqueda cuando cambian los parámetros
   useEffect(() => {
-    setLoading(true);
-    
-    const doSearch = () => {
+    const doSearch = async () => {
+      setLoading(true);
       try {
         // Reiniciar el término de búsqueda
         setSearchTerm(query || tag || '');
@@ -80,6 +82,9 @@ const SearchResultsPage: React.FC = () => {
         }
         
         setResults(searchResults);
+        
+        // Registrar vista en analytics
+        analytics.trackPageView(config.current.pageName);
       } catch (err) {
         console.error('Error al realizar búsqueda:', err);
         setResults([]);
@@ -89,7 +94,8 @@ const SearchResultsPage: React.FC = () => {
     };
     
     doSearch();
-  }, [query, tag, analytics]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, tag]); // Mantener query y tag como dependencias para reflejar cambios
   
   // Aplicar filtros y ordenamiento
   const filteredResults = results.filter(tool => {
@@ -477,7 +483,7 @@ const SearchResultsPage: React.FC = () => {
                               </div>
                             </div>
                             <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-3">
-                              {tool.description}
+                              {highlightSearchTerm(tool.description, searchTerm)}
                             </p>
                             <div className="flex flex-wrap gap-2">
                               {tool.tags.slice(0, 3).map(tag => (
@@ -626,25 +632,24 @@ interface FilterButtonProps {
   onClick: () => void;
 }
 
-// Removed duplicate declaration of FilterButton
 const FilterButton: React.FC<FilterButtonProps> = ({ children, active, onClick }) => {
-    return (
-      <button
-        className={`flex items-center w-full px-3 py-2 rounded-md text-left transition-colors ${
-          active
-            ? 'bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]'
-            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-        }`}
-        onClick={onClick}
-      >
-        {active ? (
-          <CheckSquare size={16} className="mr-2 flex-shrink-0" />
-        ) : (
-          <div className="w-4 h-4 mr-2" />
-        )}
-        <span>{children}</span>
-      </button>
-    );
-  };
-  
-  export default SearchResultsPage;
+  return (
+    <button
+      className={`flex items-center w-full px-3 py-2 rounded-md text-left transition-colors ${
+        active
+          ? 'bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]'
+          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+      }`}
+      onClick={onClick}
+    >
+      {active ? (
+        <CheckSquare size={16} className="mr-2 flex-shrink-0" />
+      ) : (
+        <div className="w-4 h-4 mr-2" />
+      )}
+      <span>{children}</span>
+    </button>
+  );
+};
+
+export default SearchResultsPage;

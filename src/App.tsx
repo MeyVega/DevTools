@@ -1,18 +1,27 @@
 import React, { Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom'; // Cambio aquí: eliminamos BrowserRouter
+import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import HomePage from './pages/HomePage';
 
 // Lazy loading para mejor rendimiento y carga bajo demanda
 const AboutPage = React.lazy(() => import('./pages/AboutPage'));
-const ToolDetailPage = React.lazy(() => import('./pages/ToolDetailPage.tsx'));
-const CategoriesPage = React.lazy(() => import('./pages/CategoriesPage.tsx'));
+const PrivacyPage = React.lazy(() => import('./pages/PrivacyPage'));
+const TermsPage = React.lazy(() => import('./pages/TermsPage'));
+const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const FAQsPage = React.lazy(() => import('./pages/FAQsPage'));
+const SuggestPage = React.lazy(() => import('./pages/SuggestPage'));
+const ToolDetailPage = React.lazy(() => import('./pages/ToolDetailPage'));
+const CategoriesPage = React.lazy(() => import('./pages/CategoriesPage'));
 const CategoryPage = React.lazy(() => import('./pages/CategoryPage.tsx'));
 const PopularToolsPage = React.lazy(() => import('./pages/PopularToolsPage.tsx'));
 const NewestToolsPage = React.lazy(() => import('./pages/NewestToolsPage.tsx'));
 const SavedToolsPage = React.lazy(() => import('./pages/SavedToolsPage.tsx'));
 const SearchResultsPage = React.lazy(() => import('./pages/SearchResultsPage.tsx'));
+const FreeToolsPage = React.lazy(() => import('./pages/FreeToolsPage.tsx'));
+
+const BlogPage = React.lazy(() => import('./pages/blog/BlogPage.tsx'));
+const BlogPostPage = React.lazy(() => import('./pages/blog/BlogPostPage.tsx'));
 
 // Componente de carga para módulos lazy loading
 const LoadingFallback: React.FC = () => (
@@ -40,35 +49,35 @@ const NotFoundPage: React.FC = () => (
   </div>
 );
 
-function App() {
+const App: React.FC = () => {
   return (
     <ThemeProvider>
       <BookmarksProvider>
-        {/* Se eliminó el Router de aquí */}
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
-            {/* Rutas principales */}
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
-            
-            {/* Rutas de herramientas */}
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/faqs" element={<FAQsPage />} />
+            <Route path="/suggest" element={<SuggestPage />} />
             <Route path="/tool/:id" element={<ToolDetailPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/popular" element={<PopularToolsPage />} />
             <Route path="/newest" element={<NewestToolsPage />} />
             <Route path="/saved" element={<SavedToolsPage />} />
-            
-            {/* Búsqueda */}
             <Route path="/search" element={<SearchResultsPage />} />
-            
-            {/* Ruta 404 para cualquier otra URL */}
+            <Route path="/free" element={<FreeToolsPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </BookmarksProvider>
     </ThemeProvider>
   );
-}
+};
 
 export default App;

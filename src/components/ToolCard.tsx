@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ExternalLink, Tag, Star, BookmarkPlus, Share2, Calendar } from 'lucide-react';
 import type { Tool } from '../data/tools';
 import { getCategoryLabel, getCategoryColorClass } from '../data/tools';
+import { useBookmarks } from '../contexts/BookmarksContext';
+import useAnalytics from '../hooks/useAnalytics';
+import { useShare } from '../hooks/useShare';
+import { formatLastUpdated } from '../utils/dateUtils';
 
 interface ToolCardProps {
   tool: Tool;
@@ -11,134 +15,128 @@ interface ToolCardProps {
 }
 
 const ToolCard: React.FC<ToolCardProps> = ({ tool, onSave, onShare }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  
-  // Formatea la fecha para mostrar "hace X días/semanas/meses"
-  const formatLastUpdated = (dateString: string) => {
-    const updateDate = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - updateDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const { isSaved, toggleTool } = useBookmarks();
+  const analytics = useAnalytics();
+  const { share, tooltip } = useShare();
+
+  const handleToggleSave = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     
-    if (diffDays < 7) {
-      return `Actualizado hace ${diffDays} ${diffDays === 1 ? 'día' : 'días'}`;
-    } else if (diffDays < 30) {
-      const weeks = Math.floor(diffDays / 7);
-      return `Actualizado hace ${weeks} ${weeks === 1 ? 'semana' : 'semanas'}`;
+    const isNowSaved = toggleTool(tool.id);
+    
+    if (onSave) {
+      onSave(tool.id);
+    }
+    
+    // Registrar evento en analytics
+    if (isNowSaved) {
+      analytics.trackToolSave(tool.id, tool.name, {
+        source: 'tool_card',
+        category: tool.category,
+        is_free: tool.isFree
+      });
     } else {
-      const months = Math.floor(diffDays / 30);
-      return `Actualizado hace ${months} ${months === 1 ? 'mes' : 'meses'}`;
+      analytics.trackToolUnsave(tool.id, tool.name, {
+        source: 'tool_card',
+        category: tool.category
+      });
+    }
+  };
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    await share({
+      title: tool.name,
+      text: tool.description,
+      source: 'tool_card'
+    });
+
+    if (onShare) {
+      onShare(tool);
     }
   };
 
   return (
-    <div 
-      className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Badge for new or featured tools */}
-      {(tool.isNew || tool.isFeatured) && (
-        <div className={`absolute top-3 right-3 z-10 px-2 py-1 rounded-full text-xs font-medium
-          ${tool.isNew ? 'bg-green-500 text-white' : 'bg-amber-400 text-amber-800'}`}>
-          {tool.isNew ? 'Nuevo' : 'Destacado'}
-        </div>
-      )}
-      
-      {tool.image ? (
-        <div className="h-48 overflow-hidden relative">
-          <Link to={`/tool/${tool.id}`}>
-            <img 
-              src={tool.image} 
-              alt={tool.name} 
-              className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-105' : ''}`}
-            />
-            <div className={`absolute inset-0 bg-gradient-to-t from-black/50 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-80' : 'opacity-50'}`}></div>
-          </Link>
-        </div>
-      ) : (
-        <div className="h-20 bg-gradient-to-r from-[#9CD1D4] to-[#67A2A8] flex items-center justify-center">
-          <h3 className="text-xl font-bold text-white">{tool.name}</h3>
-        </div>
-      )}
-      
-      <div className="p-5 flex flex-col flex-grow">
-        <div className="mb-2 flex justify-between items-start">
-          <div>
-            <Link to={`/tool/${tool.id}`} className="hover:underline">
-              <h3 className="text-xl font-bold text-gray-800 group-hover:text-[#67A2A8] transition-colors">
-                {tool.name}
-              </h3>
-            </Link>
-            <div className="flex items-center mt-1">
-              <span className="flex items-center text-amber-500 mr-2">
-                <Star size={14} className="fill-amber-500 mr-1" />
-                <span className="text-xs font-medium">{tool.stars || 0}</span>
-              </span>
-              <span className="text-xs text-gray-500 flex items-center">
-                <Calendar size={12} className="mr-1" />
-                {formatLastUpdated(tool.lastUpdated)}
-              </span>
-            </div>
-          </div>
-          <span 
-            className={`text-xs px-2 py-1 rounded-full ${getCategoryColorClass(tool.category)}`}
-          >
-            {getCategoryLabel(tool.category)}
-          </span>
-        </div>
+    <div className="group relative bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-all hover:-translate-y-1">
+      {/* Botones de acción */}
+      <div className="absolute top-3 right-3 flex items-center space-x-2">
+        <button
+          onClick={handleToggleSave}
+          className="p-1.5 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-500 hover:text-[#67A2A8] dark:text-gray-400 dark:hover:text-[#9CD1D4] transition-colors"
+          aria-label={isSaved(tool.id) ? "Quitar de guardados" : "Guardar herramienta"}
+        >
+          <BookmarkPlus size={18} className={isSaved(tool.id) ? "fill-[#67A2A8] dark:fill-[#9CD1D4] text-[#67A2A8] dark:text-[#9CD1D4]" : ""} />
+        </button>
         
-        <p className="text-gray-600 mb-4 flex-grow line-clamp-3">{tool.description}</p>
-        
-        <div className="flex flex-wrap gap-2 mb-4">
-          {tool.tags.slice(0, 3).map(tag => (
-            <Link 
-              key={tag} 
-              to={`/tags/${tag}`}
-              className="bg-[#E3F5F5] text-[#67A2A8] text-xs px-2 py-1 rounded-full flex items-center transition-colors hover:bg-[#67A2A8] hover:text-white"
-            >
-              <Tag size={12} className="mr-1" />
-              {tag}
-            </Link>
-          ))}
-          {tool.tags.length > 3 && (
-            <span className="text-xs text-gray-500 flex items-center">
-              +{tool.tags.length - 3} más
+        <button
+          onClick={handleShare}
+          className="p-1.5 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-500 hover:text-[#67A2A8] dark:text-gray-400 dark:hover:text-[#9CD1D4] transition-colors relative"
+          aria-label="Compartir herramienta"
+        >
+          <Share2 size={18} />
+          {tooltip.show && (
+            <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-black text-white text-xs rounded whitespace-nowrap z-50">
+              {tooltip.message}
             </span>
           )}
-        </div>
-        
-        <div className="flex justify-between items-center mt-auto pt-3 border-t border-gray-100">
-          <span className={`text-sm ${tool.isFree ? 'text-green-600' : (tool.hasFreeTier ? 'text-amber-600' : 'text-rose-600')}`}>
-            {tool.isFree ? 'Gratis' : (tool.hasFreeTier ? 'Tier gratuito' : 'De pago')}
-          </span>
+        </button>
+      </div>
+
+      {/* Categoría */}
+      <Link
+        to={`/category/${tool.category}`}
+        className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium ${getCategoryColorClass(tool.category)}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Tag size={12} className="mr-1" />
+        {getCategoryLabel(tool.category)}
+      </Link>
+
+      {/* Título y descripción */}
+      <h3 className="mt-3 text-lg font-semibold text-gray-900 dark:text-white">
+        {tool.name}
+      </h3>
+      <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+        {tool.description}
+      </p>
+
+      {/* Meta información */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
+          {tool.stars && (
+            <div className="flex items-center">
+              <Star size={14} className="text-amber-500 fill-amber-500 mr-1" />
+              <span>{tool.stars}</span>
+            </div>
+          )}
           
-          <div className="flex gap-2">
-            {/* Quick action buttons */}
-            <button 
-              onClick={() => onSave?.(tool.id)} 
-              className="p-1.5 rounded-full text-gray-500 hover:text-[#67A2A8] hover:bg-[#E3F5F5] transition-colors"
-              title="Guardar"
-            >
-              <BookmarkPlus size={16} />
-            </button>
-            <button 
-              onClick={() => onShare?.(tool)} 
-              className="p-1.5 rounded-full text-gray-500 hover:text-[#67A2A8] hover:bg-[#E3F5F5] transition-colors"
-              title="Compartir"
-            >
-              <Share2 size={16} />
-            </button>
-            <a 
-              href={tool.url} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center px-3 py-1.5 bg-[#67A2A8] text-white rounded-md hover:bg-[#9CD1D4] transition-colors text-sm font-medium"
-            >
-              Visitar <ExternalLink size={14} className="ml-1" />
-            </a>
+          <div className="flex items-center">
+            <Calendar size={14} className="mr-1" />
+            <span>{formatLastUpdated(tool.lastUpdated)}</span>
           </div>
         </div>
+
+        <a
+          href={tool.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#67A2A8] dark:text-[#9CD1D4] hover:text-[#9CD1D4] dark:hover:text-[#E3F5F5] transition-colors"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.open(tool.url, '_blank');
+            analytics.trackExternalLink(tool.url, 'Website', {
+              tool_id: tool.id,
+              tool_name: tool.name,
+              source: 'tool_card'
+            });
+          }}
+        >
+          <ExternalLink size={16} />
+        </a>
       </div>
     </div>
   );

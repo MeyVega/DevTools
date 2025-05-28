@@ -17,7 +17,11 @@ export enum EventType {
   EXTERNAL_LINK = 'external_link',
   TOOL_UNSAVE = 'tool_unsave',
   CLEAR_SAVED_TOOLS = 'clear_saved_tools',
-  CATEGORY_CLICK = 'category_click'
+  CATEGORY_CLICK = 'category_click',
+  POST_VIEW = 'post_view',
+  SHARE = 'share',
+  TOOL_CLICK = 'tool_click',
+  TAG_CLICK = 'tag_click',
 }
 
 /**
@@ -43,7 +47,7 @@ export interface AnalyticsConfig {
 let config: AnalyticsConfig = {
   enabled: process.env.NODE_ENV === 'production',
   debugMode: process.env.NODE_ENV !== 'production',
-  excludedEvents: []
+  excludedEvents: [],
 };
 
 /**
@@ -100,7 +104,7 @@ export const trackEvent = (eventType: EventType, params: EventParams = {}) => {
   const eventName = eventType.toLowerCase();
   const eventParams = {
     event_category: getEventCategory(eventType),
-    ...params
+    ...params,
   };
 
   if (window.gtag && config.googleAnalyticsId) {
@@ -134,7 +138,11 @@ const getEventCategory = (eventType: EventType): string => {
     [EventType.EXTERNAL_LINK]: 'outbound',
     [EventType.TOOL_UNSAVE]: 'engagement',
     [EventType.CLEAR_SAVED_TOOLS]: 'engagement',
-    [EventType.CATEGORY_CLICK]: 'engagement'
+    [EventType.CATEGORY_CLICK]: 'engagement',
+    [EventType.POST_VIEW]: 'content',
+    [EventType.SHARE]: 'social',
+    [EventType.TOOL_CLICK]: 'engagement',
+    [EventType.TAG_CLICK]: 'engagement',
   };
 
   return categories[eventType] || 'general';
@@ -149,7 +157,7 @@ export const trackPageView = (pageName: string, params: EventParams = {}) => {
   trackEvent(EventType.PAGE_VIEW, {
     page_title: pageName,
     page_path: window.location.pathname,
-    ...params
+    ...params,
   });
 };
 
@@ -161,7 +169,7 @@ export const trackPageView = (pageName: string, params: EventParams = {}) => {
 export const trackButtonClick = (buttonName: string, params: EventParams = {}) => {
   trackEvent(EventType.BUTTON_CLICK, {
     button_name: buttonName,
-    ...params
+    ...params,
   });
 };
 
@@ -171,11 +179,15 @@ export const trackButtonClick = (buttonName: string, params: EventParams = {}) =
  * @param resultCount Número de resultados (opcional)
  * @param params Parámetros adicionales
  */
-export const trackSearch = (searchTerm: string, resultCount?: number, params: EventParams = {}) => {
+export const trackSearch = (
+  searchTerm: string,
+  resultCount?: number,
+  params: EventParams = {}
+) => {
   trackEvent(EventType.SEARCH, {
     search_term: searchTerm,
     result_count: resultCount,
-    ...params
+    ...params,
   });
 };
 
@@ -185,11 +197,81 @@ export const trackSearch = (searchTerm: string, resultCount?: number, params: Ev
  * @param toolName Nombre de la herramienta
  * @param params Parámetros adicionales
  */
-export const trackToolView = (toolId: string, toolName: string, params: EventParams = {}) => {
+export const trackToolView = (
+  toolId: string,
+  toolName: string,
+  params: EventParams = {}
+) => {
   trackEvent(EventType.TOOL_VIEW, {
     tool_id: toolId,
     tool_name: toolName,
-    ...params
+    ...params,
+  });
+};
+
+/**
+ * Rastrea la vista de un post
+ * @param postId ID del post
+ * @param postTitle Título del post
+ * @param params Parámetros adicionales
+ */
+export const trackPostView = (
+  postId: string,
+  postTitle: string,
+  params: EventParams = {}
+) => {
+  trackEvent(EventType.POST_VIEW, {
+    post_id: postId,
+    post_title: postTitle,
+    ...params,
+  });
+};
+
+/**
+ * Rastrea cuando se comparte un recurso
+ * @param resourceId ID del recurso (por ejemplo, post_id o tool_id)
+ * @param resourceTitle Título del recurso
+ * @param params Parámetros adicionales
+ */
+export const trackShare = (
+  resourceId: string,
+  resourceTitle: string,
+  params: EventParams = {}
+) => {
+  trackEvent(EventType.SHARE, {
+    resource_id: resourceId,
+    resource_title: resourceTitle,
+    ...params,
+  });
+};
+
+/**
+ * Rastrea un clic en una herramienta
+ * @param toolId ID de la herramienta
+ * @param toolName Nombre de la herramienta
+ * @param params Parámetros adicionales
+ */
+export const trackToolClick = (
+  toolId: string,
+  toolName: string,
+  params: EventParams = {}
+) => {
+  trackEvent(EventType.TOOL_CLICK, {
+    tool_id: toolId,
+    tool_name: toolName,
+    ...params,
+  });
+};
+
+/**
+ * Rastrea un clic en una etiqueta
+ * @param tag Nombre de la etiqueta
+ * @param params Parámetros adicionales
+ */
+export const trackTagClick = (tag: string, params: EventParams = {}) => {
+  trackEvent(EventType.TAG_CLICK, {
+    tag,
+    ...params,
   });
 };
 
@@ -199,11 +281,15 @@ export const trackToolView = (toolId: string, toolName: string, params: EventPar
  * @param toolName Nombre de la herramienta
  * @param params Parámetros adicionales
  */
-export const trackToolSave = (toolId: string, toolName: string, params: EventParams = {}) => {
+export const trackToolSave = (
+  toolId: string,
+  toolName: string,
+  params: EventParams = {}
+) => {
   trackEvent(EventType.TOOL_SAVE, {
     tool_id: toolId,
     tool_name: toolName,
-    ...params
+    ...params,
   });
 };
 
@@ -213,11 +299,15 @@ export const trackToolSave = (toolId: string, toolName: string, params: EventPar
  * @param toolName Nombre de la herramienta
  * @param params Parámetros adicionales
  */
-export const trackToolUnsave = (toolId: string, toolName: string, params: EventParams = {}) => {
+export const trackToolUnsave = (
+  toolId: string,
+  toolName: string,
+  params: EventParams = {}
+) => {
   trackEvent(EventType.TOOL_UNSAVE, {
     tool_id: toolId,
     tool_name: toolName,
-    ...params
+    ...params,
   });
 };
 
@@ -229,7 +319,7 @@ export const trackToolUnsave = (toolId: string, toolName: string, params: EventP
 export const trackClearSavedTools = (count: number, params: EventParams = {}) => {
   trackEvent(EventType.CLEAR_SAVED_TOOLS, {
     count,
-    ...params
+    ...params,
   });
 };
 
@@ -250,7 +340,7 @@ export const trackToolShare = (
     tool_id: toolId,
     tool_name: toolName,
     share_method: method,
-    ...params
+    ...params,
   });
 };
 
@@ -262,7 +352,7 @@ export const trackToolShare = (
 export const trackNewsletterSubscribe = (source: string, params: EventParams = {}) => {
   trackEvent(EventType.NEWSLETTER_SUBSCRIBE, {
     source: source,
-    ...params
+    ...params,
   });
 };
 
@@ -274,7 +364,7 @@ export const trackNewsletterSubscribe = (source: string, params: EventParams = {
 export const trackThemeChange = (newTheme: 'light' | 'dark', params: EventParams = {}) => {
   trackEvent(EventType.THEME_CHANGE, {
     theme: newTheme,
-    ...params
+    ...params,
   });
 };
 
@@ -288,7 +378,7 @@ export const trackExternalLink = (url: string, linkText: string, params: EventPa
   trackEvent(EventType.EXTERNAL_LINK, {
     url: url,
     link_text: linkText,
-    ...params
+    ...params,
   });
 };
 
@@ -298,9 +388,31 @@ export const trackExternalLink = (url: string, linkText: string, params: EventPa
  */
 export const trackFilter = (params: EventParams = {}) => {
   trackEvent(EventType.FILTER, {
-    ...params
+    ...params,
   });
 };
+
+// Definir la interfaz para el objeto de analytics
+export interface Analytics {
+  initAnalytics: (newConfig: Partial<AnalyticsConfig>) => void;
+  trackEvent: (eventType: EventType, params?: EventParams) => void;
+  trackPageView: (pageName: string, params?: EventParams) => void;
+  trackButtonClick: (buttonName: string, params?: EventParams) => void;
+  trackSearch: (searchTerm: string, resultCount?: number, params?: EventParams) => void;
+  trackToolView: (toolId: string, toolName: string, params?: EventParams) => void;
+  trackPostView: (postId: string, postTitle: string, params?: EventParams) => void;
+  trackShare: (resourceId: string, resourceTitle: string, params?: EventParams) => void;
+  trackToolClick: (toolId: string, toolName: string, params?: EventParams) => void;
+  trackTagClick: (tag: string, params?: EventParams) => void;
+  trackToolSave: (toolId: string, toolName: string, params?: EventParams) => void;
+  trackToolUnsave: (toolId: string, toolName: string, params?: EventParams) => void;
+  trackClearSavedTools: (count: number, params?: EventParams) => void;
+  trackToolShare: (toolId: string, toolName: string, method: string, params?: EventParams) => void;
+  trackNewsletterSubscribe: (source: string, params?: EventParams) => void;
+  trackThemeChange: (newTheme: 'light' | 'dark', params?: EventParams) => void;
+  trackExternalLink: (url: string, linkText: string, params?: EventParams) => void;
+  trackFilter: (params?: EventParams) => void;
+}
 
 // Añadir tipos a window para Google Analytics
 declare global {
@@ -317,6 +429,10 @@ export default {
   trackButtonClick,
   trackSearch,
   trackToolView,
+  trackPostView,
+  trackShare,
+  trackToolClick,
+  trackTagClick,
   trackToolSave,
   trackToolUnsave,
   trackClearSavedTools,
@@ -324,5 +440,5 @@ export default {
   trackNewsletterSubscribe,
   trackThemeChange,
   trackExternalLink,
-  trackFilter
+  trackFilter,
 };

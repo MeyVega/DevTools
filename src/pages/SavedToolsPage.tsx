@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import {
@@ -37,26 +37,37 @@ const SavedToolsPage: React.FC = () => {
   const analytics = useAnalytics();
   const { savedTools, removeTool, clearAll } = useBookmarks();
 
+  // Usar useRef para mantener valores estables
+  const config = useRef({
+    pageName: 'Saved Tools'
+  });
+
   // Cargar herramientas guardadas
   useEffect(() => {
-    setLoading(true);
+    const loadTools = async () => {
+      setLoading(true);
+      try {
+        // Obtener las herramientas completas a partir de los IDs guardados
+        const savedToolsData: Tool[] = savedTools
+          .map(savedToolId => getToolById(savedToolId.id))
+          .filter((tool): tool is Tool => tool !== undefined);
 
-    try {
-      // Obtener las herramientas completas a partir de los IDs guardados
-      const savedToolsData: Tool[] = savedTools
-        .map(savedToolId => getToolById(savedToolId.id))
-        .filter((tool): tool is Tool => tool !== undefined);
+        setTools(savedToolsData);
 
-      setTools(savedToolsData);
+        // Registrar vista en analytics solo en la primera carga
+        if (savedTools.length > 0 || tools.length === 0) {
+          analytics.trackPageView(config.current.pageName);
+        }
+      } catch (err) {
+        console.error('Error cargando herramientas guardadas:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      // Registrar vista en analytics
-      analytics.trackPageView('Saved Tools');
-    } catch (err) {
-      console.error('Error cargando herramientas guardadas:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, [savedTools, analytics]);
+    loadTools();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savedTools]); // Mantener savedTools como dependencia para reflejar cambios
 
   // Aplicar filtros y búsqueda
   const filteredTools = tools.filter(tool => {
@@ -173,24 +184,25 @@ const SavedToolsPage: React.FC = () => {
       </div>
 
       {/* Header */}
-      <section className="mb-8">
+      <section className="mb-8 px-4">
         <div className="bg-gradient-to-r from-indigo-500 to-purple-400 dark:from-indigo-600/80 dark:to-purple-500/80 rounded-xl overflow-hidden shadow-lg">
           <div className="py-12 px-6 sm:px-12 md:py-16 max-w-4xl mx-auto">
-            <div className="flex items-center mb-4">
-              <Bookmark size={28} className="text-white mr-3" />
+            <div className="flex items-center gap-3 mb-6 animate-fade-in">
+              <Bookmark size={28} className="text-white" />
               <h1 className="text-3xl md:text-4xl font-bold text-white">
                 Mis Herramientas Guardadas
               </h1>
             </div>
-            <p className="text-xl text-white opacity-90 mb-6 max-w-2xl">
+            <p className="text-xl text-white opacity-90 mb-6 max-w-2xl animate-fade-in delay-100">
               Accede rápidamente a las herramientas que has guardado para uso futuro
             </p>
-            <div className="text-white text-sm">
+            <div className="text-white text-sm animate-fade-in delay-200">
               {filteredTools.length} {filteredTools.length === 1 ? 'herramienta guardada' : 'herramientas guardadas'}
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Sin herramientas guardadas */}
       {tools.length === 0 ? (
@@ -310,22 +322,20 @@ const SavedToolsPage: React.FC = () => {
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleViewChange('grid')}
-                    className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${
-                      viewType === 'grid'
+                    className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${viewType === 'grid'
                         ? 'bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600'
-                    }`}
+                      }`}
                   >
                     <Grid size={18} className="mr-2" />
                     Cuadrícula
                   </button>
                   <button
                     onClick={() => handleViewChange('list')}
-                    className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${
-                      viewType === 'list'
+                    className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${viewType === 'list'
                         ? 'bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600'
-                    }`}
+                      }`}
                   >
                     <List size={18} className="mr-2" />
                     Lista
@@ -526,13 +536,12 @@ const SavedToolsPage: React.FC = () => {
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-1">
                               <h3 className="font-medium text-gray-900 dark:text-white text-lg">{tool.name}</h3>
                               <div className="flex items-center mt-1 sm:mt-0">
-                                <span className={`text-xs px-2 py-1 rounded-full ${
-                                  tool.isFree
+                                <span className={`text-xs px-2 py-1 rounded-full ${tool.isFree
                                     ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
                                     : tool.hasFreeTier
                                       ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300'
                                       : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
-                                }`}>
+                                  }`}>
                                   {tool.isFree ? 'Gratis' : (tool.hasFreeTier ? 'Freemium' : 'De pago')}
                                 </span>
                               </div>
@@ -583,11 +592,10 @@ interface FilterButtonProps {
 const FilterButton: React.FC<FilterButtonProps> = ({ children, active, onClick }) => {
   return (
     <button
-      className={`flex items-center w-full px-3 py-2 rounded-md text-left transition-colors ${
-        active
+      className={`flex items-center w-full px-3 py-2 rounded-md text-left transition-colors ${active
           ? 'bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]'
           : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-      }`}
+        }`}
       onClick={onClick}
     >
       {active ? (

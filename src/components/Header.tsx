@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Search, Moon, Sun, ChevronDown, Bell, Bookmark } from 'lucide-react';
+import { X, Search, Moon, Sun, ChevronDown, Bell, Bookmark } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 import SearchBar from './SearchBar';
+import NavLink from './NavLink';
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
@@ -11,58 +13,36 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [showSubmenu, setShowSubmenu] = useState<string | null>(null);
-  
+  const { theme, toggleTheme } = useTheme();
+
   // Cambiar la apariencia del header al hacer scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
-  // Manejar el modo oscuro
-  useEffect(() => {
-    const darkModePreference = localStorage.getItem('darkMode');
-    if (darkModePreference === 'true') {
-      setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
-    }
-  }, []);
-  
-  // Cambiar modo claro/oscuro
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    
-    if (!isDarkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('darkMode', 'false');
-    }
-  };
-  
+
   // Manejar la búsqueda
   const handleSearch = (query: string) => {
     if (onSearch) {
       onSearch(query);
     }
-    
+
     // Cerrar la barra de búsqueda en móvil cuando se realiza la búsqueda
     if (window.innerWidth < 768) {
       setIsSearchOpen(false);
     }
   };
-  
+
   // Cerrar menú al hacer clic en un enlace (para móvil)
   const handleLinkClick = () => {
     setIsMenuOpen(false);
   };
-  
+
   // Toggle submenu
   const toggleSubmenu = (menu: string) => {
     if (showSubmenu === menu) {
@@ -73,354 +53,324 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
   };
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white shadow-md py-2' 
-          : 'bg-transparent py-4'
-      }`}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+          ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-xl border-b border-gray-200/50 dark:border-gray-700/50'
+          : 'bg-gradient-to-b from-white/80 to-transparent dark:from-gray-900/80 backdrop-blur-sm'
+        }`}
     >
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <div className="bg-[#67A2A8] text-white w-10 h-10 rounded-lg flex items-center justify-center mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-              <path d="M12 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5" />
-              <polyline points="2 8.5 7 3 12 8.5" />
-              <polyline points="2 15.5 7 21 12 15.5" />
-              <line x1="7" y1="3" x2="7" y2="21" />
-            </svg>
-          </div>
-          <span className={`font-bold text-xl ${isScrolled ? 'text-gray-800' : 'text-[#67A2A8]'}`}>
-            DevTools Catalog
-          </span>
-        </Link>
-        
-        {/* Navegación Desktop */}
-        <nav className="hidden md:flex items-center space-x-1">
-          <NavLink to="/" label="Inicio" isScrolled={isScrolled} onClick={handleLinkClick} />
-          
-          <div className="relative">
-            <button 
-              className={`px-3 py-2 rounded-md flex items-center ${
-                isScrolled 
-                  ? 'text-gray-700 hover:bg-gray-100' 
-                  : 'text-gray-800 hover:bg-white hover:bg-opacity-20'
-              }`}
-              onClick={() => toggleSubmenu('categories')}
-            >
-              Categorías
-              <ChevronDown 
-                size={16} 
-                className={`ml-1 transition-transform ${showSubmenu === 'categories' ? 'rotate-180' : ''}`} 
-              />
-            </button>
-            
-            {/* Dropdown para categorías */}
-            {showSubmenu === 'categories' && (
-              <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-md shadow-lg py-2 z-50">
-                <Link 
-                  to="/category/frontend" 
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#E3F5F5] hover:text-[#67A2A8]"
-                  onClick={handleLinkClick}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 lg:h-20">
+          <Link to="/" className="flex items-center group">
+            <div className="relative">
+              {/* Logo principal con gradiente y efectos */}
+              <div className={`relative bg-gradient-to-br from-[#67A2A8] to-[#4D8B91] text-white w-12 h-12 lg:w-14 lg:h-14 rounded-2xl flex items-center justify-center mr-3 shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105 ${isScrolled ? 'shadow-lg' : 'shadow-xl'
+                }`}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-6 h-6 lg:w-7 lg:h-7 group-hover:scale-110 transition-transform duration-300"
                 >
-                  Frontend
-                </Link>
-                <Link 
-                  to="/category/backend" 
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#E3F5F5] hover:text-[#67A2A8]"
-                  onClick={handleLinkClick}
-                >
-                  Backend
-                </Link>
-                <Link 
-                  to="/category/devops" 
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#E3F5F5] hover:text-[#67A2A8]"
-                  onClick={handleLinkClick}
-                >
-                  DevOps
-                </Link>
-                <Link 
-                  to="/category/design" 
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#E3F5F5] hover:text-[#67A2A8]"
-                  onClick={handleLinkClick}
-                >
-                  Design
-                </Link>
-                <Link 
-                  to="/categories" 
-                  className="block px-4 py-2 text-sm font-medium text-[#67A2A8] border-t border-gray-100 mt-1 pt-1"
-                  onClick={handleLinkClick}
-                >
-                  Ver todas las categorías
-                </Link>
+                  <path d="M4 17l6-6-6-6" />
+                  <path d="M12 19h8" />
+                </svg>
+                {/* Efecto de brillo */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-            )}
-          </div>
-          
-          <NavLink to="/popular" label="Populares" isScrolled={isScrolled} onClick={handleLinkClick} />
-          <NavLink to="/newest" label="Novedades" isScrolled={isScrolled} onClick={handleLinkClick} />
-          <NavLink to="/blog" label="Blog" isScrolled={isScrolled} onClick={handleLinkClick} />
-          <NavLink to="/about" label="Acerca de" isScrolled={isScrolled} onClick={handleLinkClick} />
-        </nav>
-        
-        {/* Botones de acción Desktop */}
-        <div className="hidden md:flex items-center space-x-2">
-          {/* Búsqueda en desktop */}
-          {isSearchOpen ? (
-            <div className="relative w-64">
-              <SearchBar 
-                onSearch={handleSearch} 
-                className="w-full"
-                autoFocus={true}
-              />
-              <button 
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                onClick={() => setIsSearchOpen(false)}
-              >
-                <X size={16} />
-              </button>
             </div>
-          ) : (
-            <button 
-              className={`p-2 rounded-full ${
-                isScrolled 
-                  ? 'text-gray-700 hover:bg-gray-100' 
-                  : 'text-gray-800 hover:bg-white hover:bg-opacity-20'
-              }`}
-              onClick={() => setIsSearchOpen(true)}
-              aria-label="Search"
-            >
-              <Search size={20} />
-            </button>
-          )}
-          
-          {/* Alternar modo oscuro */}
-          <button 
-            className={`p-2 rounded-full ${
-              isScrolled 
-                ? 'text-gray-700 hover:bg-gray-100' 
-                : 'text-gray-800 hover:bg-white hover:bg-opacity-20'
-            }`}
-            onClick={toggleDarkMode}
-            aria-label={isDarkMode ? 'Enable light mode' : 'Enable dark mode'}
-          >
-            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          
-          {/* Botones de usuario */}
-          <button 
-            className={`p-2 rounded-full ${
-              isScrolled 
-                ? 'text-gray-700 hover:bg-gray-100' 
-                : 'text-gray-800 hover:bg-white hover:bg-opacity-20'
-            }`}
-            aria-label="Notifications"
-          >
-            <Bell size={20} />
-          </button>
-          
-          <Link
-            to="/saved"
-            className={`p-2 rounded-full ${
-              isScrolled 
-                ? 'text-gray-700 hover:bg-gray-100' 
-                : 'text-gray-800 hover:bg-white hover:bg-opacity-20'
-            }`}
-            aria-label="Saved tools"
-          >
-            <Bookmark size={20} />
+
+            <div className="flex flex-col">
+              <span className={`font-bold text-xl lg:text-2xl transition-all duration-300 ${isScrolled
+                  ? 'text-gray-800 dark:text-white'
+                  : 'bg-gradient-to-r from-[#67A2A8] to-[#4D8B91] bg-clip-text text-transparent dark:from-[#9CD1D4] dark:to-[#67A2A8]'
+                } group-hover:scale-105`}>
+                DevTools
+              </span>
+            </div>
           </Link>
-          
-          <Link
-            to="/login" 
-            className="ml-2 px-4 py-2 bg-[#67A2A8] text-white rounded-md hover:bg-[#9CD1D4] transition-colors"
-          >
-            Acceder
-          </Link>
-        </div>
-        
-        {/* Controles Mobile */}
-        <div className="flex items-center md:hidden">
-          {/* Búsqueda en mobile */}
-          <button 
-            className={`p-2 mr-2 rounded-full ${
-              isScrolled 
-                ? 'text-gray-700 hover:bg-gray-100' 
-                : 'text-gray-800 hover:bg-white hover:bg-opacity-20'
-            }`}
-            onClick={() => setIsSearchOpen(!isSearchOpen)}
-            aria-label="Search"
-          >
-            <Search size={20} />
-          </button>
-          
-          {/* Botón de menú mobile */}
-          <button 
-            className={`p-2 rounded-full ${
-              isScrolled 
-                ? 'text-gray-700 hover:bg-gray-100' 
-                : 'text-gray-800 hover:bg-white hover:bg-opacity-20'
-            }`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-      
-      {/* Barra de búsqueda mobile */}
-      {isSearchOpen && (
-        <div className="container mx-auto px-4 py-2 md:hidden">
-          <SearchBar onSearch={handleSearch} />
-        </div>
-      )}
-      
-      {/* Menú mobile */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 shadow-md">
-          <nav className="container mx-auto px-4 py-4">
-            <Link
-              to="/" 
-              className="block py-2 px-4 text-gray-800 hover:bg-[#E3F5F5] rounded-md"
-              onClick={handleLinkClick}
-            >
-              Inicio
-            </Link>
-            <div className="py-2 px-4">
-              <button 
-                className="flex items-center justify-between w-full text-gray-800"
-                onClick={() => toggleSubmenu('mobile-categories')}
+
+          {/* Navegación Desktop mejorada */}
+          <nav className="hidden lg:flex items-center space-x-1">
+            <NavLink to="/" label="Inicio" isScrolled={isScrolled} onClick={handleLinkClick} />
+
+            <div className="relative group">
+              <button
+                className={`px-4 py-2 rounded-xl flex items-center transition-all duration-200 group ${isScrolled
+                    ? 'text-gray-700 dark:text-gray-300 hover:bg-[#67A2A8]/10 hover:text-[#67A2A8] dark:hover:bg-[#9CD1D4]/10 dark:hover:text-[#9CD1D4]'
+                    : 'text-gray-800 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-gray-800/20 backdrop-blur-sm'
+                  }`}
+                onClick={() => toggleSubmenu('categories')}
               >
-                <span>Categorías</span>
-                <ChevronDown 
-                  size={16} 
-                  className={`transition-transform ${showSubmenu === 'mobile-categories' ? 'rotate-180' : ''}`} 
+                Categorías
+                <ChevronDown
+                  size={16}
+                  className={`ml-2 transition-all duration-200 ${showSubmenu === 'categories' ? 'rotate-180' : ''} group-hover:scale-110`}
                 />
               </button>
-              
-              {showSubmenu === 'mobile-categories' && (
-                <div className="mt-2 ml-4 space-y-1">
+
+              {showSubmenu === 'categories' && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-2xl shadow-2xl py-3 z-50 border border-gray-200/50 dark:border-gray-700/50 animate-in slide-in-from-top-2 duration-200">
+                  {[
+                    { to: '/category/frontend', label: 'Frontend', icon: '🎨' },
+                    { to: '/category/backend', label: 'Backend', icon: '⚙️' },
+                    { to: '/category/devops', label: 'DevOps', icon: '🚀' },
+                    { to: '/category/design', label: 'Design', icon: '✨' }
+                  ].map(({ to, label, icon }) => (
+                    <Link
+                      key={to}
+                      to={to}
+                      className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-all duration-200 group"
+                      onClick={handleLinkClick}
+                    >
+                      <span className="text-lg mr-3 group-hover:scale-110 transition-transform">{icon}</span>
+                      <span className="font-medium">{label}</span>
+                    </Link>
+                  ))}
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent mx-4 my-2"></div>
                   <Link
-                    to="/category/frontend" 
-                    className="block py-2 px-3 text-gray-700 hover:bg-[#E3F5F5] rounded-md text-sm"
+                    to="/categories"
+                    className="flex items-center px-4 py-3 text-sm font-semibold text-[#67A2A8] dark:text-[#9CD1D4] hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 transition-all duration-200"
                     onClick={handleLinkClick}
                   >
-                    Frontend
-                  </Link>
-                  <Link
-                    to="/category/backend" 
-                    className="block py-2 px-3 text-gray-700 hover:bg-[#E3F5F5] rounded-md text-sm"
-                    onClick={handleLinkClick}
-                  >
-                    Backend
-                  </Link>
-                  <Link
-                    to="/category/devops" 
-                    className="block py-2 px-3 text-gray-700 hover:bg-[#E3F5F5] rounded-md text-sm"
-                    onClick={handleLinkClick}
-                  >
-                    DevOps
-                  </Link>
-                  <Link
-                    to="/category/design" 
-                    className="block py-2 px-3 text-gray-700 hover:bg-[#E3F5F5] rounded-md text-sm"
-                    onClick={handleLinkClick}
-                  >
-                    Design
-                  </Link>
-                  <Link
-                    to="/categories" 
-                    className="block py-2 px-3 text-[#67A2A8] font-medium text-sm"
-                    onClick={handleLinkClick}
-                  >
+                    <span className="text-lg mr-3">📋</span>
                     Ver todas las categorías
                   </Link>
                 </div>
               )}
             </div>
-            <Link
-              to="/popular" 
-              className="block py-2 px-4 text-gray-800 hover:bg-[#E3F5F5] rounded-md"
-              onClick={handleLinkClick}
-            >
-              Populares
-            </Link>
-            <Link
-              to="/newest" 
-              className="block py-2 px-4 text-gray-800 hover:bg-[#E3F5F5] rounded-md"
-              onClick={handleLinkClick}
-            >
-              Novedades
-            </Link>
-            <Link
-              to="/blog" 
-              className="block py-2 px-4 text-gray-800 hover:bg-[#E3F5F5] rounded-md"
-              onClick={handleLinkClick}
-            >
-              Blog
-            </Link>
-            <Link
-              to="/about" 
-              className="block py-2 px-4 text-gray-800 hover:bg-[#E3F5F5] rounded-md"
-              onClick={handleLinkClick}
-            >
-              Acerca de
-            </Link>
-            
-            <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
-              <div className="flex space-x-2">
-                <button 
-                  className="p-2 rounded-full text-gray-700 hover:bg-gray-100"
-                  onClick={toggleDarkMode}
+
+            <NavLink to="/popular" label="Populares" isScrolled={isScrolled} onClick={handleLinkClick} />
+            <NavLink to="/newest" label="Novedades" isScrolled={isScrolled} onClick={handleLinkClick} />
+            <NavLink to="/free" label="Gratuitas" isScrolled={isScrolled} onClick={handleLinkClick} />
+            <NavLink to="/blog" label="Blog" isScrolled={isScrolled} onClick={handleLinkClick} />
+            <NavLink to="/about" label="Acerca de" isScrolled={isScrolled} onClick={handleLinkClick} />
+          </nav>
+
+          {/* Botones de acción Desktop mejorados */}
+          <div className="hidden lg:flex items-center space-x-2">
+            {/* Búsqueda en desktop */}
+            {isSearchOpen ? (
+              <div className="relative w-72 animate-in slide-in-from-right-2 duration-300">
+                <SearchBar
+                  onSearch={handleSearch}
+                  className="w-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg border-2 border-[#67A2A8]/20 dark:border-[#9CD1D4]/20 rounded-2xl"
+                  autoFocus={true}
+                />
+                <button
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                  onClick={() => setIsSearchOpen(false)}
+                  style={{
+                    display: 'none'}}
                 >
-                  {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+                  <X size={16} />
                 </button>
-                <button className="p-2 rounded-full text-gray-700 hover:bg-gray-100">
-                  <Bell size={20} />
-                </button>
-                <Link to="/saved" className="p-2 rounded-full text-gray-700 hover:bg-gray-100">
-                  <Bookmark size={20} />
-                </Link>
               </div>
-              
+            ) : (
+              <button
+                className={`p-3 rounded-2xl transition-all duration-200 group ${isScrolled
+                    ? 'text-gray-700 hover:bg-[#67A2A8]/10 hover:text-[#67A2A8] dark:text-gray-300 dark:hover:bg-[#9CD1D4]/10 dark:hover:text-[#9CD1D4]'
+                    : 'text-gray-800 hover:bg-white/20 dark:text-gray-200 dark:hover:bg-gray-800/20 backdrop-blur-sm'
+                  }`}
+                onClick={() => setIsSearchOpen(true)}
+                aria-label="Search"
+              >
+                <Search size={20} className="group-hover:scale-110 transition-transform" />
+              </button>
+            )}
+
+            {/* Alternar modo oscuro */}
+            <button
+              className={`p-3 rounded-2xl relative overflow-hidden transition-all duration-200 group ${isScrolled
+                  ? 'text-gray-700 hover:bg-[#67A2A8]/10 hover:text-[#67A2A8] dark:text-gray-300 dark:hover:bg-[#9CD1D4]/10 dark:hover:text-[#9CD1D4]'
+                  : 'text-gray-800 hover:bg-white/20 dark:text-gray-200 dark:hover:bg-gray-800/20 backdrop-blur-sm'
+                }`}
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'}
+            >
+              <div className="relative z-10">
+                {theme === 'dark' ?
+                  <Sun size={20} className="group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" /> :
+                  <Moon size={20} className="group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300" />
+                }
+              </div>
+            </button>
+
+            {/* Botón de guardados */}
+            <Link
+              to="/saved"
+              className={`p-3 rounded-2xl relative transition-all duration-200 group ${isScrolled
+                  ? 'text-gray-700 hover:bg-[#67A2A8]/10 hover:text-[#67A2A8] dark:text-gray-300 dark:hover:bg-[#9CD1D4]/10 dark:hover:text-[#9CD1D4]'
+                  : 'text-gray-800 hover:bg-white/20 dark:text-gray-200 dark:hover:bg-gray-800/20 backdrop-blur-sm'
+                }`}
+              aria-label="Herramientas guardadas"
+            >
+              <Bookmark size={20} className="group-hover:scale-110 transition-transform" />
+              {/* Badge de notificación */}
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+            </Link>
+          </div>
+
+          {/* Controles Mobile mejorados */}
+          <div className="flex items-center lg:hidden space-x-2">
+            {/* Búsqueda en mobile */}
+            <button
+              className={`p-2 rounded-xl transition-all duration-200 ${isScrolled
+                  ? 'text-gray-700 hover:bg-[#67A2A8]/10'
+                  : 'text-gray-800 hover:bg-white/20 backdrop-blur-sm'
+                }`}
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              aria-label="Search"
+            >
+              <Search size={20} />
+            </button>
+
+            {/* Botón de menú mobile */}
+            <button
+              className={`p-2 rounded-xl transition-all duration-200 ${isScrolled
+                  ? 'text-gray-700 hover:bg-[#67A2A8]/10'
+                  : 'text-gray-800 hover:bg-white/20 backdrop-blur-sm'
+                }`}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            >
+              <div className="relative w-6 h-6">
+                <span className={`absolute block h-0.5 w-6 bg-current transform transition-all duration-300 ${isMenuOpen ? 'rotate-45 top-3' : 'top-1'}`}></span>
+                <span className={`absolute block h-0.5 w-6 bg-current transform transition-all duration-300 top-3 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                <span className={`absolute block h-0.5 w-6 bg-current transform transition-all duration-300 ${isMenuOpen ? '-rotate-45 top-3' : 'top-5'}`}></span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Barra de búsqueda mobile */}
+      {isSearchOpen && (
+        <div className="container mx-auto px-4 py-3 lg:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-t border-gray-200/50 dark:border-gray-700/50">
+          <SearchBar
+            onSearch={handleSearch}
+            className="bg-gray-50 dark:bg-gray-800 border-2 border-[#67A2A8]/20 rounded-xl"
+          />
+        </div>
+      )}
+
+      {/* Menú mobile mejorado */}
+      {isMenuOpen && (
+        <div className="lg:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-t border-gray-200/50 dark:border-gray-700/50 shadow-2xl animate-in slide-in-from-top-2 duration-300">
+          <nav className="container mx-auto px-4 py-6">
+            <div className="space-y-2">
               <Link
-                to="/login" 
-                className="px-4 py-2 bg-[#67A2A8] text-white rounded-md hover:bg-[#9CD1D4] transition-colors"
+                to="/"
+                className="flex items-center py-3 px-4 text-gray-800 dark:text-gray-200 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 rounded-xl transition-all duration-200 group"
                 onClick={handleLinkClick}
               >
-                Acceder
+                <span className="text-lg mr-3 group-hover:scale-110 transition-transform">🏠</span>
+                Inicio
               </Link>
+
+              <div className="py-2 px-4">
+                <button
+                  className="flex items-center justify-between w-full text-gray-800 dark:text-gray-200 py-2 group"
+                  onClick={() => toggleSubmenu('mobile-categories')}
+                >
+                  <div className="flex items-center">
+                    <span className="text-lg mr-3 group-hover:scale-110 transition-transform">📁</span>
+                    <span>Categorías</span>
+                  </div>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform duration-200 ${showSubmenu === 'mobile-categories' ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                {showSubmenu === 'mobile-categories' && (
+                  <div className="mt-3 ml-6 space-y-2 animate-in slide-in-from-top-1 duration-200">
+                    {[
+                      { to: '/category/frontend', label: 'Frontend', icon: '🎨' },
+                      { to: '/category/backend', label: 'Backend', icon: '⚙️' },
+                      { to: '/category/devops', label: 'DevOps', icon: '🚀' },
+                      { to: '/category/design', label: 'Design', icon: '✨' }
+                    ].map(({ to, label, icon }) => (
+                      <Link
+                        key={to}
+                        to={to}
+                        className="flex items-center py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 rounded-lg text-sm transition-all duration-200 group"
+                        onClick={handleLinkClick}
+                      >
+                        <span className="text-base mr-3 group-hover:scale-110 transition-transform">{icon}</span>
+                        {label}
+                      </Link>
+                    ))}
+                    <Link
+                      to="/categories"
+                      className="flex items-center py-2 px-3 text-[#67A2A8] dark:text-[#9CD1D4] font-medium text-sm hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 rounded-lg transition-all duration-200 group"
+                      onClick={handleLinkClick}
+                    >
+                      <span className="text-base mr-3 group-hover:scale-110 transition-transform">📋</span>
+                      Ver todas las categorías
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {[
+                { to: '/popular', label: 'Populares', icon: '🔥' },
+                { to: '/newest', label: 'Novedades', icon: '✨' },
+                { to: '/free', label: 'Gratuitas', icon: '🆓' },
+                { to: '/blog', label: 'Blog', icon: '📝' },
+                { to: '/about', label: 'Acerca de', icon: 'ℹ️' }
+              ].map(({ to, label, icon }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className="flex items-center py-3 px-4 text-gray-800 dark:text-gray-200 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 rounded-xl transition-all duration-200 group"
+                  onClick={handleLinkClick}
+                >
+                  <span className="text-lg mr-3 group-hover:scale-110 transition-transform">{icon}</span>
+                  {label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Controles adicionales mobile */}
+            <div className="mt-6 pt-6 border-t border-gray-200/50 dark:border-gray-700/50">
+              <div className="flex items-center justify-between">
+                <div className="flex space-x-2">
+                  <button
+                    className="p-3 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 transition-all duration-200"
+                    onClick={toggleTheme}
+                  >
+                    {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                  </button>
+                  <button className="p-3 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 transition-all duration-200">
+                    <Bell size={20} />
+                  </button>
+                  <Link
+                    to="/saved"
+                    className="relative p-3 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 transition-all duration-200"
+                  >
+                    <Bookmark size={20} />
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  </Link>
+                </div>
+
+                <Link
+                  to="/login"
+                  className="px-6 py-3 bg-gradient-to-r from-[#67A2A8] to-[#4D8B91] text-white rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-200 font-semibold"
+                  onClick={handleLinkClick}
+                >
+                  Acceder
+                </Link>
+              </div>
             </div>
           </nav>
         </div>
       )}
     </header>
-  );
-};
-
-// Componente de enlace de navegación
-interface NavLinkProps {
-  to: string;
-  label: string;
-  isScrolled: boolean;
-  onClick: () => void;
-}
-
-const NavLink: React.FC<NavLinkProps> = ({ to, label, isScrolled, onClick }) => {
-  return (
-    <Link
-      to={to} 
-      className={`px-3 py-2 rounded-md ${
-        isScrolled 
-          ? 'text-gray-700 hover:bg-gray-100' 
-          : 'text-gray-800 hover:bg-white hover:bg-opacity-20'
-      }`}
-      onClick={onClick}
-    >
-      {label}
-    </Link>
   );
 };
 

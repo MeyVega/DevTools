@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
@@ -29,14 +29,13 @@ const HomePage: React.FC = () => {
   // Análisis para seguimiento
   const analytics = useAnalytics();
 
-  // Obtener límites de herramientas desde variables de entorno
-  const maxFeatured = parseInt(
-    import.meta.env.VITE_MAX_FEATURED_TOOLS || "6",
-    10
-  );
-  const maxNew = parseInt(import.meta.env.VITE_MAX_NEW_TOOLS || "4", 10);
+  // Usar useRef para almacenar los límites y evitar re-renderizados
+  const limits = useRef({
+    maxFeatured: parseInt(import.meta.env.VITE_MAX_FEATURED_TOOLS || "6", 10),
+    maxNew: parseInt(import.meta.env.VITE_MAX_NEW_TOOLS || "4", 10),
+  });
 
-  // Cargar datos
+  // Cargar datos - Ahora este efecto solo se ejecuta una vez al montar el componente
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -44,8 +43,8 @@ const HomePage: React.FC = () => {
         // En un entorno real, estas podrían ser llamadas a API
         const allTools = getAllTools();
         const allCategories = getAllCategories();
-        const featured = getFeaturedTools(maxFeatured);
-        const newest = getNewestTools(maxNew);
+        const featured = getFeaturedTools(limits.current.maxFeatured);
+        const newest = getNewestTools(limits.current.maxNew);
 
         setTools(allTools);
         setCategories(allCategories);
@@ -53,7 +52,7 @@ const HomePage: React.FC = () => {
         setNewestTools(newest);
 
         // Registrar vista de página en analytics
-        //analytics.trackPageView('Home');
+        analytics.trackPageView("Home");
       } catch (error) {
         console.error("Error cargando datos:", error);
       } finally {
@@ -62,14 +61,15 @@ const HomePage: React.FC = () => {
     };
 
     loadData();
-  }, [maxFeatured, maxNew, analytics]);
+    // Este efecto solo debe ejecutarse una vez al montar el componente
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Manejar búsqueda
   const handleSearch = (query: string) => {
     if (query.trim()) {
       // Registrar búsqueda en analytics
       analytics.trackSearch(query);
-
       // Navegar a la página de resultados (esto lo manejará el componente SearchBar)
     }
   };
@@ -77,15 +77,16 @@ const HomePage: React.FC = () => {
   return (
     <Layout>
       {/* Hero Section con búsqueda */}
-      <section className="relative bg-gradient-to-r from-[#67A2A8] to-[#9CD1D4] dark:from-[#67A2A8]/80 dark:to-[#9CD1D4]/80 rounded-xl overflow-hidden shadow-lg mb-16">
-        <div className="absolute inset-0 bg-pattern opacity-10"></div>
+      <section className="relative bg-gradient-to-r from-[#9CD1D4]/70 to-[#67A2A8]/70 dark:from-[#9CD1D4]/60 dark:to-[#67A2A8]/60 rounded-2xl overflow-hidden mb-16 backdrop-blur-md border border-white/20 dark:border-white/10">
+        <div className="absolute inset-0 bg-pattern opacity-5 pointer-events-none"></div>
+
         <div className="relative py-16 px-6 sm:px-12 md:py-20 lg:py-24 max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 animate-fade-in">
-            Descubre las Mejores Herramientas para Desarrolladores
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white drop-shadow-md leading-tight mb-6 animate-fade-in">
+            Eleva Tu Código con Herramientas que Marcan la Diferencia
           </h1>
-          <p className="text-xl text-white opacity-90 mb-10 max-w-2xl mx-auto animate-fade-in delay-100">
-            Una colección cuidadosamente seleccionada de herramientas,
-            frameworks y recursos para impulsar tu productividad
+
+          <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto animate-fade-in delay-100 leading-relaxed">
+            Explora stacks, librerías y utilidades diseñadas para optimizar cada etapa de tu proceso como desarrollador.
           </p>
 
           {/* Buscador principal */}
@@ -96,24 +97,9 @@ const HomePage: React.FC = () => {
               autoFocus={false}
             />
           </div>
-
-          {/* Botones de acción */}
-          <div className="flex flex-wrap gap-4 justify-center animate-fade-in delay-500">
-            <Link
-              to="/categories"
-              className="px-6 py-3 bg-white text-[#67A2A8] hover:bg-gray-100 rounded-lg font-medium transition-colors shadow hover-float"
-            >
-              Explorar Categorías
-            </Link>
-            <Link
-              to="/newest"
-              className="px-6 py-3 bg-transparent text-white border border-white hover:bg-white/10 rounded-lg font-medium transition-colors hover-float"
-            >
-              Novedades
-            </Link>
-          </div>
         </div>
       </section>
+
 
       {/* Sección de estadísticas */}
       {!loading && (
@@ -167,7 +153,7 @@ const HomePage: React.FC = () => {
         <CategoriesSection
           categories={categories}
           onCategoryClick={(category) => {
-            analytics.trackEvent(EventType.CATEGORY_CLICK, { category });
+            analytics.trackEvent(EventType.CATEGORY_VIEW, { category });
           }}
         />
       </section>
@@ -268,7 +254,7 @@ const HomePage: React.FC = () => {
 
 // Helper function para obtener la clase de color según la categoría
 const getCategoryColorClass = (category: Category): string => {
-  const colors: Record<string, string> = {
+  const colors: Record<Category, string> = {
     frontend:
       "bg-blue-100 text-blue-800 dark:bg-blue-800/20 dark:text-blue-300",
     backend:
@@ -287,6 +273,45 @@ const getCategoryColorClass = (category: Category): string => {
     mobile:
       "bg-violet-100 text-violet-800 dark:bg-violet-800/20 dark:text-violet-300",
     ai: "bg-emerald-100 text-emerald-800 dark:bg-emerald-800/20 dark:text-emerald-300",
+    
+ 
+    analytics:
+      "bg-slate-100 text-slate-800 dark:bg-slate-800/20 dark:text-slate-300",
+    monitoring:
+      "bg-amber-100 text-amber-800 dark:bg-amber-800/20 dark:text-amber-300",
+    cms: "bg-teal-100 text-teal-800 dark:bg-teal-800/20 dark:text-teal-300",
+    hosting:
+      "bg-lime-100 text-lime-800 dark:bg-lime-800/20 dark:text-lime-300",
+    cdn: "bg-sky-100 text-sky-800 dark:bg-sky-800/20 dark:text-sky-300",
+    payment:
+      "bg-rose-100 text-rose-800 dark:bg-rose-800/20 dark:text-rose-300",
+    email:
+      "bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-800/20 dark:text-fuchsia-300",
+    documentation:
+      "bg-neutral-100 text-neutral-800 dark:bg-neutral-800/20 dark:text-neutral-300",
+    automation:
+      "bg-stone-100 text-stone-800 dark:bg-stone-800/20 dark:text-stone-300",
+    gaming:
+      "bg-purple-100 text-purple-800 dark:bg-purple-800/20 dark:text-purple-300",
+    ecommerce:
+      "bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-300",
+    marketing:
+      "bg-pink-100 text-pink-800 dark:bg-pink-800/20 dark:text-pink-300",
+    seo: "bg-blue-100 text-blue-800 dark:bg-blue-800/20 dark:text-blue-300",
+    social:
+      "bg-cyan-100 text-cyan-800 dark:bg-cyan-800/20 dark:text-cyan-300",
+    performance:
+      "bg-orange-100 text-orange-800 dark:bg-orange-800/20 dark:text-orange-300",
+    crm: "bg-indigo-100 text-indigo-800 dark:bg-indigo-800/20 dark:text-indigo-300",
+    erp: "bg-violet-100 text-violet-800 dark:bg-violet-800/20 dark:text-violet-300",
+    backup:
+      "bg-gray-100 text-gray-800 dark:bg-gray-800/20 dark:text-gray-300",
+    storage:
+      "bg-yellow-100 text-yellow-800 dark:bg-yellow-800/20 dark:text-yellow-300",
+    networking:
+      "bg-emerald-100 text-emerald-800 dark:bg-emerald-800/20 dark:text-emerald-300",
+    localization:
+      "bg-red-100 text-red-800 dark:bg-red-800/20 dark:text-red-300",
   };
 
   return (
@@ -309,9 +334,33 @@ const getCategoryLabel = (category: Category): string => {
     security: "Seguridad",
     mobile: "Mobile",
     ai: "IA",
+
+
+    analytics: "Analíticas",
+    monitoring: "Monitoreo",
+    cms: "CMS",
+    hosting: "Hosting",
+    cdn: "CDN",
+    payment: "Pagos",
+    email: "Email",
+    documentation: "Documentación",
+    automation: "Automatización",
+    gaming: "Gaming",
+    ecommerce: "E-commerce",
+    marketing: "Marketing",
+    seo: "SEO",
+    social: "Redes Sociales",
+    performance: "Rendimiento",
+    crm: "CRM",
+    erp: "ERP",
+    backup: "Respaldo",
+    storage: "Almacenamiento",
+    networking: "Redes",
+    localization: "Localización",
+   };
+   return labels[category] || category;
   };
 
-  return labels[category] || category;
-};
+  
 
 export default HomePage;

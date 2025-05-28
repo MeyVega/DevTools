@@ -4,7 +4,7 @@ module.exports = {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class', // 'media' o 'class'
+  darkMode: 'class', 
   theme: {
     extend: {
       colors: {
@@ -40,7 +40,5 @@ module.exports = {
     },
   },
   plugins: [
-    // Eliminar el plugin @tailwindcss/line-clamp de aquí
-    // Ya está incluido por defecto en Tailwind CSS v3.3+
   ],
 }

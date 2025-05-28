@@ -1,5 +1,4 @@
-// src/pages/CategoryPage.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import {
@@ -44,6 +43,11 @@ const CategoryPage: React.FC = () => {
   // Analytics
   const analytics = useAnalytics();
 
+  // Usar useRef para mantener valores estables
+  const config = useRef({
+    categories: getAllCategories(),
+  });
+
   // Validar la categoría y cargar datos
   useEffect(() => {
     const loadCategory = async () => {
@@ -52,8 +56,7 @@ const CategoryPage: React.FC = () => {
 
       try {
         // Validar que la categoría existe
-        const categories = getAllCategories();
-        const categoryExists = categories.includes(category as Category);
+        const categoryExists = config.current.categories.includes(category as Category);
 
         if (!categoryExists) {
           setError(`La categoría '${category}' no existe`);
@@ -81,7 +84,8 @@ const CategoryPage: React.FC = () => {
     };
 
     loadCategory();
-  }, [category, analytics]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category]); // Solo depende de category para recargar al cambiar la categoría
 
   // Aplicar filtros y ordenamiento
   const filteredTools = tools
@@ -234,7 +238,7 @@ const CategoryPage: React.FC = () => {
       ai: {
         bg: "bg-emerald-100",
         text: "text-emerald-800",
-        darkBg: "dark:bg-emerald-900/20",
+        darkBg: "dark:bg-emergal-900/20",
         darkText: "dark:text-emerald-300",
       },
     };
@@ -744,6 +748,50 @@ const getCategoryDescription = (category: Category): string => {
     mobile:
       "Desarrolla apps móviles con frameworks cross-platform y herramientas nativas.",
     ai: "Integra inteligencia artificial, machine learning y procesamiento de datos en tus proyectos.",
+    
+    // Agregar las nuevas categorías:
+    analytics:
+      "Analiza el comportamiento de usuarios, métricas de rendimiento y datos de aplicaciones web.",
+    monitoring:
+      "Supervisa la salud, rendimiento y disponibilidad de tus aplicaciones y servicios.",
+    cms:
+      "Sistemas de gestión de contenido para crear y administrar sitios web dinámicos.",
+    hosting:
+      "Plataformas de alojamiento web, servicios en la nube y soluciones de deployment.",
+    cdn:
+      "Redes de distribución de contenido para acelerar la entrega de tus aplicaciones web.",
+    payment:
+      "Integra sistemas de pago seguro, procesamiento de transacciones y facturación.",
+    email:
+      "Servicios de marketing por correo, transaccionales y gestión de campañas de email.",
+    documentation:
+      "Crea y mantén documentación técnica, wikis y bases de conocimiento.",
+    automation:
+      "Automatiza tareas repetitivas, flujos de trabajo y procesos de desarrollo.",
+    gaming:
+      "Engines, frameworks y herramientas para desarrollo de videojuegos y aplicaciones interactivas.",
+    ecommerce:
+      "Plataformas y herramientas para crear tiendas online y sistemas de comercio electrónico.",
+    marketing:
+      "Herramientas de marketing digital, SEO, redes sociales y análisis de campañas.",
+    seo:
+      "Optimiza tu sitio web para motores de búsqueda y mejora su visibilidad online.",
+    social:
+      "Gestiona presencia en redes sociales, programa contenido y analiza engagement.",
+    performance:
+      "Optimiza la velocidad, rendimiento y experiencia de usuario de tus aplicaciones.",
+    crm:
+      "Gestiona relaciones con clientes, ventas, leads y procesos comerciales.",
+    erp:
+      "Sistemas de planificación empresarial para gestionar recursos y procesos organizacionales.",
+    backup:
+      "Soluciones de respaldo, recuperación de datos y continuidad del negocio.",
+    storage:
+      "Servicios de almacenamiento en la nube, gestión de archivos y bases de datos.",
+    networking:
+      "Herramientas de redes, VPNs, CDNs y gestión de infraestructura de conectividad.",
+    localization:
+      "Traduce y adapta tus aplicaciones para diferentes idiomas y mercados globales.",
   };
 
   return (
