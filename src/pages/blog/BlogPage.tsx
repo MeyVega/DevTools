@@ -298,7 +298,7 @@ const BlogPage: React.FC = () => {
             Suscríbete a nuestro newsletter para recibir las últimas actualizaciones, tutoriales y comparativas directamente en tu bandeja de entrada.
           </p>
           <Link
-            to="/subscribe"
+            to="/contact"
             className="px-6 py-3 bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition-colors"
             onClick={() =>
               analyticsRef.current.trackButtonClick('subscribe_newsletter', {
