@@ -223,7 +223,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
             </Link>
           </div>
 
-          {/* Controles Mobile mejorados */}
+          {/* Controles Mobile */}
           <div className="flex items-center lg:hidden space-x-2">
             {/* Búsqueda en mobile */}
             <button
@@ -262,11 +262,12 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
           <SearchBar
             onSearch={handleSearch}
             className=""
+            autoFocus={true}
           />
         </div>
       )}
 
-      {/* Menú mobile mejorado */}
+      {/* Menú mobile  */}
       {isMenuOpen && (
         <div className="lg:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-t border-gray-200/50 dark:border-gray-700/50 shadow-2xl animate-in slide-in-from-top-2 duration-300">
           <nav className="container mx-auto px-4 py-6">

@@ -17,6 +17,7 @@ import {
   Shield,
   FileText,
   Phone,
+  Info,
 } from "lucide-react";
 
 const Footer: React.FC = () => {
@@ -206,7 +207,8 @@ const Footer: React.FC = () => {
               {[
                 { to: "/privacy", text: "Política de Privacidad", icon: Shield },
                 { to: "/terms", text: "Términos de Uso", icon: FileText },
-                { to: "/contact", text: "Contacto", icon: Phone }
+                { to: "/contact", text: "Contacto", icon: Phone },
+                { to: "/about", text: "Acerca de", icon: Info }
               ].map(({ to, text, icon: Icon }) => (
                 <Link
                   key={to}
