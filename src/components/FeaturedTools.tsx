@@ -23,7 +23,7 @@ const FeaturedTools: React.FC<FeaturedToolsProps> = ({
   className = '',
   title = 'Herramientas Destacadas',
   onSaveTool,
-  onShareTool
+  onShareTool,
 }) => {
   // Si no se proporcionan herramientas, obtenerlas del módulo de datos
   const featuredTools = tools || getFeaturedTools(limit);
@@ -45,7 +45,7 @@ const FeaturedTools: React.FC<FeaturedToolsProps> = ({
           {showViewAll && (
             <Link 
               to="/featured" 
-              className="text-[#67A2A8] hover:text-[#9CD1D4] dark:text-[#9CD1D4] dark:hover:text-[#E3F5F5] flex items-center text-sm font-medium"
+              className="text-[#67A2A8] hover:text-[#9CD1D4] dark:text-[#9CD1D4] dark:hover:text-[#E3F5F5] flex items-center text-sm font-medium transition-colors"
               aria-label="Ver todas las herramientas destacadas"
             >
               Ver todas
@@ -58,12 +58,17 @@ const FeaturedTools: React.FC<FeaturedToolsProps> = ({
       {/* Grid de herramientas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {featuredTools.map(tool => (
-          <ToolCard 
+          <Link 
             key={tool.id} 
-            tool={tool} 
-            onSave={onSaveTool}
-            onShare={onShareTool}
-          />
+            to={`/tool/${tool.id}`}
+            className="block hover:transform hover:scale-105 transition-transform duration-200"
+          >
+            <ToolCard 
+              tool={tool} 
+              onSave={onSaveTool}
+              onShare={onShareTool}
+            />
+          </Link>
         ))}
       </div>
       
@@ -112,7 +117,7 @@ export const FeaturedToolsCompact: React.FC<FeaturedToolsProps> = ({
           {showViewAll && (
             <Link 
               to="/featured" 
-              className="text-[#67A2A8] hover:text-[#9CD1D4] dark:text-[#9CD1D4] dark:hover:text-[#E3F5F5] flex items-center text-xs font-medium"
+              className="text-[#67A2A8] hover:text-[#9CD1D4] dark:text-[#9CD1D4] dark:hover:text-[#E3F5F5] flex items-center text-xs font-medium transition-colors"
               aria-label="Ver todas las herramientas destacadas"
             >
               Ver más
@@ -125,7 +130,7 @@ export const FeaturedToolsCompact: React.FC<FeaturedToolsProps> = ({
       {/* Lista de herramientas en formato compacto */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
         {featuredTools.map((tool, index) => (
-          <Link 
+          <Link
             key={tool.id}
             to={`/tool/${tool.id}`}
             className={`flex items-center p-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${

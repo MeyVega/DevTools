@@ -22,6 +22,7 @@ import { formatLastUpdated } from '../utils/dateUtils';
 import { useBookmarks } from '../contexts/BookmarksContext';
 import useAnalytics from '../hooks/useAnalytics';
 import { EventType } from '../utils/analytics';
+import { useShare } from '../hooks/useShare';
 
 import { getPostsForTool } from '../data/blog';
 import BlogPostCard from '../components/blog/BlogPostCard';
@@ -29,6 +30,8 @@ import BlogPostCard from '../components/blog/BlogPostCard';
 const ToolDetailPage: React.FC = () => {
   // Obtener el ID de la herramienta desde la URL
   const { id } = useParams<{ id: string }>();
+
+  const { share } = useShare();
   
   // Estados para los datos
   const [tool, setTool] = useState<Tool | null>(null);
@@ -103,32 +106,17 @@ const ToolDetailPage: React.FC = () => {
     }
   };
   
-  // Manejar compartir
   const handleShare = () => {
     if (!tool) return;
-    
-    // Usar la API de Web Share si está disponible
-    if (navigator.share) {
-      navigator.share({
-        title: tool.name,
-        text: tool.description,
-        url: window.location.href
-      })
-      .then(() => {
-        analytics.trackToolShare(tool.id, tool.name, 'web_share_api');
-      })
-      .catch(err => console.error('Error compartiendo:', err));
-    } else {
-      // Fallback para navegadores que no soportan Web Share API
-      navigator.clipboard.writeText(window.location.href)
-        .then(() => {
-          alert('URL copiada al portapapeles');
-          analytics.trackToolShare(tool.id, tool.name, 'clipboard_copy');
-        })
-        .catch(err => console.error('Error copiando al portapapeles:', err));
-    }
-  };
   
+    share({
+      title: tool.name,
+      text: tool.description,
+      url: window.location.href,
+      source: 'tool_detail'
+    });
+  };
+
   // Si está cargando, mostrar estado de carga
   if (loading) {
     return (
@@ -168,16 +156,6 @@ const ToolDetailPage: React.FC = () => {
   // Si todo está bien, mostrar la página de detalle
   return (
     <Layout>
-       <div className="mb-6">
-       {/*  <Link 
-          to="/" 
-          className="inline-flex items-center text-gray-600 hover:text-[#67A2A8] dark:text-gray-400 dark:hover:text-[#9CD1D4] text-sm transition-colors"
-        >
-          <ArrowLeft size={16} className="mr-1" />
-          Volver al catálogo
-        </Link> */}
-      </div> 
-      
       {/* Cabecera de la herramienta */}
       <ToolDetailHeader 
         tool={tool} 
@@ -198,12 +176,12 @@ const ToolDetailPage: React.FC = () => {
                 Descripción general
               </TabButton>
               
-              <TabButton 
+              {/* <TabButton 
                 active={activeTab === 'features'} 
                 onClick={() => setActiveTab('features')}
               >
                 Características
-              </TabButton>
+              </TabButton> */}
               
               <TabButton 
                 active={activeTab === 'alternatives'} 
@@ -257,12 +235,12 @@ const ToolDetailPage: React.FC = () => {
               </div>
             )}
             
-            {activeTab === 'features' && (
+            {/* {activeTab === 'features' && (
               <div>
                 <div className="prose dark:prose-invert prose-sm sm:prose max-w-none mb-8">
                   <h2>Características principales</h2>
                   
-                  {/* Características simuladas para esta vista */}
+                 
                   <ul>
                     <li>Característica 1 de {tool.name}: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
                     <li>Característica 2 de {tool.name}: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
@@ -285,7 +263,7 @@ const ToolDetailPage: React.FC = () => {
                   </ul>
                 </div>
               </div>
-            )}
+            )} */}
             
             {activeTab === 'alternatives' && (
               <div>

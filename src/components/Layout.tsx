@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import { ArrowUp, Cookie, Settings, Check, Shield } from 'lucide-react';
+import { ArrowUp, Cookie, Check, Shield } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useScrollTop } from '../hooks/useScrollTop';
 
@@ -56,12 +56,6 @@ const Layout: React.FC<LayoutProps> = ({
       localStorage.setItem('cookiesAccepted', 'true');
       setCookiesAccepted(true);
     }, 300);
-  };
-
-  // Mostrar preferencias de cookies
-  const handleCookiePreferences = () => {
-    // Aquí podrías mostrar un modal con opciones de cookies
-    console.log('Mostrar preferencias de cookies');
   };
 
   return (
@@ -148,17 +142,6 @@ const Layout: React.FC<LayoutProps> = ({
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button
-                    onClick={handleCookiePreferences}
-                    className={`group inline-flex items-center gap-2 px-4 py-2.5 ${theme === 'dark'
-                      ? 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                      } text-sm font-medium rounded-xl transition-all duration-200 hover:scale-105`}
-                  >
-                    <Settings className="w-4 h-4" />
-                    Preferencias
-                  </button>
-
                   <button
                     onClick={handleAcceptCookies}
                     className="group inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white text-sm font-bold rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-green-500/25"

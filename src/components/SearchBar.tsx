@@ -102,10 +102,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <div className={`relative ${className}`}>
-      <div className={`relative ${isFocused ? 'ring-2 ring-[#67A2A8]' : ''}`}>
+      <div className={`relative rounded-full transition-all ${isFocused ? 'ring-2 ring-[#67A2A8]' : ''}`}>
         <Search 
           size={20} 
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" 
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 z-10" 
         />
         <input
           ref={inputRef}
@@ -121,12 +121,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
           }}
           onBlur={() => setTimeout(() => setIsFocused(false), 100)}
           placeholder={placeholder}
-          className="w-full py-3 pl-10 pr-24 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#67A2A8] focus:border-transparent transition-all shadow-sm hover:shadow-md"
-          aria-label="Search"
+          className="w-full py-3 pl-10 pr-24 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:border-transparent transition-all shadow-sm hover:shadow-md"
+          style={{ outline: 'none' }}
           aria-expanded={showSuggestions}
           aria-controls="search-suggestions"
         />
-        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
+        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-2 z-10">
           {searchTerm && (
             <button 
               onClick={clearSearch}

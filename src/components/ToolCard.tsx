@@ -12,6 +12,7 @@ interface ToolCardProps {
   tool: Tool;
   onSave?: (toolId: string) => void;
   onShare?: (tool: Tool) => void;
+  onClick?: () => void;
 }
 
 const ToolCard: React.FC<ToolCardProps> = ({ tool, onSave, onShare }) => {

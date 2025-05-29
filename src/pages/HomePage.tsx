@@ -151,7 +151,7 @@ const HomePage: React.FC = () => {
         </div>
 
         <CategoriesSection
-          categories={categories}
+          categories={categories.slice(0, 12)}
           onCategoryClick={(category) => {
             analytics.trackEvent(EventType.CATEGORY_VIEW, { category });
           }}
@@ -273,8 +273,8 @@ const getCategoryColorClass = (category: Category): string => {
     mobile:
       "bg-violet-100 text-violet-800 dark:bg-violet-800/20 dark:text-violet-300",
     ai: "bg-emerald-100 text-emerald-800 dark:bg-emerald-800/20 dark:text-emerald-300",
-    
- 
+
+
     analytics:
       "bg-slate-100 text-slate-800 dark:bg-slate-800/20 dark:text-slate-300",
     monitoring:
@@ -357,10 +357,10 @@ const getCategoryLabel = (category: Category): string => {
     storage: "Almacenamiento",
     networking: "Redes",
     localization: "Localización",
-   };
-   return labels[category] || category;
   };
+  return labels[category] || category;
+};
 
-  
+
 
 export default HomePage;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { X, Search, Moon, Sun, ChevronDown, Bell, Bookmark } from 'lucide-react';
+import { Search, Moon, Sun, ChevronDown, Bell, Bookmark } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchBar from './SearchBar';
 import NavLink from './NavLink';
@@ -15,6 +15,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showSubmenu, setShowSubmenu] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
+  const searchRef = useRef<HTMLDivElement>(null);
 
   // Cambiar la apariencia del header al hacer scroll
   useEffect(() => {
@@ -26,16 +27,29 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Cerrar búsqueda cuando se hace clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    if (isSearchOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isSearchOpen]);
+
   // Manejar la búsqueda
   const handleSearch = (query: string) => {
     if (onSearch) {
       onSearch(query);
     }
 
-    // Cerrar la barra de búsqueda en móvil cuando se realiza la búsqueda
-    if (window.innerWidth < 768) {
-      setIsSearchOpen(false);
-    }
+    // Cerrar la barra de búsqueda cuando se realiza la búsqueda
+    setIsSearchOpen(false);
   };
 
   // Cerrar menú al hacer clic en un enlace (para móvil)
@@ -151,37 +165,31 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
             <NavLink to="/about" label="Acerca de" isScrolled={isScrolled} onClick={handleLinkClick} />
           </nav>
 
-          {/* Botones de acción Desktop mejorados */}
+          {/* Botones de acción */}
           <div className="hidden lg:flex items-center space-x-2">
             {/* Búsqueda en desktop */}
-            {isSearchOpen ? (
-              <div className="relative w-72 animate-in slide-in-from-right-2 duration-300">
-                <SearchBar
-                  onSearch={handleSearch}
-                  className="w-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg border-2 border-[#67A2A8]/20 dark:border-[#9CD1D4]/20 rounded-2xl"
-                  autoFocus={true}
-                />
+            <div className="relative" ref={searchRef}>
+              {isSearchOpen ? (
+                <div className="relative w-72 animate-in slide-in-from-right-2 duration-300">
+                  <SearchBar
+                    onSearch={handleSearch}
+                    className="w-full"
+                    autoFocus={true}
+                  />
+                </div>
+              ) : (
                 <button
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
-                  onClick={() => setIsSearchOpen(false)}
-                  style={{
-                    display: 'none'}}
+                  className={`p-3 rounded-2xl transition-all duration-200 group ${isScrolled
+                      ? 'text-gray-700 hover:bg-[#67A2A8]/10 hover:text-[#67A2A8] dark:text-gray-300 dark:hover:bg-[#9CD1D4]/10 dark:hover:text-[#9CD1D4]'
+                      : 'text-gray-800 hover:bg-white/20 dark:text-gray-200 dark:hover:bg-gray-800/20 backdrop-blur-sm'
+                    }`}
+                  onClick={() => setIsSearchOpen(true)}
+                  aria-label="Search"
                 >
-                  <X size={16} />
+                  <Search size={20} className="group-hover:scale-110 transition-transform" />
                 </button>
-              </div>
-            ) : (
-              <button
-                className={`p-3 rounded-2xl transition-all duration-200 group ${isScrolled
-                    ? 'text-gray-700 hover:bg-[#67A2A8]/10 hover:text-[#67A2A8] dark:text-gray-300 dark:hover:bg-[#9CD1D4]/10 dark:hover:text-[#9CD1D4]'
-                    : 'text-gray-800 hover:bg-white/20 dark:text-gray-200 dark:hover:bg-gray-800/20 backdrop-blur-sm'
-                  }`}
-                onClick={() => setIsSearchOpen(true)}
-                aria-label="Search"
-              >
-                <Search size={20} className="group-hover:scale-110 transition-transform" />
-              </button>
-            )}
+              )}
+            </div>
 
             {/* Alternar modo oscuro */}
             <button
@@ -253,7 +261,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
         <div className="container mx-auto px-4 py-3 lg:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-t border-gray-200/50 dark:border-gray-700/50">
           <SearchBar
             onSearch={handleSearch}
-            className="bg-gray-50 dark:bg-gray-800 border-2 border-[#67A2A8]/20 rounded-xl"
+            className=""
           />
         </div>
       )}
@@ -357,14 +365,6 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
                     <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                   </Link>
                 </div>
-
-                <Link
-                  to="/login"
-                  className="px-6 py-3 bg-gradient-to-r from-[#67A2A8] to-[#4D8B91] text-white rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-200 font-semibold"
-                  onClick={handleLinkClick}
-                >
-                  Acceder
-                </Link>
               </div>
             </div>
           </nav>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Tag, Search, Grid, List, Gift } from 'lucide-react';
 import Layout from '../components/Layout';
 import ToolCard from '../components/ToolCard';
-import { tools, Category, getCategoryLabel } from '../data/tools';
+import { tools, Category, getCategoryLabel} from '../data/tools';
 import useAnalytics from '../hooks/useAnalytics';
 
 type ViewType = 'grid' | 'list';
@@ -158,8 +158,8 @@ const FreeToolsPage: React.FC = () => {
                 <button
                   onClick={() => handleViewChange('grid')}
                   className={`p-2 ${viewType === 'grid'
-                      ? 'bg-[#67A2A8] text-white'
-                      : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
+                    ? 'bg-[#67A2A8] text-white'
+                    : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
                     }`}
                   aria-label="Vista en cuadrícula"
                 >
@@ -168,8 +168,8 @@ const FreeToolsPage: React.FC = () => {
                 <button
                   onClick={() => handleViewChange('list')}
                   className={`p-2 ${viewType === 'list'
-                      ? 'bg-[#67A2A8] text-white'
-                      : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
+                    ? 'bg-[#67A2A8] text-white'
+                    : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
                     }`}
                   aria-label="Vista en lista"
                 >
@@ -189,7 +189,13 @@ const FreeToolsPage: React.FC = () => {
           ) : viewType === 'grid' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {sortedTools.map((tool) => (
-                <ToolCard key={tool.id} tool={tool} />
+                <Link
+                  key={tool.id}
+                  to={`/tool/${tool.id}`}
+                  className="block transition-transform hover:scale-105"
+                >
+                  <ToolCard tool={tool} />
+                </Link>
               ))}
             </div>
           ) : (
