@@ -54,7 +54,7 @@ export const blogPosts: BlogPost[] = [
       author: 'María González',
       type: 'tutorial',
       relatedTools: ['vscode'],
-      coverImage: '/images/blog/vscode-extensions.jpg',
+      coverImage: '/img/blog/vscode-extensions.png',
       tags: ['vscode', 'extensiones', 'productividad', 'herramientas']
     },
     {
@@ -93,7 +93,7 @@ export const blogPosts: BlogPost[] = [
       author: 'Carlos Ramírez',
       type: 'review',
       relatedTools: ['react', 'vue', 'angular'],
-      coverImage: '/images/blog/frontend-frameworks.jpg',
+      coverImage: '/img/blog/frontend-frameworks.jpg',
       tags: ['frontend', 'frameworks', 'react', 'vue', 'angular']
     },
     {
@@ -189,7 +189,7 @@ export const blogPosts: BlogPost[] = [
       author: 'Alejandro Torres',
       type: 'tutorial',
       relatedTools: ['docker'],
-      coverImage: '/images/blog/docker-setup.jpg',
+      coverImage: '/img/blog/docker-setup.jpeg',
       tags: ['docker', 'devops', 'desarrollo local', 'configuración']
     }
   ];

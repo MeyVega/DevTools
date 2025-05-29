@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Moon, Sun, ChevronDown, Bell, Bookmark } from 'lucide-react';
+import { Search, Moon, Sun, ChevronDown,Bookmark } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchBar from './SearchBar';
 import NavLink from './NavLink';
@@ -353,9 +353,6 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
                     onClick={toggleTheme}
                   >
                     {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                  </button>
-                  <button className="p-3 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 transition-all duration-200">
-                    <Bell size={20} />
                   </button>
                   <Link
                     to="/saved"
