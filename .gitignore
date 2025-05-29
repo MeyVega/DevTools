@@ -30,11 +30,11 @@ yarn-error.log*
 *.swo
 
 # Sensitive files
-src/hooks/useEmailJS.ts
-src/hooks/useFormspree.ts
-src/utils/analytics.ts
-src/contexts/AuthContext.ts
-src/config/keys.ts
+# src/hooks/useEmailJS.ts
+# src/hooks/useFormspree.ts
+# src/utils/analytics.ts
+#src/contexts/AuthContext.ts
+#src/config/keys.ts
 
 # Personal configuration
 .npmrc
