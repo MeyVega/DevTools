@@ -502,13 +502,6 @@ const ToolDetailPage: React.FC = () => {
             >
               Explorar más herramientas
             </Link>
-
-            <button
-              onClick={handleShare}
-              className="px-6 py-3 bg-white text-[#67A2A8] hover:bg-gray-100 border border-[#67A2A8] rounded-lg transition-colors"
-            >
-              Compartir esta herramienta
-            </button>
           </div>
         </div>
       </section>
