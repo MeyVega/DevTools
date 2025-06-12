@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="currentColor">
+  <!-- Círculo principal -->
+  <circle cx="100" cy="100" r="90"/>
+  <!-- Franja diagonal -->
+  <rect x="90" y="10" width="20" height="180" transform="rotate(30 100 100)"/>
+</svg>

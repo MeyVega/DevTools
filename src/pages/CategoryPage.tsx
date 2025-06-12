@@ -350,9 +350,8 @@ const CategoryPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
         {/* Sidebar de filtros */}
         <div
-          className={`md:col-span-1 ${
-            showFilters ? "block" : "hidden md:block"
-          }`}
+          className={`md:col-span-1 ${showFilters ? "block" : "hidden md:block"
+            }`}
         >
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-6 sticky top-4">
             <div className="flex items-center justify-between mb-4 md:hidden">
@@ -459,22 +458,20 @@ const CategoryPage: React.FC = () => {
               <div className="flex space-x-2">
                 <button
                   onClick={() => handleViewChange("grid")}
-                  className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${
-                    viewType === "grid"
+                  className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${viewType === "grid"
                       ? "bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
-                  }`}
+                    }`}
                 >
                   <Grid size={18} className="mr-2" />
                   Cuadrícula
                 </button>
                 <button
                   onClick={() => handleViewChange("list")}
-                  className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${
-                    viewType === "list"
+                  className={`flex-1 flex items-center justify-center px-3 py-2 rounded-md transition-colors ${viewType === "list"
                       ? "bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
-                  }`}
+                    }`}
                 >
                   <List size={18} className="mr-2" />
                   Lista
@@ -615,19 +612,18 @@ const CategoryPage: React.FC = () => {
                                 </div>
                               )}
                               <span
-                                className={`ml-3 text-xs px-2 py-1 rounded-full ${
-                                  tool.isFree
+                                className={`ml-3 text-xs px-2 py-1 rounded-full ${tool.isFree
                                     ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                                     : tool.hasFreeTier
-                                    ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
-                                    : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-                                }`}
+                                      ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+                                      : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+                                  }`}
                               >
                                 {tool.isFree
                                   ? "Gratis"
                                   : tool.hasFreeTier
-                                  ? "Freemium"
-                                  : "De pago"}
+                                    ? "Freemium"
+                                    : "De pago"}
                               </span>
                             </div>
                           </div>
@@ -708,11 +704,10 @@ const FilterButton: React.FC<FilterButtonProps> = ({
 }) => {
   return (
     <button
-      className={`flex items-center w-full px-3 py-2 rounded-md text-left transition-colors ${
-        active
+      className={`flex items-center w-full px-3 py-2 rounded-md text-left transition-colors ${active
           ? "bg-[#E3F5F5] text-[#67A2A8] dark:bg-[#67A2A8]/20 dark:text-[#9CD1D4]"
           : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-      }`}
+        }`}
       onClick={onClick}
     >
       {active ? (
@@ -725,73 +720,75 @@ const FilterButton: React.FC<FilterButtonProps> = ({
   );
 };
 
-// Función para obtener descripciones de categorías
 const getCategoryDescription = (category: Category): string => {
   const descriptions: Record<Category, string> = {
-    frontend:
-      "Herramientas para construir interfaces de usuario atractivas y funcionales, incluyendo frameworks, librerías y componentes.",
-    backend:
-      "Todo lo necesario para el desarrollo del lado del servidor, desde APIs hasta bases de datos y servicios.",
-    devops:
-      "Herramientas para automatizar, gestionar y mejorar el ciclo de vida del desarrollo y la infraestructura.",
-    design:
-      "Recursos para diseño UI/UX, prototipos, maquetación y diseño visual de aplicaciones.",
-    productivity:
-      "Mejora tu flujo de trabajo con herramientas que incrementan la eficiencia y productividad.",
-    testing:
-      "Frameworks y utilidades para pruebas unitarias, de integración, end-to-end y más.",
-    database:
-      "Sistemas de gestión de bases de datos, ORMs, herramientas de migración y visualización.",
+    // === DESARROLLO CORE ===
+    frontend: "Herramientas para construir interfaces de usuario atractivas y funcionales, incluyendo frameworks, librerías y componentes.",
+    backend: "Todo lo necesario para el desarrollo del lado del servidor, desde APIs hasta bases de datos y servicios.",
+    fullstack: "Construye aplicaciones completas con herramientas que integran frontend, backend y bases de datos.",
+    mobile: "Desarrolla apps móviles con frameworks cross-platform y herramientas nativas.",
+    desktop: "Desarrolla aplicaciones de escritorio con frameworks nativos y multiplataforma.",
     api: "Todo para diseñar, documentar, probar y consumir APIs de forma efectiva.",
-    security:
-      "Protege tus aplicaciones con estas herramientas de seguridad y auditoría.",
-    mobile:
-      "Desarrolla apps móviles con frameworks cross-platform y herramientas nativas.",
+    languages: "Lenguajes de programación y entornos de ejecución para desarrollo de software.",
+
+    // === INFRAESTRUCTURA Y OPERACIONES ===
+    devops: "Herramientas para automatizar, gestionar y mejorar el ciclo de vida del desarrollo y la infraestructura.",
+    hosting: "Plataformas de alojamiento web, servicios en la nube y soluciones de deployment.",
+    cloud: "Utiliza servicios en la nube para escalabilidad, almacenamiento y despliegue de aplicaciones.",
+    infrastructure: "Gestiona infraestructura como código con herramientas para automatización y orquestación.",
+    networking: "Herramientas de redes, VPNs, CDNs y gestión de infraestructura de conectividad.",
+    cdn: "Redes de distribución de contenido para acelerar la entrega de tus aplicaciones web.",
+    monitoring: "Supervisa la salud, rendimiento y disponibilidad de tus aplicaciones y servicios.",
+    performance: "Optimiza la velocidad, rendimiento y experiencia de usuario de tus aplicaciones.",
+
+    // === DATOS Y PERSISTENCIA ===
+    database: "Sistemas de gestión de bases de datos, ORMs, herramientas de migración y visualización.",
+    storage: "Servicios de almacenamiento en la nube, gestión de archivos y bases de datos.",
+    backup: "Soluciones de respaldo, recuperación de datos y continuidad del negocio.",
+    analytics: "Analiza el comportamiento de usuarios, métricas de rendimiento y datos de aplicaciones web.",
+    "data-engineering": "Transforma y procesa datos con herramientas para ETL, pipelines y análisis masivo.",
+
+    // === HERRAMIENTAS DE DESARROLLO ===
+    testing: "Frameworks y utilidades para pruebas unitarias, de integración, end-to-end y más.",
+    security: "Protege tus aplicaciones con estas herramientas de seguridad y auditoría.",
+    automation: "Automatiza tareas repetitivas, flujos de trabajo y procesos de desarrollo.",
+    documentation: "Crea y mantén documentación técnica, wikis y bases de conocimiento.",
+    "version-control": "Controla versiones de código y colabora con herramientas como Git y sistemas de gestión.",
+
+    // === DISEÑO Y UX ===
+    design: "Recursos para diseño UI/UX, prototipos, maquetación y diseño visual de aplicaciones.",
+    "ui-libraries": "Crea interfaces consistentes con bibliotecas de componentes y sistemas de diseño.",
+
+    // === PRODUCTIVIDAD ===
+    productivity: "Mejora tu flujo de trabajo con herramientas que incrementan la eficiencia y productividad.",
+    collaboration: "Facilita el trabajo en equipo con herramientas de comunicación y colaboración en tiempo real.",
+    "project-management": "Organiza proyectos y tareas con herramientas de gestión y seguimiento.",
+
+    // === TECNOLOGÍAS EMERGENTES ===
     ai: "Integra inteligencia artificial, machine learning y procesamiento de datos en tus proyectos.",
-    
-    // Agregar las nuevas categorías:
-    analytics:
-      "Analiza el comportamiento de usuarios, métricas de rendimiento y datos de aplicaciones web.",
-    monitoring:
-      "Supervisa la salud, rendimiento y disponibilidad de tus aplicaciones y servicios.",
-    cms:
-      "Sistemas de gestión de contenido para crear y administrar sitios web dinámicos.",
-    hosting:
-      "Plataformas de alojamiento web, servicios en la nube y soluciones de deployment.",
-    cdn:
-      "Redes de distribución de contenido para acelerar la entrega de tus aplicaciones web.",
-    payment:
-      "Integra sistemas de pago seguro, procesamiento de transacciones y facturación.",
-    email:
-      "Servicios de marketing por correo, transaccionales y gestión de campañas de email.",
-    documentation:
-      "Crea y mantén documentación técnica, wikis y bases de conocimiento.",
-    automation:
-      "Automatiza tareas repetitivas, flujos de trabajo y procesos de desarrollo.",
-    gaming:
-      "Engines, frameworks y herramientas para desarrollo de videojuegos y aplicaciones interactivas.",
-    ecommerce:
-      "Plataformas y herramientas para crear tiendas online y sistemas de comercio electrónico.",
-    marketing:
-      "Herramientas de marketing digital, SEO, redes sociales y análisis de campañas.",
-    seo:
-      "Optimiza tu sitio web para motores de búsqueda y mejora su visibilidad online.",
-    social:
-      "Gestiona presencia en redes sociales, programa contenido y analiza engagement.",
-    performance:
-      "Optimiza la velocidad, rendimiento y experiencia de usuario de tus aplicaciones.",
-    crm:
-      "Gestiona relaciones con clientes, ventas, leads y procesos comerciales.",
-    erp:
-      "Sistemas de planificación empresarial para gestionar recursos y procesos organizacionales.",
-    backup:
-      "Soluciones de respaldo, recuperación de datos y continuidad del negocio.",
-    storage:
-      "Servicios de almacenamiento en la nube, gestión de archivos y bases de datos.",
-    networking:
-      "Herramientas de redes, VPNs, CDNs y gestión de infraestructura de conectividad.",
-    localization:
-      "Traduce y adapta tus aplicaciones para diferentes idiomas y mercados globales.",
+    blockchain: "Desarrolla aplicaciones descentralizadas con herramientas para blockchain y contratos inteligentes.",
+    iot: "Conecta dispositivos con herramientas para Internet de las Cosas y sistemas embebidos.",
+    "ar-vr": "Crea experiencias inmersivas con herramientas para realidad aumentada y virtual.",
+
+    // === APLICACIONES ESPECÍFICAS ===
+    cms: "Sistemas de gestión de contenido para crear y administrar sitios web dinámicos.",
+    ecommerce: "Plataformas y herramientas para crear tiendas online y sistemas de comercio electrónico.",
+    gaming: "Engines, frameworks y herramientas para desarrollo de videojuegos y aplicaciones interactivas.",
+    social: "Gestiona presencia en redes sociales, programa contenido y analiza engagement.",
+
+    // === SERVICIOS DE NEGOCIO ===
+    payment: "Integra sistemas de pago seguro, procesamiento de transacciones y facturación.",
+    email: "Servicios de marketing por correo, transaccionales y gestión de campañas de email.",
+    sms: "Servicios de mensajería SMS para notificaciones y comunicaciones con usuarios.",
+    crm: "Gestiona relaciones con clientes, ventas, leads y procesos comerciales.",
+    erp: "Sistemas de planificación empresarial para gestionar recursos y procesos organizacionales.",
+    marketing: "Herramientas de marketing digital, SEO, redes sociales y análisis de campañas.",
+    seo: "Optimiza tu sitio web para motores de búsqueda y mejora su visibilidad online.",
+
+    // === UTILIDADES ===
+    localization: "Traduce y adapta tus aplicaciones para diferentes idiomas y mercados globales.",
+    education: "Plataformas educativas, cursos y recursos para formación en tecnología.",
+    utilities: "Simplifica tareas con herramientas misceláneas, generadores y utilidades técnicas.",
   };
 
   return (

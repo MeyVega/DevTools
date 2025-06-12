@@ -23,25 +23,42 @@ const AboutPage: React.FC = () => {
     <Layout>
       {/* Hero Section */}
       <section className="mb-16">
-        <div className="bg-[#E3F5F5] dark:bg-[#67A2A8]/20 rounded-xl overflow-hidden shadow-sm">
-          <div className="max-w-3xl mx-auto py-12 px-4 sm:px-8 md:py-14 text-center relative">
-            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white drop-shadow-sm mb-4 animate-fade-in">
-              Acerca de DevTools
-            </h1>
-            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-6 animate-fade-in delay-100 leading-relaxed">
-              Una colección cuidadosamente seleccionada de herramientas para desarrolladores, diseñada para ayudarte a encontrar los recursos perfectos para tu flujo de trabajo.
-            </p>
-            <div className="animate-fade-in delay-200">
-              <Link
-                to="/categories"
-                className="inline-flex items-center px-5 py-2.5 text-sm font-medium bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition-all duration-300 shadow-sm"
-              >
-                Explorar Herramientas
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+  {/* Contenedor principal con el estilo "Cielo Suave" */}
+  <div className="relative overflow-hidden rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+    
+    {/* Capas de fondo: Gradiente + Luz + Textura */}
+    <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 bg-gradient-to-br from-sky-200 via-cyan-100 to-blue-200 dark:from-sky-900 dark:via-cyan-900 dark:to-blue-900"></div>
+      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-radial-gradient from-white/30 to-transparent blur-3xl"></div>
+      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.07]"></div>
+    </div>
+
+    {/* Contenido centrado con colores y estilos adaptables */}
+    <div className="relative z-10 py-12 px-4 sm:px-8 md:py-14 max-w-3xl mx-auto text-center">
+      
+      {/* Título con el estilo final */}
+      <h1 className="text-2xl md:text-3xl font-bold text-sky-900 dark:text-white dark:drop-shadow-md mb-4 animate-fade-in">
+        Acerca de DevTools
+      </h1>
+      
+      {/* Párrafo con el estilo final */}
+      <p className="text-base md:text-lg text-sky-800/90 dark:text-white/90 dark:drop-shadow-sm mb-8 max-w-2xl mx-auto animate-fade-in delay-100 leading-relaxed">
+        Una colección cuidadosamente seleccionada de herramientas para desarrolladores, diseñada para ayudarte a encontrar los recursos perfectos para tu flujo de trabajo.
+      </p>
+      
+      {/* Botón con el nuevo estilo de "llamada a la acción principal" */}
+      <div className="animate-fade-in delay-200">
+        <Link
+          to="/categories"
+          className="inline-flex items-center px-5 py-2.5 text-sm font-medium bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition-all duration-300 shadow-sm"
+        >
+          Explorar Herramientas
+        </Link>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 
       {/* Nuestra Misión */}
@@ -105,7 +122,7 @@ const AboutPage: React.FC = () => {
             Nuestra Historia
           </h2>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
-            DevTools nació de la frustración por la falta de un recurso centralizado y bien organizado para descubrir herramientas de desarrollo. Como desarrolladores, pasábamos demasiado tiempo buscando la herramienta adecuada para cada tarea, navegando por múltiples blogs, repositorios y sitios web.
+            DevTools nació de la por la falta de un recurso centralizado y bien organizado para descubrir herramientas de desarrollo. Como desarrolladores, pasábamos demasiado tiempo buscando la herramienta adecuada para cada tarea, navegando por múltiples blogs, repositorios y sitios web.
           </p>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
             Decidimos crear la solución que nos hubiera gustado tener: un catálogo completo de herramientas de desarrollo, organizado por categorías, con información clara y concisa sobre cada una, permitiendo comparar y elegir rápidamente la más adecuada para cada necesidad.

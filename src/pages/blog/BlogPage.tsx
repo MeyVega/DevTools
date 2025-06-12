@@ -113,21 +113,33 @@ const BlogPage: React.FC = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="mb-12">
-        <div className="bg-gradient-to-r from-[#67A2A8] to-[#9CD1D4] dark:from-[#67A2A8]/80 dark:to-[#9CD1D4]/80 rounded-xl overflow-hidden shadow-sm relative">
-          <div className="absolute inset-0 bg-pattern opacity-10 pointer-events-none"></div>
+     <section className="mb-12">
+  {/* Contenedor principal con el estilo "Cielo Suave" */}
+  <div className="relative overflow-hidden rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+    
+    {/* Capas de fondo: Gradiente + Luz + Textura */}
+    <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 bg-gradient-to-br from-sky-200 via-cyan-100 to-blue-200 dark:from-sky-900 dark:via-cyan-900 dark:to-blue-900"></div>
+      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-radial-gradient from-white/30 to-transparent blur-3xl"></div>
+      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.07]"></div>
+    </div>
 
-          <div className="relative py-12 px-4 sm:px-8 md:py-14 max-w-3xl mx-auto text-center">
-            <h1 className="text-2xl md:text-3xl font-semibold text-white drop-shadow-sm mb-4 animate-fade-in">
-              Blog de DevTools Catalog
-            </h1>
-            <p className="text-base md:text-lg text-white/90 max-w-2xl mx-auto animate-fade-in delay-100 leading-relaxed">
-              Tutoriales, comparativas y consejos sobre herramientas que elevan tu flujo de trabajo como desarrollador.
-            </p>
-          </div>
-        </div>
-      </section>
+    {/* Contenido centrado con colores adaptables para modo claro y oscuro */}
+    <div className="relative z-10 py-12 px-4 sm:px-8 md:py-14 max-w-3xl mx-auto text-center">
+      
+      {/* Título con el estilo final */}
+      <h1 className="text-2xl md:text-3xl font-bold text-sky-900 dark:text-white dark:drop-shadow-md mb-4 animate-fade-in">
+        Blog de DevTools Catalog
+      </h1>
+      
+      {/* Párrafo con el estilo final */}
+      <p className="text-base md:text-lg text-sky-800/90 dark:text-white/90 dark:drop-shadow-sm max-w-2xl mx-auto animate-fade-in delay-100 leading-relaxed">
+        Tutoriales, comparativas y consejos sobre herramientas que elevan tu flujo de trabajo como desarrollador.
+      </p>
+      
+    </div>
+  </div>
+</section>
 
 
       {/* Filtros */}
@@ -298,7 +310,7 @@ const BlogPage: React.FC = () => {
             Suscríbete a nuestro newsletter para recibir las últimas actualizaciones, tutoriales y comparativas directamente en tu bandeja de entrada.
           </p>
           <Link
-            to="/contact"
+            to="/newsletter"
             className="px-6 py-3 bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition-colors"
             onClick={() =>
               analyticsRef.current.trackButtonClick('subscribe_newsletter', {

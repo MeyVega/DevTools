@@ -185,23 +185,42 @@ const SavedToolsPage: React.FC = () => {
 
       {/* Header */}
       <section className="mb-8 px-4">
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-400 dark:from-indigo-600/80 dark:to-purple-500/80 rounded-xl overflow-hidden shadow-lg">
-          <div className="py-12 px-6 sm:px-12 md:py-16 max-w-4xl mx-auto">
-            <div className="flex items-center gap-3 mb-6 animate-fade-in">
-              <Bookmark size={28} className="text-white" />
-              <h1 className="text-3xl md:text-4xl font-bold text-white">
-                Mis Herramientas Guardadas
-              </h1>
-            </div>
-            <p className="text-xl text-white opacity-90 mb-6 max-w-2xl animate-fade-in delay-100">
-              Accede rápidamente a las herramientas que has guardado para uso futuro
-            </p>
-            <div className="text-white text-sm animate-fade-in delay-200">
-              {filteredTools.length} {filteredTools.length === 1 ? 'herramienta guardada' : 'herramientas guardadas'}
-            </div>
-          </div>
+  {/* Contenedor principal con el estilo "Cielo Suave" */}
+  <div className="relative overflow-hidden rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+    
+    {/* Capas de fondo: Gradiente + Luz + Textura */}
+    <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 bg-gradient-to-br from-sky-200 via-cyan-100 to-blue-200 dark:from-sky-900 dark:via-cyan-900 dark:to-blue-900"></div>
+      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-radial-gradient from-white/30 to-transparent blur-3xl"></div>
+      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.07]"></div>
+    </div>
+
+    {/* Contenido centrado con colores adaptables */}
+    <div className="relative z-10 py-12 px-6 sm:px-12 md:py-16 max-w-4xl mx-auto text-center">
+      
+      <div className="flex justify-center mb-4 animate-fade-in">
+        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-sky-200/70 dark:bg-white/10 backdrop-blur-sm border border-slate-300/50 dark:border-white/20">
+           {/* CONTENIDO: Se usa el ícono 'Bookmark' */}
+           <Bookmark size={24} className="text-sky-800 dark:text-white" />
         </div>
-      </section>
+      </div>
+        
+      <h2 className="text-3xl md:text-4xl font-bold text-sky-900 dark:text-white dark:drop-shadow-md leading-tight mb-4 animate-fade-in">
+        {/* CONTENIDO: Título de la sección */}
+        Mis Herramientas Guardadas
+      </h2>
+
+      <p className="text-xl text-sky-800/90 dark:text-white/90 dark:drop-shadow-sm mb-6 max-w-2xl mx-auto animate-fade-in delay-100 leading-relaxed">
+        {/* CONTENIDO: Descripción de la sección */}
+        Accede rápidamente a las herramientas que has guardado para uso futuro.
+      </p>
+
+      <div className="text-sky-700/80 dark:text-white/80 dark:drop-shadow-sm text-sm animate-fade-in delay-200">
+        {filteredTools.length} {filteredTools.length === 1 ? 'herramienta guardada' : 'herramientas guardadas'}
+      </div>
+    </div>
+  </div>
+</section>
 
 
       {/* Sin herramientas guardadas */}

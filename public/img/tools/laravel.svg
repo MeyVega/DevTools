@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="256" height="256" fill="none">
+  <path fill="#FF2D20" d="M256 32L32 160v192l224 128 224-128V160L256 32zM224 384 96 288V192l128-64v256zm64 0V128l128 64v96l-128 96z"/>
+</svg>

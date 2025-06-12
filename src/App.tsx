@@ -12,13 +12,20 @@ const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const FAQsPage = React.lazy(() => import('./pages/FAQsPage'));
 const SuggestPage = React.lazy(() => import('./pages/SuggestPage'));
 const ToolDetailPage = React.lazy(() => import('./pages/ToolDetailPage'));
-const CategoriesPage = React.lazy(() => import('./pages/CategoriesPage'));
+
 const CategoryPage = React.lazy(() => import('./pages/CategoryPage.tsx'));
+const CategoriesPage = React.lazy(() => import('./pages/CategoriesPage'));
+
+const TagPage = React.lazy(() => import('./pages/TagPage.tsx'))
+const TagsPage = React.lazy (() => import ('./pages/TagsPage.tsx'))
+
 const PopularToolsPage = React.lazy(() => import('./pages/PopularToolsPage.tsx'));
 const NewestToolsPage = React.lazy(() => import('./pages/NewestToolsPage.tsx'));
 const SavedToolsPage = React.lazy(() => import('./pages/SavedToolsPage.tsx'));
 const SearchResultsPage = React.lazy(() => import('./pages/SearchResultsPage.tsx'));
 const FreeToolsPage = React.lazy(() => import('./pages/FreeToolsPage.tsx'));
+
+const NewsletterPage = React.lazy(() => import ('./pages/NewsletterPage.tsx'))
 
 const BlogPage = React.lazy(() => import('./pages/blog/BlogPage.tsx'));
 const BlogPostPage = React.lazy(() => import('./pages/blog/BlogPostPage.tsx'));
@@ -65,6 +72,9 @@ const App: React.FC = () => {
             <Route path="/tool/:id" element={<ToolDetailPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/category/:category" element={<CategoryPage />} />
+            <Route path="/tags" element={<TagsPage />} />
+            <Route path="/tag/:tag" element={<TagPage />} /> 
+            <Route path="/newsletter" element={<NewsletterPage />} />
             <Route path="/popular" element={<PopularToolsPage />} />
             <Route path="/newest" element={<NewestToolsPage />} />
             <Route path="/saved" element={<SavedToolsPage />} />

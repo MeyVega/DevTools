@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import {
   Send,
   Lightbulb,
@@ -485,8 +485,8 @@ const SuggestPage: React.FC = () => {
                             value={formState.authorEmail}
                             onChange={handleChange}
                             className={`${inputStyles} ${formErrors.authorEmail
-                                ? errorStyles
-                                : 'border-gray-300 dark:border-gray-600'
+                              ? errorStyles
+                              : 'border-gray-300 dark:border-gray-600'
                               }`}
                             placeholder="tu@email.com"
                           />
@@ -515,8 +515,8 @@ const SuggestPage: React.FC = () => {
                           onChange={handleChange}
                           rows={3}
                           className={`${inputStyles} ${formErrors.whyRecommend
-                              ? errorStyles
-                              : 'border-gray-300 dark:border-gray-600'
+                            ? errorStyles
+                            : 'border-gray-300 dark:border-gray-600'
                             }`}
                           placeholder="Cuéntanos por qué esta herramienta es especial..."
                         />
@@ -535,8 +535,8 @@ const SuggestPage: React.FC = () => {
                       type="submit"
                       disabled={isLoading}
                       className={`${buttonStyles} ${isLoading
-                          ? 'bg-gray-400 cursor-not-allowed'
-                          : 'bg-[#67A2A8] hover:bg-[#9CD1D4]'
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-[#67A2A8] hover:bg-[#9CD1D4]'
                         }`}
                     >
                       {isLoading ? (
@@ -623,27 +623,37 @@ const SuggestPage: React.FC = () => {
                 <ThumbsUp className="h-5 w-5 text-blue-500 mr-2" />
                 Recientemente añadidas
               </h3>
+
               <div className="space-y-3">
-                <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <NavLink
+                  to="/tool/raycast"
+                  className="block p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
                   <h4 className="font-medium text-gray-800 dark:text-white text-sm">Raycast</h4>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Productividad - Sugerida hace 2 días
                   </p>
-                </div>
-                <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                </NavLink>
+
+                <NavLink
+                  to="/tool/retool"
+                  className="block p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
                   <h4 className="font-medium text-gray-800 dark:text-white text-sm">Retool</h4>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Frontend - Sugerida hace 5 días
                   </p>
-                </div>
-                <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <h4 className="font-medium text-gray-800 dark:text-white text-sm">
-                    Hugging Face
-                  </h4>
+                </NavLink>
+
+                <NavLink
+                  to="/tool/huggingface"
+                  className="block p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <h4 className="font-medium text-gray-800 dark:text-white text-sm">Hugging Face</h4>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     IA - Sugerida hace 1 semana
                   </p>
-                </div>
+                </NavLink>
               </div>
               <div className="mt-4 text-center">
                 <Link
@@ -654,6 +664,7 @@ const SuggestPage: React.FC = () => {
                 </Link>
               </div>
             </div>
+
 
             {/* ¿Necesitas ayuda? */}
             <div className="bg-[#E3F5F5] dark:bg-[#67A2A8]/20 rounded-lg p-6">
@@ -696,26 +707,41 @@ const SuggestPage: React.FC = () => {
               Herramientas destacadas
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <FeaturedToolCard
-                name="GitHub Copilot"
-                category="Productividad"
-                description="Tu par programador con IA que te ayuda a escribir código más rápido."
-              />
-              <FeaturedToolCard
-                name="Vercel"
-                category="DevOps"
-                description="Plataforma para implementar aplicaciones frontend fácilmente."
-              />
-              <FeaturedToolCard
-                name="Tailwind CSS"
-                category="Frontend"
-                description="Framework CSS utility-first para diseños personalizados."
-              />
+              <NavLink
+                to="/tool/github-copilot"
+                className="block p-5 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition"
+              >
+                <h4 className="text-base font-semibold text-gray-800 dark:text-white">GitHub Copilot</h4>
+                <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
+                  IA - Tu par programador con IA que te ayuda a escribir código más rápido.
+                </p>
+              </NavLink>
+
+              <NavLink
+                to="/tool/vercel"
+                className="block p-5 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition"
+              >
+                <h4 className="text-base font-semibold text-gray-800 dark:text-white">Vercel</h4>
+                <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
+                  Hosting - Plataforma para implementar aplicaciones frontend fácilmente.
+                </p>
+              </NavLink>
+
+              <NavLink
+                to="/tool/tailwindcss"
+                className="block p-5 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition"
+              >
+                <h4 className="text-base font-semibold text-gray-800 dark:text-white">Tailwind CSS</h4>
+                <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
+                  Frontend - Framework CSS utility-first para diseños personalizados.
+                </p>
+              </NavLink>
             </div>
+
             <div className="mt-8 text-center">
               <Link
                 to="/popular"
-                className="inline-flex items-center px-6 py-3 bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg"
+                className="inline-flex items-center px-6 py-3 bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition"
               >
                 Explorar todas las herramientas
               </Link>
@@ -723,6 +749,7 @@ const SuggestPage: React.FC = () => {
           </div>
         </div>
       </section>
+
 
       {/* FAQ */}
       <section className="mb-16 px-4">
@@ -780,7 +807,7 @@ const SuggestPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </Layout >
   );
 };
 

@@ -37,7 +37,8 @@ const StatsSection: React.FC<StatsSectionProps> = ({
   const stats = [
     {
       label: 'Herramientas totales',
-      value: totalTools,
+      //value: totalTools,
+      value: '+100',
       icon: <Box className="w-6 h-6 text-blue-500" />,
       description: 'Recursos cuidadosamente seleccionados'
     },
