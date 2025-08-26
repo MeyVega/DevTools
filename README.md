@@ -1,6 +1,6 @@
-# 🛠️ DevTools Catalog - Community Edition
+# 🛠️ MayTools Catalog - Community Edition
 
-Una colección colaborativa de herramientas y recursos para desarrolladores. Este repositorio es la versión comunitaria del catálogo DevTools, donde puedes contribuir añadiendo nuevas herramientas y recursos.
+Una colección colaborativa de herramientas y recursos para desarrolladores. Este repositorio es la versión comunitaria del catálogo MayTools, donde puedes contribuir añadiendo nuevas herramientas y recursos.
 
 ## 🎯 Objetivo
 

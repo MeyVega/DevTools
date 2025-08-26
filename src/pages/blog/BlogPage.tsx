@@ -129,7 +129,7 @@ const BlogPage: React.FC = () => {
       
       {/* Título con el estilo final */}
       <h1 className="text-2xl md:text-3xl font-bold text-sky-900 dark:text-white dark:drop-shadow-md mb-4 animate-fade-in">
-        Blog de DevTools Catalog
+        Blog de MayTools Catalog
       </h1>
       
       {/* Párrafo con el estilo final */}

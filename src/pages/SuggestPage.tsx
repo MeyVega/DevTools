@@ -271,7 +271,7 @@ const SuggestPage: React.FC = () => {
                   method="POST"
                 >
                   <input type="hidden" name="_captcha" value="false" />
-                  <input type="hidden" name="_next" value="https://maydevtools.com/suggest?success=true" />
+                  <input type="hidden" name="_next" value="https://mayMayTools.com/suggest?success=true" />
                   <input type="hidden" name="_template" value="table" />
 
                   {/* Información de la herramienta */}

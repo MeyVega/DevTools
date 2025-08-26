@@ -18,7 +18,7 @@ initAnalytics({
 // Mensaje de bienvenida
 if (import.meta.env.DEV) {
   console.log(
-    '%c🛠️ DevTools %cby MaySpaceDEV',
+    '%c🛠️ MayTools %cby MaySpaceDEV',
     'color: #67A2A8; font-size: 18px; font-weight: bold;',
     'color: #666; font-size: 12px;'
   );

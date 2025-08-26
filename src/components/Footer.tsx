@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import NewsletterSignup from './NewsletterSignup';
+import NewsletterSignup from "./NewsletterSignup";
 import {
   Twitter,
   Github,
@@ -35,31 +35,25 @@ const Footer: React.FC = () => {
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
         {/* Main footer content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
-
           {/* Brand column */}
           <div className="lg:col-span-1">
             <Link to="/" className="inline-flex items-center mb-6 group">
               <div className="relative">
-                <div className="bg-white text-[#67A2A8] dark:bg-gray-100 dark:text-[#67A2A8] w-12 h-12 rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="w-6 h-6 lg:w-7 lg:h-7 group-hover:scale-110 transition-transform duration-300"
-                  >
-                    <path d="M4 17l6-6-6-6" />
-                    <path d="M12 19h8" />
-                  </svg>
+                <div className="relative bg-white text-[#67A2A8] dark:bg-gray-100 dark:text-[#67A2A8] w-12 h-12 rounded-xl mr-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 overflow-hidden">
+                  {/* Imagen ocupando todo el contenedor */}
+                  <img
+                    src="/src/img/logodemo.png"
+                    alt="Logo"
+                    className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                  />
 
+                  {/* Efecto de brillo sobre la imagen */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               </div>
               <div>
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-white to-[#E3F5F5] bg-clip-text text-transparent">
-                  DevTools
+                  MayTools
                 </h3>
                 <p className="text-xs text-[#B8D8DA] dark:text-gray-400 font-medium">
                   Herramientas para devs
@@ -75,20 +69,47 @@ const Footer: React.FC = () => {
             {/* Social media with better styling */}
             <div className="flex space-x-3">
               {[
-                { icon: Twitter, href: "https://x.com/MaySpacedu", label: "Twitter", color: "hover:bg-blue-500" },
-                { icon: Github, href: "https://github.com/MaySpaceDu/maydev-tools", label: "GitHub", color: "hover:bg-gray-600" },
-                { icon: Mail, href: "mayspacede@gmail.com", label: "Email", color: "hover:bg-green-500" },
-                { icon: Heart, href: "https://www.patreon.com/c/MaySpace", label: "Buy me a Heart", color: "hover:bg-yellow-500" }
+                {
+                  icon: Twitter,
+                  href: "https://x.com/MaySpacedu",
+                  label: "Twitter",
+                  color: "hover:bg-blue-500",
+                },
+                {
+                  icon: Github,
+                  href: "https://github.com/MaySpaceDu/maydev-tools",
+                  label: "GitHub",
+                  color: "hover:bg-gray-600",
+                },
+                {
+                  icon: Mail,
+                  href: "mayspacede@gmail.com",
+                  label: "Email",
+                  color: "hover:bg-green-500",
+                },
+                {
+                  icon: Heart,
+                  href: "https://www.patreon.com/c/MaySpace",
+                  label: "Buy me a Heart",
+                  color: "hover:bg-yellow-500",
+                },
               ].map(({ icon: Icon, href, label, color }) => (
                 <a
                   key={label}
                   href={href}
-                  target={href.startsWith('mailto:') ? undefined : "_blank"}
-                  rel={href.startsWith('mailto:') ? undefined : "noopener noreferrer"}
+                  target={href.startsWith("mailto:") ? undefined : "_blank"}
+                  rel={
+                    href.startsWith("mailto:")
+                      ? undefined
+                      : "noopener noreferrer"
+                  }
                   className={`group relative p-3 bg-white bg-opacity-10 dark:bg-gray-700 rounded-xl ${color} transition-all duration-300 hover:bg-opacity-100 hover:shadow-lg hover:scale-105`}
                   aria-label={label}
                 >
-                  <Icon size={18} className="group-hover:text-white transition-colors" />
+                  <Icon
+                    size={18}
+                    className="group-hover:text-white transition-colors"
+                  />
                   <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                     {label}
                   </div>
@@ -108,7 +129,7 @@ const Footer: React.FC = () => {
                 { to: "/categories", text: "Categorías", icon: Bookmark },
                 { to: "/popular", text: "Más populares", icon: Users },
                 { to: "/newest", text: "Nuevas adiciones", icon: Zap },
-                { to: "/free", text: "Herramientas gratuitas", icon: Gift }
+                { to: "/free", text: "Herramientas gratuitas", icon: Gift },
               ].map(({ to, text, icon: Icon }) => (
                 <li key={to}>
                   <Link
@@ -119,7 +140,10 @@ const Footer: React.FC = () => {
                       <Icon size={14} />
                     </div>
                     <span className="group-hover:font-medium">{text}</span>
-                    <ChevronRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <ChevronRight
+                      size={14}
+                      className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
+                    />
                   </Link>
                 </li>
               ))}
@@ -135,8 +159,12 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               {[
                 { to: "/blog", text: "Blog", icon: BookOpen },
-                { to: "/suggest", text: "Sugerir herramienta", icon: MessageSquare },
-                { to: "/faqs", text: "FAQs", icon: HelpCircle }
+                {
+                  to: "/suggest",
+                  text: "Sugerir herramienta",
+                  icon: MessageSquare,
+                },
+                { to: "/faqs", text: "FAQs", icon: HelpCircle },
               ].map(({ to, text, icon: Icon }) => (
                 <li key={to}>
                   <Link
@@ -147,7 +175,10 @@ const Footer: React.FC = () => {
                       <Icon size={14} />
                     </div>
                     <span className="group-hover:font-medium">{text}</span>
-                    <ChevronRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <ChevronRight
+                      size={14}
+                      className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
+                    />
                   </Link>
                 </li>
               ))}
@@ -162,7 +193,10 @@ const Footer: React.FC = () => {
                     <Github size={14} />
                   </div>
                   <span className="group-hover:font-medium">Código fuente</span>
-                  <ChevronRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <ChevronRight
+                    size={14}
+                    className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
+                  />
                 </a>
               </li>
             </ul>
@@ -194,7 +228,7 @@ const Footer: React.FC = () => {
           <div className="pt-8 flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
               <p className="text-sm text-[#E3F5F5] dark:text-gray-400">
-                &copy; {currentYear} DevTools. Todos los derechos reservados.
+                &copy; {currentYear} MayTools. Todos los derechos reservados.
               </p>
               <div className="flex items-center space-x-2 text-xs text-[#B8D8DA] dark:text-gray-500">
                 <span>Hecho con</span>
@@ -205,17 +239,24 @@ const Footer: React.FC = () => {
 
             <div className="flex flex-wrap justify-center lg:justify-end gap-4 text-sm">
               {[
-                { to: "/privacy", text: "Política de Privacidad", icon: Shield },
+                {
+                  to: "/privacy",
+                  text: "Política de Privacidad",
+                  icon: Shield,
+                },
                 { to: "/terms", text: "Términos de Uso", icon: FileText },
                 { to: "/contact", text: "Contacto", icon: Phone },
-                { to: "/about", text: "Acerca de", icon: Info }
+                { to: "/about", text: "Acerca de", icon: Info },
               ].map(({ to, text, icon: Icon }) => (
                 <Link
                   key={to}
                   to={to}
                   className="group flex items-center text-[#E3F5F5] dark:text-gray-400 hover:text-white dark:hover:text-white transition-all duration-200"
                 >
-                  <Icon size={14} className="mr-1 group-hover:scale-110 transition-transform" />
+                  <Icon
+                    size={14}
+                    className="mr-1 group-hover:scale-110 transition-transform"
+                  />
                   <span>{text}</span>
                 </Link>
               ))}

@@ -26,7 +26,7 @@ const PrivacyPage: React.FC = () => {
             Política de Privacidad
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-200 animate-fade-in delay-100 leading-relaxed max-w-2xl mx-auto">
-            Cómo manejamos y protegemos tu información en DevTools
+            Cómo manejamos y protegemos tu información en MayTools
           </p>
         </div>
       </section>
@@ -37,7 +37,7 @@ const PrivacyPage: React.FC = () => {
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <h2 className="heading-decorated">Resumen de nuestra política</h2>
             <p>
-              En DevTools, nos comprometemos a proteger tu privacidad y datos personales.
+              En MayTools, nos comprometemos a proteger tu privacidad y datos personales.
               Esta política explica cómo recopilamos, utilizamos y protegemos cualquier información
               que nos proporciones al utilizar nuestro sitio web.
             </p>

@@ -34,8 +34,8 @@ const FAQsPage: React.FC = () => {
   const faqs = [
     {
       id: 1,
-      question: '¿Qué es DevTools Catalog?',
-      answer: 'DevTools Catalog es un directorio curado de herramientas para desarrolladores. Nuestro objetivo es ayudarte a encontrar las mejores herramientas para tu flujo de trabajo, organizadas por categorías y con información detallada sobre cada una.',
+      question: '¿Qué es MayTools Catalog?',
+      answer: 'MayTools Catalog es un directorio curado de herramientas para desarrolladores. Nuestro objetivo es ayudarte a encontrar las mejores herramientas para tu flujo de trabajo, organizadas por categorías y con información detallada sobre cada una.',
       category: 'general'
     },
     {
@@ -71,7 +71,7 @@ const FAQsPage: React.FC = () => {
     {
       id: 7,
       question: '¿Qué tecnologías se utilizan para desarrollar este sitio?',
-      answer: 'DevTools Catalog está construido con React, TypeScript y Tailwind CSS para el frontend. Utilizamos una combinación de servicios de backend para gestionar el contenido y las funcionalidades de usuario.',
+      answer: 'MayTools Catalog está construido con React, TypeScript y Tailwind CSS para el frontend. Utilizamos una combinación de servicios de backend para gestionar el contenido y las funcionalidades de usuario.',
       category: 'technical'
     },
     {
@@ -145,7 +145,7 @@ const FAQsPage: React.FC = () => {
             Preguntas Frecuentes
           </h1>
           <p className="text-lg text-gray-700 dark:text-gray-200 animate-fade-in delay-100 leading-relaxed max-w-2xl mx-auto">
-            Respuestas a las preguntas más comunes sobre DevTools.
+            Respuestas a las preguntas más comunes sobre MayTools.
           </p>
         </div>
       </section>

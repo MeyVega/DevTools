@@ -1,8 +1,8 @@
-# Personal Developer README: maydevtools
+# Personal Developer README: mayMayTools
 
 ## 1. Introduction
 
-This document serves as a personal guide and reference for Mery Vega, the developer of the `maydevtools` project (internally named `dev-tools-catalog`). It outlines the project's architecture, logic, key functionalities, development practices, and other relevant information to aid in ongoing development and maintenance.
+This document serves as a personal guide and reference for Mery Vega, the developer of the `mayMayTools` project (internally named `dev-tools-catalog`). It outlines the project's architecture, logic, key functionalities, development practices, and other relevant information to aid in ongoing development and maintenance.
 
 ## 2. Core Technologies
 

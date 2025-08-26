@@ -38,7 +38,7 @@ const AboutPage: React.FC = () => {
       
       {/* Título con el estilo final */}
       <h1 className="text-2xl md:text-3xl font-bold text-sky-900 dark:text-white dark:drop-shadow-md mb-4 animate-fade-in">
-        Acerca de DevTools
+        Acerca de MayTools
       </h1>
       
       {/* Párrafo con el estilo final */}
@@ -68,7 +68,7 @@ const AboutPage: React.FC = () => {
             Nuestra Misión
           </h2>
           <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
-            En DevTools, nuestra misión es simplificar la búsqueda de herramientas de desarrollo al reunir los mejores recursos en un solo lugar, bien organizado y fácil de explorar.
+            En MayTools, nuestra misión es simplificar la búsqueda de herramientas de desarrollo al reunir los mejores recursos en un solo lugar, bien organizado y fácil de explorar.
           </p>
           <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
             Creemos que el tiempo de los desarrolladores es valioso y no debería desperdiciarse en largas búsquedas. Por eso creamos esta plataforma: para ayudarte a descubrir, comparar y elegir las mejores herramientas para tu flujo de trabajo.
@@ -122,7 +122,7 @@ const AboutPage: React.FC = () => {
             Nuestra Historia
           </h2>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
-            DevTools nació de la por la falta de un recurso centralizado y bien organizado para descubrir herramientas de desarrollo. Como desarrolladores, pasábamos demasiado tiempo buscando la herramienta adecuada para cada tarea, navegando por múltiples blogs, repositorios y sitios web.
+            MayTools nació de la por la falta de un recurso centralizado y bien organizado para descubrir herramientas de desarrollo. Como desarrolladores, pasábamos demasiado tiempo buscando la herramienta adecuada para cada tarea, navegando por múltiples blogs, repositorios y sitios web.
           </p>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
             Decidimos crear la solución que nos hubiera gustado tener: un catálogo completo de herramientas de desarrollo, organizado por categorías, con información clara y concisa sobre cada una, permitiendo comparar y elegir rápidamente la más adecuada para cada necesidad.
@@ -161,7 +161,7 @@ const AboutPage: React.FC = () => {
               Contribuye al Proyecto
             </h2>
             <p className="text-gray-700 dark:text-gray-200 mb-6">
-              DevTools Catalog es un proyecto de código abierto y damos la bienvenida a las contribuciones de la comunidad. Hay varias formas en las que puedes contribuir:
+              MayTools Catalog es un proyecto de código abierto y damos la bienvenida a las contribuciones de la comunidad. Hay varias formas en las que puedes contribuir:
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

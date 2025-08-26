@@ -26,7 +26,7 @@ const TermsPage: React.FC = () => {
             Términos y Condiciones
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-200 animate-fade-in delay-100 leading-relaxed max-w-2xl mx-auto">
-            Normas y acuerdos para el uso de DevTools Catalog
+            Normas y acuerdos para el uso de MayTools Catalog
           </p>
         </div>
       </section>
@@ -36,18 +36,18 @@ const TermsPage: React.FC = () => {
       <section className="mb-16">
         <div className="max-w-3xl mx-auto">
           <div className="prose prose-lg dark:prose-invert max-w-none">
-            <h2 className="heading-decorated">Bienvenido a DevTools Catalog</h2>
+            <h2 className="heading-decorated">Bienvenido a MayTools Catalog</h2>
             <p>
               Estos términos y condiciones describen las reglas y regulaciones para el uso del sitio web
-              de DevTools Catalog. Al acceder a este sitio web, asumimos que aceptas estos términos y
+              de MayTools Catalog. Al acceder a este sitio web, asumimos que aceptas estos términos y
               condiciones en su totalidad. No continúes usando el sitio web si no estás de acuerdo con
               todos los términos y condiciones establecidos en esta página.
             </p>
 
             <h2 className="heading-decorated mt-10">Licencia</h2>
             <p>
-              A menos que se indique lo contrario, DevTools Catalog y/o sus licenciantes poseen los derechos
-              de propiedad intelectual de todo el material en DevTools Catalog. Todos los derechos de
+              A menos que se indique lo contrario, MayTools Catalog y/o sus licenciantes poseen los derechos
+              de propiedad intelectual de todo el material en MayTools Catalog. Todos los derechos de
               propiedad intelectual están reservados.
             </p>
             <p>
@@ -57,10 +57,10 @@ const TermsPage: React.FC = () => {
 
             <h3 className="mt-6">No debes:</h3>
             <ul>
-              <li>Republicar material de DevTools Catalog</li>
-              <li>Vender, alquilar o sublicenciar material de DevTools Catalog</li>
-              <li>Reproducir, duplicar o copiar material de DevTools Catalog</li>
-              <li>Redistribuir contenido de DevTools Catalog</li>
+              <li>Republicar material de MayTools Catalog</li>
+              <li>Vender, alquilar o sublicenciar material de MayTools Catalog</li>
+              <li>Reproducir, duplicar o copiar material de MayTools Catalog</li>
+              <li>Redistribuir contenido de MayTools Catalog</li>
             </ul>
 
             <h2 className="heading-decorated mt-10">Hipervínculos a nuestro contenido</h2>
@@ -91,14 +91,14 @@ const TermsPage: React.FC = () => {
             <p>
               En ningún caso seremos responsables de ningún daño (incluyendo, sin limitación, daños por
               pérdida de datos o beneficios, o debido a interrupción del negocio) que surjan del uso o
-              la incapacidad de usar los materiales en DevTools Catalog, incluso si DevTools Catalog o un
+              la incapacidad de usar los materiales en MayTools Catalog, incluso si MayTools Catalog o un
               representante autorizado ha sido notificado verbalmente o por escrito de la posibilidad de
               tales daños.
             </p>
 
             <h2 className="heading-decorated mt-10">Modificaciones</h2>
             <p>
-              DevTools Catalog puede revisar estos términos de servicio del sitio web en cualquier momento
+              MayTools Catalog puede revisar estos términos de servicio del sitio web en cualquier momento
               sin previo aviso. Al usar este sitio web, aceptas estar vinculado a la versión actual de
               estos términos de servicio.
             </p>
