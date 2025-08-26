@@ -828,6 +828,7 @@ const getToolImageSrc = (name: string): string => {
   return `/img/tools/${imageName}.svg`;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FeaturedToolCard: React.FC<FeaturedToolCardProps> = ({
   name,
   category,

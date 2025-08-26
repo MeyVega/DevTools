@@ -20,6 +20,8 @@ import {
   Info,
 } from "lucide-react";
 
+import logodemo from "../img/logodemo.png";
+
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
@@ -42,7 +44,7 @@ const Footer: React.FC = () => {
                 <div className="relative bg-white text-[#67A2A8] dark:bg-gray-100 dark:text-[#67A2A8] w-12 h-12 rounded-xl mr-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 overflow-hidden">
                   {/* Imagen ocupando todo el contenedor */}
                   <img
-                    src="/src/img/logodemo.png"
+                    src={logodemo}
                     alt="Logo"
                     className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
                   />

@@ -1,9 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Search, Moon, Sun, ChevronDown, Bookmark } from "lucide-react";
+import {
+  Search,
+  Moon,
+  Sun,
+  ChevronDown,
+  Bookmark,
+  ClipboardList,
+} from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import SearchBar from "./SearchBar";
 import NavLink from "./NavLink";
+
+import logodemo from "../img/logodemo.png";
+import {
+  Palette,
+  Server,
+  Rocket,
+  Sparkles,
+  Flame,
+  BadgeDollarSign,
+  FileText,
+  Info,
+  Home
+} from "lucide-react";
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
@@ -82,11 +102,9 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
           <Link to="/" className="flex items-center group">
             <div className="relative">
               {/* Logo principal con gradiente y efectos */}
-              <div
-                className="relative bg-white text-[#67A2A8] dark:bg-gray-100 dark:text-[#67A2A8] w-12 h-12 rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 overflow-hidden"
-              >
+              <div className="relative bg-white text-[#67A2A8] dark:bg-gray-100 dark:text-[#67A2A8] w-12 h-12 rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 overflow-hidden">
                 <img
-                  src="/src/img/logodemo.png" 
+                  src={logodemo}
                   alt="Logo"
                   className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
                 />
@@ -139,30 +157,37 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
               {showSubmenu === "categories" && (
                 <div className="absolute top-full left-0 mt-2 w-64 bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-2xl shadow-2xl py-3 z-50 border border-gray-200/50 dark:border-gray-700/50 animate-in slide-in-from-top-2 duration-200">
                   {[
-                    { to: "/category/frontend", label: "Frontend", icon: "🎨" },
-                    { to: "/category/backend", label: "Backend", icon: "⚙️" },
-                    { to: "/category/devops", label: "DevOps", icon: "🚀" },
-                    { to: "/category/design", label: "Design", icon: "✨" },
-                  ].map(({ to, label, icon }) => (
+                    {
+                      to: "/category/frontend",
+                      label: "Frontend",
+                      icon: Palette,
+                    },
+                    { to: "/category/backend", label: "Backend", icon: Server },
+                    { to: "/category/devops", label: "DevOps", icon: Rocket },
+                    { to: "/category/design", label: "Design", icon: Sparkles },
+                  ].map(({ to, label, icon: Icon }) => (
                     <Link
                       key={to}
                       to={to}
                       className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 hover:text-[#67A2A8] dark:hover:text-[#9CD1D4] transition-all duration-200 group"
                       onClick={handleLinkClick}
                     >
-                      <span className="text-lg mr-3 group-hover:scale-110 transition-transform">
-                        {icon}
-                      </span>
+                      <Icon className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
                       <span className="font-medium">{label}</span>
                     </Link>
                   ))}
+
                   <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent mx-4 my-2"></div>
+
                   <Link
                     to="/categories"
                     className="flex items-center px-4 py-3 text-sm font-semibold text-[#67A2A8] dark:text-[#9CD1D4] hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 transition-all duration-200"
                     onClick={handleLinkClick}
                   >
-                    <span className="text-lg mr-3">📋</span>
+                    <span className="mr-3">
+                      <ClipboardList className="w-5 h-5" />{" "}
+                      {/* Reemplaza 📋 por icono de lucide */}
+                    </span>
                     Ver todas las categorías
                   </Link>
                 </div>
@@ -341,9 +366,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
                 className="flex items-center py-3 px-4 text-gray-800 dark:text-gray-200 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 rounded-xl transition-all duration-200 group"
                 onClick={handleLinkClick}
               >
-                <span className="text-lg mr-3 group-hover:scale-110 transition-transform">
-                  🏠
-                </span>
+                <Home className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
                 Inicio
               </Link>
 
@@ -372,12 +395,20 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
                       {
                         to: "/category/frontend",
                         label: "Frontend",
-                        icon: "🎨",
+                        icon: Palette,
                       },
-                      { to: "/category/backend", label: "Backend", icon: "⚙️" },
-                      { to: "/category/devops", label: "DevOps", icon: "🚀" },
-                      { to: "/category/design", label: "Design", icon: "✨" },
-                    ].map(({ to, label, icon }) => (
+                      {
+                        to: "/category/backend",
+                        label: "Backend",
+                        icon: Server,
+                      },
+                      { to: "/category/devops", label: "DevOps", icon: Rocket },
+                      {
+                        to: "/category/design",
+                        label: "Design",
+                        icon: Sparkles,
+                      },
+                    ].map(({ to, label, icon: Icon }) => (
                       <Link
                         key={to}
                         to={to}
@@ -385,7 +416,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
                         onClick={handleLinkClick}
                       >
                         <span className="text-base mr-3 group-hover:scale-110 transition-transform">
-                          {icon}
+                          <Icon className="w-5 h-5" />
                         </span>
                         {label}
                       </Link>
@@ -405,21 +436,19 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
               </div>
 
               {[
-                { to: "/popular", label: "Populares", icon: "🔥" },
-                { to: "/newest", label: "Novedades", icon: "✨" },
-                { to: "/free", label: "Gratuitas", icon: "🆓" },
-                { to: "/blog", label: "Blog", icon: "📝" },
-                { to: "/about", label: "Acerca de", icon: "ℹ️" },
-              ].map(({ to, label, icon }) => (
+                { to: "/popular", label: "Populares", icon: Flame },
+                { to: "/newest", label: "Novedades", icon: Sparkles },
+                { to: "/free", label: "Gratuitas", icon: BadgeDollarSign }, // también puedes usar Gift si prefieres 🎁
+                { to: "/blog", label: "Blog", icon: FileText },
+                { to: "/about", label: "Acerca de", icon: Info },
+              ].map(({ to, label, icon: Icon }) => (
                 <Link
                   key={to}
                   to={to}
                   className="flex items-center py-3 px-4 text-gray-800 dark:text-gray-200 hover:bg-[#67A2A8]/10 dark:hover:bg-[#9CD1D4]/10 rounded-xl transition-all duration-200 group"
                   onClick={handleLinkClick}
                 >
-                  <span className="text-lg mr-3 group-hover:scale-110 transition-transform">
-                    {icon}
-                  </span>
+                  <Icon className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
                   {label}
                 </Link>
               ))}

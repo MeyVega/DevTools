@@ -1,4 +1,4 @@
-// src/utils/dateUtils.ts
+
 
 /**
  * Formatea una fecha en un formato legible
