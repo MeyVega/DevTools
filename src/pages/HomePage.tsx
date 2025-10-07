@@ -244,7 +244,8 @@ const HomePage: React.FC = () => {
           <div>
             <Link
               to="/suggest"
-              className="inline-flex items-center px-6 py-3 bg-[#67A2A8] hover:bg-[#9CD1D4] text-white rounded-lg transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-[#4DA6B3] hover:bg-[#67B9C4] text-white rounded-lg transition-colors"
+
             >
               Sugerir herramienta
               <ArrowRight size={16} className="ml-2" />

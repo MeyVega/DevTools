@@ -494,10 +494,34 @@ const CategoriesPage: React.FC = () => {
   });
 
   // Track page view on mount
-  useEffect(() => {
-    analytics.trackPageView(config.current.pageName);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+useEffect(() => {
+  analytics.trackPageView(config.current.pageName);
+
+  // Restore scroll position
+  const savedScrollPosition = sessionStorage.getItem('categoriesScrollPosition');
+  if (savedScrollPosition) {
+    // Use setTimeout to ensure DOM is fully loaded
+    setTimeout(() => {
+      window.scrollTo(0, parseInt(savedScrollPosition, 10));
+    }, 0);
+  }
+
+  // Save scroll position continuously
+  const handleScroll = () => {
+    sessionStorage.setItem('categoriesScrollPosition', window.pageYOffset.toString());
+  };
+
+  window.addEventListener('scroll', handleScroll);
+
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, [analytics]);
+
+  const handleCategoryClick = (category: Category) => {
+  // Scroll position is already saved by the scroll listener
+  analytics.trackEvent(EventType.CATEGORY_VIEW, { category });
+};
 
   return (
     <Layout>
@@ -537,9 +561,7 @@ const CategoriesPage: React.FC = () => {
             <CategoryCard
               key={category}
               category={category}
-              onCategoryClick={() => {
-                analytics.trackEvent(EventType.CATEGORY_VIEW, { category });
-              }}
+              onCategoryClick={() => handleCategoryClick(category)}
               delayIndex={index}
             />
           ))}

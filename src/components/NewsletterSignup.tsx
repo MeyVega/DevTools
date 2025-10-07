@@ -79,7 +79,8 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 ${className}`}>
       {title && (
-        <div className="flex items-center mb-4 text-[#67A2A8] dark:text-[#9CD1D4]">
+        <div className="flex items-center mb-4 text-[#4DA6B3] dark:text-[#67B9C4]">
+
           <Mail className="mr-2" size={24} />
           <h3 className="text-xl font-bold">{title}</h3>
         </div>
@@ -121,7 +122,16 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
 
           <button
             type="submit"
-            className="w-full bg-[#67A2A8] hover:bg-[#9CD1D4] text-white font-medium py-3 px-4 rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed"
+            className="
+  w-full 
+  bg-[#4DA6B3] hover:bg-[#67B9C4] 
+  text-white font-medium 
+  py-3 px-4 rounded-lg 
+  transition-colors 
+  flex justify-center items-center 
+  disabled:opacity-70 disabled:cursor-not-allowed
+"
+
             disabled={isLoading}
           >
             {isLoading ? (
