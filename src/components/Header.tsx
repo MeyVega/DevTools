@@ -12,7 +12,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import SearchBar from "./SearchBar";
 import NavLink from "./NavLink";
 
-import logodemo from "../img/logodemo.png";
+import logodemo from "../img/icon.png";
 import {
   Palette,
   Server,

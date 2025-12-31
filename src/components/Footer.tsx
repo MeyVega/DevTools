@@ -20,7 +20,7 @@ import {
   Info,
 } from "lucide-react";
 
-import logodemo from "../img/logodemo.png";
+import logodemo from "../img/icon.png";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -234,9 +234,16 @@ const Footer: React.FC = () => {
                 &copy; {currentYear} MayTools. Todos los derechos reservados.
               </p>
               <div className="flex items-center space-x-2 text-xs text-[#B8D8DA] dark:text-gray-500">
-                <span>Hecho con</span>
+                <span>Sitio creado por</span>
                 <span className="text-red-400 animate-pulse">♥</span>
-                <span>para developers</span>
+                <a 
+                href="https://mayspacedev.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-white transition-colors duration-200 font-medium"
+              >
+                mayspacedev.com
+              </a>
               </div>
             </div>
 

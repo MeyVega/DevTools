@@ -3568,7 +3568,118 @@ export const tools: Tool[] = [
     isFree: true,
     stars: 5.0,
     lastUpdated: "2025-11-05"
-  }
+  },
+  {
+    id: "appium",
+    name: "Appium",
+    description: "Framework de automatización de código abierto para aplicaciones móviles nativas, híbridas y web.",
+    descriptionLarge: "Appium es una herramienta de automatización para aplicaciones móviles que utiliza el protocolo WebDriver. Permite escribir pruebas para iOS, Android y Windows utilizando la misma API, lo que facilita la reutilización de código entre plataformas. Es compatible con múltiples lenguajes de programación como Java, Python, JavaScript y C#.",
+    url: "https://appium.io/",
+    category: "testing",
+    tags: [
+      "testing",
+      "automation",
+      "mobile",
+      "cross-platform",
+      "opensource",
+      "android",
+      "javascript"
+    ],
+    image: "/img/tools/appium.svg",
+    isFree: true,
+    lastUpdated: "2025-12-15",
+    githubUrl: "https://github.com/appium/appium",
+    documentationUrl: "https://appium.io/docs/en/about-appium/getting-started/"
+  },
+  {
+    id: "cucumber",
+    name: "Cucumber",
+    description: "Herramienta que apoya el Desarrollo Orientado al Comportamiento (BDD) mediante lenguaje natural Gherkin.",
+    descriptionLarge: "Cucumber permite escribir especificaciones de software en un lenguaje sencillo que cualquier persona del equipo puede entender. Al utilizar Gherkin, une la documentación técnica con las pruebas automatizadas, mejorando la comunicación entre desarrolladores, QA y stakeholders de negocio.",
+    url: "https://cucumber.io/",
+    category: "testing",
+    tags: [
+      "testing",
+      "automation",
+      "collaboration",
+      "opensource",
+      "documentation",
+      "javascript",
+      "java",
+      "python"
+    ],
+    image: "/img/tools/cucumber.svg",
+    isFree: true,
+    lastUpdated: "2025-05-20",
+    githubUrl: "https://github.com/cucumber",
+    documentationUrl: "https://cucumber.io/docs/cucumber/"
+  },
+  {
+    id: "junit",
+    name: "JUnit 5",
+    description: "El estándar de facto para pruebas unitarias en el ecosistema Java y la JVM.",
+    descriptionLarge: "JUnit 5 es la versión más reciente del framework de pruebas JUnit. Proporciona una base sólida para el testing en la plataforma Java, introduciendo una arquitectura modular y nuevas funcionalidades como pruebas parametrizadas, pruebas anidadas y una API de extensión flexible.",
+    url: "https://junit.org/junit5/",
+    category: "testing",
+    tags: [
+      "testing",
+      "java",
+      "opensource",
+      "backend",
+      "automation",
+      "build-tools"
+    ],
+    image: "/img/tools/junit.svg",
+    isFree: true,
+    stars: 4.7,
+    lastUpdated: "2025-10-31",
+    githubUrl: "https://github.com/junit-team/junit5",
+    documentationUrl: "https://junit.org/junit5/docs/current/user-guide/"
+  },
+  {
+    id: "pytest",
+    name: "Pytest",
+    description: "Framework robusto de Python que facilita la escritura de pruebas pequeñas y escalables.",
+    descriptionLarge: "Pytest es un framework de pruebas para Python que destaca por su sintaxis simple y su potente sistema de fixtures. Permite ejecutar pruebas unitarias, de integración y funcionales con un boilerplate mínimo, siendo altamente extensible a través de una enorme biblioteca de plugins.",
+    url: "https://docs.pytest.org/",
+    category: "testing",
+    tags: [
+      "testing",
+      "python",
+      "automation",
+      "opensource",
+      "debugging",
+      "backend"
+    ],
+    image: "/img/tools/pytest.svg",
+    isFree: true,
+    stars: 4.8,
+    lastUpdated: "2025-12-04",
+    githubUrl: "https://github.com/pytest-dev/pytest",
+    documentationUrl: "https://docs.pytest.org/en/stable/"
+  },
+  {
+    id: "mocha",
+    name: "Mocha",
+    description: "Framework de pruebas de JavaScript flexible y divertido para Node.js y el navegador.",
+    descriptionLarge: "Mocha es un framework de pruebas variado en funciones que se ejecuta en Node.js y en el navegador, lo que hace que las pruebas asíncronas sean simples. Permite un reporte flexible y preciso mientras mapea excepciones no capturadas a los casos de prueba correctos.",
+    url: "https://mochajs.org/",
+    category: "testing",
+    tags: [
+      "testing",
+      "javascript",
+      "nodejs",
+      "opensource",
+      "backend",
+      "frontend"
+    ],
+    image: "/img/tools/mocha.svg",
+    isFree: true,
+    stars: 4.6,
+    lastUpdated: "2025-12-20",
+    githubUrl: "https://github.com/mochajs/mocha",
+    documentationUrl: "https://mochajs.org/#getting-started"
+  },
 ];
 
 export const getCategoryLabel = (category: Category): string => {
